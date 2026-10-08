@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>StumpScore — Smart Live Cricket Scoring, Tournaments & APK/iOS Download</title>
+  <meta name="title" content="StumpScore — Smart Live Cricket Scoring, Tournaments & APK/iOS Download">
+  <meta name="description" content="Download StumpScore for Android & iOS. The smartest cricket scoring app with live ball-by-ball commentary, batting partnerships, ICC Net Run Rate tournament tables, career leaderboards, and 1080p social match posters.">
+  <meta name="keywords" content="cricket scoring app, cricket score counter, live cricket scorecard, cricket tournament app, net run rate calculator, stumpscore apk, ios cricket app, testflight cricket scoring">
+  <meta name="author" content="StumpScore Team">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cricket-scoring-webapp.vercel.app/">
+  <meta property="og:title" content="StumpScore — Smart Live Cricket Scoring & Tournaments">
+  <meta property="og:description" content="Broadcast-grade ball-by-ball cricket scoring, live partnerships, career leaderboards, and instant 1080p match posters. Available on Android & Apple iOS.">
+  <meta property="og:image" content="https://cricket-scoring-webapp.vercel.app/assets/images/og-preview.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://cricket-scoring-webapp.vercel.app/">
+  <meta property="twitter:title" content="StumpScore — Smart Live Cricket Scoring">
+  <meta property="twitter:description" content="Download StumpScore for Android & Apple iOS. Score matches ball-by-ball, stream live to spectators, and track club tournaments.">
+  <meta property="twitter:image" content="https://cricket-scoring-webapp.vercel.app/assets/images/og-preview.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 Responsive Grid & Framework -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <!-- Custom Stadium Design System & Components -->
+  <link rel="stylesheet" href="css/style.css?v=3.4.0">
+  <link rel="stylesheet" href="css/components.css?v=3.4.0">
+  <link rel="stylesheet" href="css/ai-assistant.css?v=1.0.0">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/icon/app_icon.png">
+  <link rel="apple-touch-icon" href="assets/icon/app_icon.png">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       1. Top Navbar
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container-fluid px-3 px-xl-5" style="max-width: 1440px;">
+      <div class="nav-wrapper">
+        <a href="#hero" class="brand-logo" aria-label="StumpScore Home">
+          <img src="assets/icon/app_icon.png" alt="StumpScore Logo" class="brand-icon-img" width="42" height="42">
+          <span>Stump<span class="gradient-text-green">Score</span></span>
+        </a>
+
+        <nav>
+          <ul class="nav-menu" id="nav-menu">
+            <li><a href="#features" class="nav-link">Features</a></li>
+            <li><a href="#demo" class="nav-link">Live Demo</a></li>
+            <li><a href="#poster-studio" class="nav-link">Poster Studio</a></li>
+            <li><a href="#install" class="nav-link">Install</a></li>
+            <li><a href="#specs" class="nav-link">Specs</a></li>
+            <li><a href="#" data-modal-target="modal-contact" class="nav-link">Contact</a></li>
+            <li class="nav-menu-mobile-btn">
+              <a href="downloads/stumpscore-release.apk" download="stumpscore-release.apk" class="btn btn-primary-android btn-sm js-download-apk" style="width: 100%;">
+                <span>📥 Download APK (v1.0.1)</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <button type="button" class="nav-action-btn js-open-modal" data-modal-target="modal-qr-code" onclick="window.openStumpModal && window.openStumpModal('modal-qr-code', event)" aria-label="Scan QR Code on Phone" title="Scan QR Code to open on phone">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/>
+              <rect x="7" y="7" width="3.2" height="3.2" fill="currentColor"/>
+              <rect x="13.8" y="7" width="3.2" height="3.2" fill="currentColor"/>
+              <rect x="7" y="13.8" width="3.2" height="3.2" fill="currentColor"/>
+              <rect x="13.8" y="13.8" width="3.2" height="3.2" fill="currentColor"/>
+            </svg>
+          </button>
+          <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme Mode" title="Toggle Light/Dark Theme">
+            <span class="theme-icon sun-icon" aria-hidden="true">☀️</span>
+            <span class="theme-icon moon-icon" aria-hidden="true">🌙</span>
+          </button>
+          <a href="https://instagram.com/stump_score" target="_blank" rel="noopener noreferrer" class="nav-social-btn" aria-label="Follow us on Instagram (@stump_score)" title="Follow @stump_score on Instagram">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <defs>
+                <linearGradient id="instaGradNav" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#833AB4"/>
+                  <stop offset="25%" stop-color="#C13584"/>
+                  <stop offset="50%" stop-color="#E1306C"/>
+                  <stop offset="75%" stop-color="#FD1D1D"/>
+                  <stop offset="100%" stop-color="#F77737"/>
+                </linearGradient>
+              </defs>
+              <path fill="url(#instaGradNav)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+          <a href="downloads/stumpscore-release.apk" download="stumpscore-release.apk" class="btn btn-primary-android btn-sm js-download-apk" id="nav-download-btn">
+            <span>📥 Download APK</span>
+          </a>
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">☰</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Live Marquee Status Ticker -->
+  <div class="live-status-ticker" aria-label="Live Match Status Ticker">
+    <div class="ticker-track">
+      <div class="ticker-item"><span class="ticker-pill">LIVE NOW</span> <strong>India vs Australia</strong> — 184/4 (18.2 ov) CRR 10.03 • V. Kohli 82*(53)</div>
+      <div class="ticker-item">🏆 <strong>Premier League 2026</strong>: Royal Challengers Top Group A (+1.450 NRR)</div>
+      <div class="ticker-item">⚡ <strong>App v1.0.1 Ready</strong>: Offline Guest Scoring • ICC DLS & NRR • Instant 1080p Poster Export</div>
+      <div class="ticker-item"><span class="ticker-pill">LIVE NOW</span> <strong>India vs Australia</strong> — 184/4 (18.2 ov) CRR 10.03 • V. Kohli 82*(53)</div>
+      <div class="ticker-item">🏆 <strong>Premier League 2026</strong>: Royal Challengers Top Group A (+1.450 NRR)</div>
+      <div class="ticker-item">⚡ <strong>App v1.0.1 Ready</strong>: Offline Guest Scoring • ICC DLS & NRR • Instant 1080p Poster Export</div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       2. Hero Section
+       ========================================================================== -->
+  <section class="hero-section text-center text-lg-start" id="hero">
+    <div class="container">
+      <div class="row align-items-center justify-content-center g-4 g-lg-5">
+        <!-- Hero Left Column -->
+        <div class="col-12 col-lg-7 text-center text-lg-start d-flex flex-column align-items-center align-items-lg-start">
+          <div class="hero-pill-badge mb-2">
+            <span class="pulse-dot-green"></span>
+            <span>Broadcast-Grade Scoring Engine • Android & iOS Suite</span>
+          </div>
+
+          <h1 class="hero-title">
+            Score every ball, live — <span class="gradient-text-green">the smart way.</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            The modern cricket scoring & tournament suite. Real-time ball-by-ball commentary, live batting partnerships, ICC Net Run Rate standings, career leaderboards, and instant 1080p match graphics.
+          </p>
+
+          <!-- Dual Platform CTA Buttons -->
+          <div class="hero-platform-btn-group w-100 justify-content-center justify-content-lg-start">
+            <a href="downloads/stumpscore-release.apk" download="stumpscore-release.apk" class="btn btn-primary-android btn-lg js-download-apk" id="hero-download-android" onclick="window.triggerApkDownload && window.triggerApkDownload(event, this)">
+              <span>⚡ Download for Android (70MB APK)</span>
+            </a>
+            <button type="button" class="btn btn-primary-ios btn-lg js-open-modal" id="hero-download-ios" data-modal-target="modal-ios-install" onclick="window.openStumpModal && window.openStumpModal('modal-ios-install', event)">
+              <span>🍏 Get on Apple iOS (PWA & Beta)</span>
+            </button>
+          </div>
+
+          <div class="hero-trust-row justify-content-center justify-content-lg-start">
+            <div class="trust-item"><span class="icon">✓</span> 100% Free & Open</div>
+            <div class="trust-item"><span class="icon">✓</span> iOS & Android Ready</div>
+            <div class="trust-item"><span class="icon">✓</span> ICC NRR Engine</div>
+            <div class="trust-item"><span class="icon">✓</span> Works Offline</div>
+          </div>
+        </div>
+
+        <!-- Hero Right Column: 3D Phone Mockup with Interactive Screen Switcher -->
+        <div class="col-12 col-lg-5 d-flex justify-content-center">
+          <div class="hero-visual-wrapper mx-auto">
+            <!-- Screen Tab Selector -->
+            <div class="phone-tab-switcher mx-auto" role="tablist" aria-label="Phone mockup preview screen switcher">
+              <button type="button" class="phone-tab-btn is-active" data-phone-view="view-scorecard" role="tab" aria-selected="true" onclick="window.switchPhonePreview && window.switchPhonePreview('view-scorecard', this)">Scorecard</button>
+              <button type="button" class="phone-tab-btn" data-phone-view="view-celebration" role="tab" aria-selected="false" onclick="window.switchPhonePreview && window.switchPhonePreview('view-celebration', this)">Wicket FX</button>
+              <button type="button" class="phone-tab-btn" data-phone-view="view-standings" role="tab" aria-selected="false" onclick="window.switchPhonePreview && window.switchPhonePreview('view-standings', this)">Points Table</button>
+              <button type="button" class="phone-tab-btn" data-phone-view="view-poster" role="tab" aria-selected="false" onclick="window.switchPhonePreview && window.switchPhonePreview('view-poster', this)">1080p Poster</button>
+            </div>
+
+            <div class="floating-badge badge-top-left">
+              <span>🌟 MVP: V. Kohli 82 (53) & 1/14</span>
+            </div>
+            <div class="floating-badge badge-bottom-right">
+              <span>🏆 NRR: +1.250 (1st Place)</span>
+            </div>
+
+            <div class="phone-mockup-frame mx-auto">
+              <div class="phone-screen">
+                <div class="phone-notch"></div>
+                
+                <!-- SCREEN VIEW 1: Live Scorecard -->
+                <div class="phone-view is-visible" id="view-scorecard">
+                  <div class="mockup-header">
+                    <div style="font-size: 0.95rem; font-weight: 800; color: var(--pitch-green);">🏏 StumpScore</div>
+                    <div class="pulse-badge" style="font-size: 0.65rem; padding: 2px 6px;">LIVE • 2nd INN</div>
+                  </div>
+
+                  <div class="mockup-scorecard">
+                    <div class="mockup-teams">
+                      <span class="mockup-batting-team">India</span>
+                      <span class="mockup-score">184/4</span>
+                    </div>
+                    <div class="mockup-overs-crr">
+                      <span>vs Australia (18.2 / 20 ov)</span>
+                      <span style="color: var(--pitch-green); font-weight: bold;">CRR: 10.03</span>
+                    </div>
+                  </div>
+
+                  <div class="mockup-batsmen-box">
+                    <div class="mockup-batter-row is-striker">
+                      <span class="name">V. Kohli</span>
+                      <span>82 (53)</span>
+                    </div>
+                    <div class="mockup-batter-row">
+                      <span class="name">R. Sharma</span>
+                      <span>54 (32)</span>
+                    </div>
+                    <div class="mockup-partnership-pill">
+                      <span>🤝 Stand: 68 runs (39b)</span>
+                      <span>RR: 10.46</span>
+                    </div>
+                  </div>
+
+                  <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; font-weight: 700;">
+                    Current Over (18th)
+                  </div>
+                  <div class="mockup-over-strip">
+                    <div class="mockup-ball">1</div>
+                    <div class="mockup-ball four">4</div>
+                    <div class="mockup-ball">0</div>
+                    <div class="mockup-ball six">6</div>
+                    <div class="mockup-ball">1</div>
+                    <div class="mockup-ball wicket">W</div>
+                  </div>
+
+                  <div class="mockup-target-text">
+                    ⚡ Target: 196 (12 runs needed from 10 balls)
+                  </div>
+                </div>
+
+                <!-- SCREEN VIEW 2: Celebration Strobe -->
+                <div class="phone-view" id="view-celebration">
+                  <div class="celebration-view-screen">
+                    <div class="celebration-icon-huge">☝️⚡</div>
+                    <div class="celebration-title">WICKET!</div>
+                    <div class="celebration-detail">c Warner b Starc</div>
+                    <div class="celebration-stats-box">
+                      <div class="celebration-fow">Fall of Wicket #4</div>
+                      <div style="color: var(--text-secondary); margin-top: 2px; font-weight: 600;">Score: 184/4 (18.2 ov)</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SCREEN VIEW 3: ICC Points Table -->
+                <div class="phone-view" id="view-standings">
+                  <div class="standings-title">🏆 Premier League</div>
+                  <table class="standings-table-mockup">
+                    <thead>
+                      <tr>
+                        <th>Team</th>
+                        <th>P</th>
+                        <th>W</th>
+                        <th>Pts</th>
+                        <th>NRR</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="mockup-row-highlight">
+                        <td>1. India</td>
+                        <td>5</td>
+                        <td>4</td>
+                        <td style="color: var(--pitch-green); font-weight: 800;">8</td>
+                        <td style="font-weight: 800;">+1.250</td>
+                      </tr>
+                      <tr>
+                        <td>2. Australia</td>
+                        <td>5</td>
+                        <td>3</td>
+                        <td>6</td>
+                        <td>+0.620</td>
+                      </tr>
+                      <tr>
+                        <td>3. England</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>4</td>
+                        <td>-0.150</td>
+                      </tr>
+                      <tr>
+                        <td>4. S. Africa</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>-0.980</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- SCREEN VIEW 4: 1080p Poster Preview -->
+                <div class="phone-view" id="view-poster">
+                  <div class="poster-preview-card">
+                    <div class="poster-card-top">
+                      <div style="display: flex; align-items: center; gap: 6px;">
+                        <img src="assets/icon/app_icon.png" alt="StumpScore" style="width: 18px; height: 18px; border-radius: 4px; object-fit: cover;">
+                        <span style="font-size: 0.72rem; font-weight: 900; color: var(--pitch-green); letter-spacing: 0.05em;">STUMPSCORE</span>
+                      </div>
+                      <span class="poster-card-badge">1080p HD</span>
+                    </div>
+
+                    <div class="poster-pv-title">IND vs AUS • FINAL</div>
+
+                    <div class="poster-card-scores">
+                      <div class="poster-score-row is-winner">
+                        <span>🇮🇳 India</span>
+                        <span>184/4 (20.0)</span>
+                      </div>
+                      <div class="poster-score-row">
+                        <span>🇦🇺 Australia</span>
+                        <span>168/8 (20.0)</span>
+                      </div>
+                    </div>
+
+                    <div class="poster-card-result">
+                      🏆 INDIA WON BY 16 RUNS
+                    </div>
+
+                    <div class="poster-card-mvp">
+                      🌟 MVP: V. Kohli 82 (53) & 1/14
+                    </div>
+
+                    <div class="poster-card-bottom">
+                      Scored live on StumpScore Engine
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       3. Animated Stat Counters Row
+       ========================================================================== -->
+  <section class="section py-3 py-md-4 stat-counters-section" id="stats">
+    <div class="container">
+      <div class="row g-3 g-md-4 justify-content-center">
+        <div class="col-6 col-lg-3">
+          <div class="stat-counter-card h-100">
+            <div class="counter-num" data-target="50000" data-suffix="+">0</div>
+            <div class="counter-label">Deliveries Scored Live</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-counter-card h-100">
+            <div class="counter-num" data-target="1200" data-suffix="+">0</div>
+            <div class="counter-label">Tournaments Powered</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-counter-card h-100">
+            <div class="counter-num" data-target="100" data-suffix="%">0</div>
+            <div class="counter-label">ICC NRR Math Accuracy</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-counter-card h-100">
+            <div class="counter-num" data-target="4.9" data-suffix="/5★">0</div>
+            <div class="counter-label">Scorer Community Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       4. Philosophy / Positioning Section
+       ========================================================================== -->
+  <section class="philosophy-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+          <div class="philosophy-card text-center">
+            <h2 class="philosophy-quote">
+              "Scoring shouldn't feel like paperwork — it should feel like <span class="gradient-text-green">live television commentary</span>."
+            </h2>
+            <div class="philosophy-author">The StumpScore Philosophy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       5. Interactive Simulator Section (Live in Browser Demo)
+       ========================================================================== -->
+  <section class="section" id="demo">
+    <div class="container">
+      <div class="section-header text-center mx-auto">
+        <div class="section-tag">Interactive Preview</div>
+        <h2 class="section-title">Try Scoring A Live Match Right Now</h2>
+        <p class="section-description">
+          Experience StumpScore's live scoring engine right inside your browser. Tap runs, hit boundaries, take wickets, and hear real synthesized sound effects!
+        </p>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-9">
+          <div class="simulator-wrapper">
+            <!-- Simulator Scoreboard LCD -->
+            <div class="sim-scoreboard-screen">
+              <div class="sim-top-bar">
+                <div class="sim-match-info">
+                  <span class="sim-match-title">India vs Australia</span>
+                  <span class="sim-match-sub">(T20 Championship)</span>
+                </div>
+                <div class="sim-top-bar-meta">
+                  <div class="soundwave-visualizer" id="sim-soundwaves" title="Live Audio Output">
+                    <span class="soundwave-bar"></span>
+                    <span class="soundwave-bar"></span>
+                    <span class="soundwave-bar"></span>
+                    <span class="soundwave-bar"></span>
+                  </div>
+                  <div class="pulse-badge">🔴 SIMULATOR ACTIVE</div>
+                </div>
+              </div>
+
+              <div class="sim-teams-score">
+                <div class="sim-score-main">
+                  <div class="sim-score-big" id="sim-score">184/4</div>
+                  <div class="sim-overs-rate">
+                    <span id="sim-overs">18.2 / 20 ov</span> • <span id="sim-crr" style="color: var(--pitch-green);">CRR: 10.03</span>
+                  </div>
+                </div>
+                <div class="sim-target-box">
+                  <div class="sim-target-title">🎯 Target: 196</div>
+                  <div class="sim-target-detail">Need 12 runs in 10 balls</div>
+                </div>
+              </div>
+
+              <div class="sim-batsmen-grid">
+                <div class="sim-batter-card striker-active">
+                  <div class="sim-batter-head">
+                    <span id="sim-striker-name">V. Kohli 🏏</span>
+                    <span id="sim-striker-score" style="color: var(--pitch-green);">82 (53)</span>
+                  </div>
+                  <div class="sim-batter-sub">Striker (On Strike)</div>
+                </div>
+
+                <div class="sim-batter-card">
+                  <div class="sim-batter-head">
+                    <span id="sim-nonstriker-name">R. Sharma</span>
+                    <span id="sim-nonstriker-score">54 (32)</span>
+                  </div>
+                  <div class="sim-batter-sub">Non-Striker</div>
+                </div>
+              </div>
+
+              <div class="sim-partnership-row">
+                <span id="sim-partnership">🤝 Stand: 68 (39b)</span>
+                <span class="sim-strip-label">Current Over Strip</span>
+              </div>
+              <div class="sim-ball-strip-container" id="sim-over-strip">
+                <!-- Populated via simulator.js -->
+              </div>
+            </div>
+
+            <!-- Simulator Action Controls Pad -->
+            <div class="sim-action-controls">
+              <button type="button" class="sim-btn" data-sim-action="run" data-sim-val="0" onclick="window.handleSimAction && window.handleSimAction('run', '0', event)">
+                <span>0</span>
+                <span class="label">Dot Ball</span>
+              </button>
+              <button type="button" class="sim-btn" data-sim-action="run" data-sim-val="1" onclick="window.handleSimAction && window.handleSimAction('run', '1', event)">
+                <span>1</span>
+                <span class="label">Single</span>
+              </button>
+              <button type="button" class="sim-btn" data-sim-action="run" data-sim-val="2" onclick="window.handleSimAction && window.handleSimAction('run', '2', event)">
+                <span>2</span>
+                <span class="label">Double</span>
+              </button>
+              <button type="button" class="sim-btn btn-four" data-sim-action="run" data-sim-val="4" onclick="window.handleSimAction && window.handleSimAction('run', '4', event)">
+                <span>4</span>
+                <span class="label">Boundary</span>
+              </button>
+              <button type="button" class="sim-btn btn-six" data-sim-action="run" data-sim-val="6" onclick="window.handleSimAction && window.handleSimAction('run', '6', event)">
+                <span>6</span>
+                <span class="label">Sixer 🔥</span>
+              </button>
+              <button type="button" class="sim-btn btn-wicket" data-sim-action="wicket" onclick="window.handleSimAction && window.handleSimAction('wicket', null, event)">
+                <span>W</span>
+                <span class="label">Wicket ☝️</span>
+              </button>
+              <button type="button" class="sim-btn btn-wide" data-sim-action="wide" onclick="window.handleSimAction && window.handleSimAction('wide', null, event)">
+                <span>Wd</span>
+                <span class="label">Wide</span>
+              </button>
+              <button type="button" class="sim-btn btn-noball" data-sim-action="noball" onclick="window.handleSimAction && window.handleSimAction('noball', null, event)">
+                <span>Nb</span>
+                <span class="label">No Ball</span>
+              </button>
+              <button type="button" class="sim-btn btn-byes" data-sim-action="byes" data-sim-val="1" onclick="window.handleSimAction && window.handleSimAction('byes', '1', event)">
+                <span>1B</span>
+                <span class="label">Byes</span>
+              </button>
+              <button type="button" class="sim-btn btn-undo" data-sim-action="undo" title="Undo last ball" onclick="window.handleSimAction && window.handleSimAction('undo', null, event)">
+                <span>↩️</span>
+                <span class="label">Undo</span>
+              </button>
+              <button type="button" class="sim-btn btn-reset" data-sim-action="reset" title="Reset match simulation" onclick="window.handleSimAction && window.handleSimAction('reset', null, event)">
+                <span>🔄</span>
+                <span class="label">Reset</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       6. Live Match Poster Customization Studio
+       ========================================================================== -->
+  <section class="section section-alt" id="poster-studio">
+    <div class="container">
+      <div class="section-header text-center mx-auto">
+        <div class="section-tag">Match Poster Studio</div>
+        <h2 class="section-title">Instant 1080x1080 Social Scorecards</h2>
+        <p class="section-description">
+          Generate broadcast-style match result graphics ready for Instagram, WhatsApp status, and club Twitter in 1 click. Customize a sample below:
+        </p>
+      </div>
+
+      <div class="poster-studio-wrapper">
+        <!-- Controls Column -->
+        <div class="poster-controls-col">
+          <div class="form-group">
+            <label class="form-label" for="poster-input-team1">Team 1 Name & Score</label>
+            <div class="form-input-pair">
+              <input type="text" id="poster-input-team1" class="form-input" value="India" style="flex: 1;">
+              <input type="text" id="poster-input-score1" class="form-input" value="184/4 (20.0 ov)" style="flex: 1;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="poster-input-team2">Team 2 Name & Score</label>
+            <div class="form-input-pair">
+              <input type="text" id="poster-input-team2" class="form-input" value="Australia" style="flex: 1;">
+              <input type="text" id="poster-input-score2" class="form-input" value="168/8 (20.0 ov)" style="flex: 1;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="poster-input-result">Match Winner Banner</label>
+            <input type="text" id="poster-input-result" class="form-input" value="India won by 16 runs">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="poster-input-mvp">Player of the Match (MVP)</label>
+            <input type="text" id="poster-input-mvp" class="form-input" value="V. Kohli (82 runs & 1/14)">
+          </div>
+          <div class="form-group mb-0 mt-2" style="display: flex; flex-direction: column; gap: 10px;">
+            <button type="button" id="poster-download-btn" class="btn btn-outline-gold" style="width: 100%;">
+              <span>🎨 Download 1080x1080 Match Scorecard (PNG)</span>
+            </button>
+            <button type="button" id="poster-whatsapp-btn" class="btn btn-whatsapp" style="width: 100%; background: #25D366; color: #fff; font-weight: 700; border: none; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;">
+              <span>💬 Share Match Result on WhatsApp</span>
+            </button>
+            <a href="../instagram_marketing_kit/index.html" target="_blank" class="btn btn-outline-cyan" style="width: 100%; border: 1px solid rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.1); color: #38BDF8; font-weight: 700; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
+              <span>📢 Open Master 1080x1350 Promo Poster Studio</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Live Poster Preview Canvas Box -->
+        <div class="poster-canvas-box">
+          <div class="poster-canvas-header">
+            <div class="poster-canvas-brand">
+              <img src="assets/icon/app_icon.png" alt="StumpScore" class="poster-brand-icon">
+              <span class="poster-brand-text">STUMPSCORE</span>
+            </div>
+            <div class="poster-badge-final">FINAL MATCH</div>
+          </div>
+
+          <div class="poster-canvas-body">
+            <div class="poster-score-line">
+              <span id="poster-pv-team1" class="poster-canvas-team">India</span>
+              <span id="poster-pv-score1" class="poster-canvas-score-main">184/4 (20.0 ov)</span>
+            </div>
+            <div class="poster-score-line">
+              <span id="poster-pv-team2" class="poster-canvas-team">Australia</span>
+              <span id="poster-pv-score2" class="poster-canvas-score-opp">168/8 (20.0 ov)</span>
+            </div>
+
+            <div id="poster-pv-result" class="poster-pv-result-banner">
+              🏆 India won by 16 runs
+            </div>
+
+            <div id="poster-pv-mvp" class="poster-canvas-mvp">
+              🌟 Player of the Match: V. Kohli (82 runs & 1/14)
+            </div>
+          </div>
+
+          <div class="poster-canvas-footer">
+            Scored live with StumpScore • cricket-scoring-webapp.vercel.app
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       7. Core Features Grid (8 Features)
+       ========================================================================== -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header text-center mx-auto">
+        <div class="section-tag">Feature Suite</div>
+        <h2 class="section-title">Everything You Need To Score Like A Pro</h2>
+        <p class="section-description">
+          Engineered for club umpires, weekend warriors, academy coaches, and tournament organizers.
+        </p>
+      </div>
+
+      <div class="row g-3 g-md-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feature-card h-100">
+            <div class="feature-icon-wrapper">⚡</div>
+            <h3 class="feature-title">Live Ball-by-Ball Engine</h3>
+            <p class="feature-desc">
+              Accurate legal ball counter, auto over-completion, strike rotation on odd runs, and full support for Wides, No-Balls, Free-Hits, and Penalty Runs (+5).
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feature-card h-100">
+            <div class="feature-icon-wrapper">🎯</div>
+            <h3 class="feature-title">Professional Dismissals</h3>
+            <p class="feature-desc">
+              Full dismissal tracking for Caught, Bowled, LBW, Run-Out (with fielder attribution), Stumped, and Hit-Wicket in standard ESPN Cricinfo notation.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feature-card h-100">
+            <div class="feature-icon-wrapper">🤝</div>
+            <h3 class="feature-title">Live Batting Partnerships</h3>
+            <p class="feature-desc">
+              Real-time partnership badge showing current stand runs, balls faced, run rate, and individual batter split. Auto-archives completed stands on wicket fall.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feature-card h-100">
+            <div class="feature-icon-wrapper">🎨</div>
+            <h3 class="feature-title">1080p Match Poster Generator</h3>
+            <p class="feature-desc">
+              One-tap high-resolution 1080x1080 social card generator with team scores, gold result banner, MVP Player of the Match badge, and instant WhatsApp/Instagram sharing.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feature-card h-100">
+            <div class="feature-icon-wrapper">🏆</div>
+            <h3 class="feature-title">Tournament Mode & ICC NRR</h3>
+            <p class="feature-desc">
+              Automated Points Tables with official ICC Net Run Rate (NRR) computation, complete with the mandatory All-Out full-allotted overs rule and fixture tracking.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feature-card h-100">
+            <div class="feature-icon-wrapper">👑</div>
+            <h3 class="feature-title">Career Stats & Leaderboards</h3>
+            <p class="feature-desc">
+              Historical stats aggregation across all matches. Compete for the Orange Cap (Runs), Purple Cap (Wickets), Power Hitters (Strike Rate), and Economy Bowler awards.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feature-card h-100">
+            <div class="feature-icon-wrapper">🔊</div>
+            <h3 class="feature-title">Broadcast Sound Effects</h3>
+            <p class="feature-desc">
+              Authentic stadium audio cues for Fours, Sixes, Wickets, and 3D Coin Toss flips. Low-latency native playback calibrated for loud cricket grounds.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div class="feature-card h-100">
+            <div class="feature-icon-wrapper">👥</div>
+            <h3 class="feature-title">Smart Squad Management</h3>
+            <p class="feature-desc">
+              Flexible squad sizes (from 5 to 11 players per team) with automatic role distribution (Batsman, All-rounder, Wicketkeeper, Bowler) and player photo uploads.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       8. 3-Step Sideloading Install Guide
+       ========================================================================== -->
+  <section class="section section-alt" id="install">
+    <div class="container">
+      <div class="section-header text-center mx-auto">
+        <div class="section-tag">Fast & Simple</div>
+        <h2 class="section-title">How To Install on Android & iOS</h2>
+        <p class="section-description">
+          Zero store friction. Choose your platform below to start scoring in seconds:
+        </p>
+      </div>
+
+      <div class="row g-4 gy-4 justify-content-center">
+        <div class="col-12 col-md-4">
+          <div class="step-card h-100">
+            <div class="step-num">1</div>
+            <h3 class="step-title">Android (APK)</h3>
+            <p class="step-text">
+              Tap <strong>"Download APK"</strong>. When prompted, tap Settings and allow "Install Unknown Apps" to install <code class="apk-badge">stumpscore-release.apk</code>.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="step-card h-100">
+            <div class="step-num">2</div>
+            <h3 class="step-title">Apple iOS (PWA / Safari)</h3>
+            <p class="step-text">
+              Open this site in Safari on your iPhone/iPad, tap the <strong>Share</strong> button, and tap <strong>"Add to Home Screen"</strong> for a native standalone app!
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="step-card h-100">
+            <div class="step-num">3</div>
+            <h3 class="step-title">Apple iOS (TestFlight)</h3>
+            <p class="step-text">
+              Join the official StumpScore iOS TestFlight public beta to test the native IPA build before the App Store release.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive QR Code Showcase Card -->
+      <div class="row mt-5 justify-content-center">
+        <div class="col-12 col-lg-10">
+          <div class="qr-showcase-card">
+            <div class="row align-items-center g-4">
+              <div class="col-12 col-md-5 text-center">
+                <div class="qr-code-frame">
+                  <img src="assets/images/qr-code.png?v=3.4.0" alt="StumpScore Branded QR Code" class="qr-code-img" width="180" height="180">
+                </div>
+                <div class="qr-caption mt-2" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+                  <span class="pulse-dot-green"></span>
+                  <span>Scan with any phone camera</span>
+                </div>
+              </div>
+              <div class="col-12 col-md-7 text-center text-md-start">
+                <div class="section-tag mb-2">⚡ 1-Second Instant Access</div>
+                <h3 class="qr-showcase-title">Open & Score on Any Phone</h3>
+                <p class="qr-showcase-desc">
+                  Point your smartphone camera at this QR code to instantly open the <strong>StumpScore Live Web App & APK Downloader</strong> on your device without typing any URL.
+                </p>
+                <div class="qr-actions-row">
+                  <a href="https://cricket-scoring-webapp.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-primary-android btn-sm">
+                    <span>Open Web App 🚀</span>
+                  </a>
+                  <button type="button" class="btn btn-outline btn-sm js-copy-link" onclick="navigator.clipboard.writeText('https://cricket-scoring-webapp.vercel.app'); if(window.showStumpToast) window.showStumpToast('🔗 Live web app link copied!');">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    <span>Copy Live Link</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       9. Technical Specifications & Compatibility
+       ========================================================================== -->
+  <section class="section" id="specs">
+    <div class="container">
+      <div class="section-header text-center mx-auto">
+        <div class="section-tag">System Requirements</div>
+        <h2 class="section-title">App Specifications</h2>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+          <div class="specs-table-wrapper">
+            <table class="specs-table">
+              <tbody>
+                <tr>
+                  <td class="specs-label">App Version</td>
+                  <td class="specs-val-accent">v1.0.1 (Latest Stable Build)</td>
+                </tr>
+                <tr>
+                  <td class="specs-label">Platforms Supported</td>
+                  <td class="specs-val">Android (APK) • Apple iOS (PWA & TestFlight) • Web</td>
+                </tr>
+                <tr>
+                  <td class="specs-label">Android Compatibility</td>
+                  <td class="specs-val">Android 6.0 (Marshmallow) and higher</td>
+                </tr>
+                <tr>
+                  <td class="specs-label">iOS Compatibility</td>
+                  <td class="specs-val">iOS 14.0+ (iPhone & iPad)</td>
+                </tr>
+                <tr>
+                  <td class="specs-label">Offline Capability</td>
+                  <td class="specs-val-accent">100% Offline (Syncs when connected)</td>
+                </tr>
+                <tr>
+                  <td class="specs-label">License</td>
+                  <td class="specs-val">Free for all clubs & tournaments</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       10. Community Reviews & Testimonials
+       ========================================================================== -->
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="section-header text-center mx-auto">
+        <div class="section-tag">Scorer Feedback</div>
+        <h2 class="section-title">Trusted By Grassroots & Club Scorers</h2>
+        <p class="section-description">
+          Here is what match scorers, tournament organizers, and academy coaches say about StumpScore.
+        </p>
+      </div>
+
+      <div class="row g-4 gy-4 justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="review-card h-100">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">
+              "The partnership tracking and instant 1080p poster sharing made our weekend league look like an international tournament on Instagram. Flawless app."
+            </p>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar">RK</div>
+              <div>
+                <div class="reviewer-name">Rahul Kapoor</div>
+                <div class="reviewer-role">Premier Cricket Club Organizer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="review-card h-100">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">
+              "The Net Run Rate calculator handles the official ICC All-Out rule automatically without math errors. That alone saved our tournament table dispute."
+            </p>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar">AS</div>
+              <div>
+                <div class="reviewer-name">Anand Sharma</div>
+                <div class="reviewer-role">Senior Cricket Umpire</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="review-card h-100">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">
+              "The sound effects for boundaries and the 3D coin toss are super satisfying on the ground. Also works completely offline without mobile internet!"
+            </p>
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar">DM</div>
+              <div>
+                <div class="reviewer-name">Dev Mehta</div>
+                <div class="reviewer-role">Academy Scorer & Coach</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-cta" id="cta-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+          <div class="cta-banner text-center">
+            <h2 class="cta-title">
+              Ready to score your next match live?
+            </h2>
+            <p class="cta-desc mx-auto">
+              Download StumpScore now and get broadcast-grade scoring, career leaderboards, and instant tournament tables on Android & iOS.
+            </p>
+            <div class="cta-btn-group">
+              <a href="downloads/stumpscore-release.apk" download="stumpscore-release.apk" class="btn btn-primary-android js-download-apk" id="cta-download-btn" onclick="window.triggerApkDownload && window.triggerApkDownload(event, this)">
+                <span>⚡ Download Android APK</span>
+              </a>
+              <button type="button" class="btn btn-primary-ios js-open-modal" id="cta-download-ios" data-modal-target="modal-ios-install" onclick="window.openStumpModal && window.openStumpModal('modal-ios-install', event)">
+                <span>🍏 Get for Apple iOS</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==========================================================================
+       12. Footer
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="brand-logo mb-3">
+            <img src="assets/icon/app_icon.png" alt="StumpScore Logo" class="brand-icon-img" width="38" height="38">
+            <span>Stump<span class="gradient-text-green">Score</span></span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; max-width: 320px; font-weight: 500;">
+            The smartest cricket scoring & live tournament companion app for players, umpires, and fans.
+          </p>
+          <div class="footer-social-row mt-3">
+            <a href="https://instagram.com/stump_score" target="_blank" rel="noopener noreferrer" class="footer-social-badge" title="Follow @stump_score on Instagram" aria-label="Follow on Instagram">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <defs>
+                  <linearGradient id="instaGradFooter" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#833AB4"/>
+                    <stop offset="25%" stop-color="#C13584"/>
+                    <stop offset="50%" stop-color="#E1306C"/>
+                    <stop offset="75%" stop-color="#FD1D1D"/>
+                    <stop offset="100%" stop-color="#F77737"/>
+                  </linearGradient>
+                </defs>
+                <path fill="url(#instaGradFooter)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+              <span>Follow @stump_score</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3 col-lg-2">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#hero" class="footer-link">Home</a></li>
+            <li><a href="#features" class="footer-link">Features</a></li>
+            <li><a href="#demo" class="footer-link">Interactive Demo</a></li>
+            <li><a href="#poster-studio" class="footer-link">Poster Studio</a></li>
+            <li><a href="#install" class="footer-link">Install Guide</a></li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-md-3 col-lg-3">
+          <h4>Downloads & Apps</h4>
+          <ul class="footer-links">
+            <li><a href="downloads/stumpscore-release.apk" download="stumpscore-release.apk" class="footer-link js-download-apk">Android APK (v1.0.1)</a></li>
+            <li><a href="javascript:void(0);" data-modal-target="modal-ios-install" class="footer-link js-open-modal" onclick="window.openStumpModal && window.openStumpModal('modal-ios-install', event)">Apple iOS App (PWA)</a></li>
+            <li><a href="javascript:void(0);" data-modal-target="modal-ios-testflight" class="footer-link js-open-modal" onclick="window.openStumpModal && window.openStumpModal('modal-ios-testflight', event)">iOS TestFlight Beta</a></li>
+            <li><a href="#specs" class="footer-link">System Requirements</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <h4>Legal & Support</h4>
+          <ul class="footer-links">
+            <li><a href="https://instagram.com/stump_score" target="_blank" rel="noopener noreferrer" class="footer-link"><span class="insta-gradient-dot">●</span> Follow on Instagram</a></li>
+            <li><a href="javascript:void(0);" data-modal-target="modal-contact" class="footer-link js-open-modal" onclick="window.openStumpModal && window.openStumpModal('modal-contact', event)">Contact Developer</a></li>
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link">Terms of Service</a></li>
+            <li><span class="footer-link" style="color: var(--pitch-green); font-weight: bold;">● Live Server Online</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 StumpScore Engine. All Rights Reserved. Built with Pride for Cricket Lovers.</div>
+        <div style="display: flex; gap: 16px; align-items: center;">
+          <span>Made with ❤️ for Cricket</span>
+          <span>•</span>
+          <a href="#hero" class="footer-link" style="font-weight: 700; color: var(--pitch-green);">Back to Top ↑</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       Modals: Contact & iOS Installation Guides
+       ========================================================================== -->
+  
+  <!-- Modal 1: Developer Contact Form -->
+  <div class="modal-overlay" id="modal-contact" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <button class="modal-close-btn js-modal-close" aria-label="Close dialog">✕</button>
+      <h3 style="font-size: 1.4rem; margin-bottom: 8px;">Get in Touch</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.95rem;">
+        Have feedback, tournament feature requests, or want to contribute? Send a direct note:
+      </p>
+
+      <form id="contact-form">
+        <div class="form-group">
+          <label class="form-label" for="contact-name">Your Name</label>
+          <input type="text" id="contact-name" class="form-input" placeholder="e.g. Rahul Sharma" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contact-email">Email Address</label>
+          <input type="email" id="contact-email" class="form-input" placeholder="name@domain.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contact-msg">Message / Feature Request</label>
+          <textarea id="contact-msg" class="form-textarea" rows="4" placeholder="How can we help your cricket club?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary-android" style="width: 100%;">
+          <span>Send Message 🚀</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: iOS Safari PWA Installation Step-By-Step -->
+  <div class="modal-overlay" id="modal-ios-install" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <button class="modal-close-btn js-modal-close" aria-label="Close dialog">✕</button>
+      <div style="text-align: center; margin-bottom: 18px;">
+        <div style="font-size: 2.8rem; margin-bottom: 8px;">🍏</div>
+        <h3 style="font-size: 1.4rem; font-weight: 900;">Install StumpScore on iOS</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; margin-top: 4px;">
+          Install as a native Progressive Web App with offline scoring and full-screen experience:
+        </p>
+      </div>
+
+      <div class="modal-instructions-box">
+        <div>1️⃣ Open <strong>Safari</strong> on your iPhone or iPad.</div>
+        <div>2️⃣ Tap the <strong>Share</strong> icon (square with arrow pointing up <span style="font-size: 1.1em;">📤</span>) in Safari's bottom toolbar.</div>
+        <div>3️⃣ Scroll down and tap <strong>"Add to Home Screen"</strong> (➕).</div>
+        <div>4️⃣ Tap <strong>"Add"</strong> in the top-right corner.</div>
+        <div>5️⃣ Launch <strong>StumpScore</strong> directly from your Home Screen with full offline storage! 🏏</div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px;">
+        <button type="button" class="btn btn-primary-ios js-modal-close" style="flex: 1; min-width: 130px;">Got It, Thanks! ✓</button>
+        <button type="button" class="btn btn-outline-ios" onclick="window.openStumpModal('modal-ios-testflight', event)" style="flex: 1; min-width: 130px;">iOS TestFlight Beta ✈️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: TestFlight Public Beta Access -->
+  <div class="modal-overlay" id="modal-ios-testflight" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <button class="modal-close-btn js-modal-close" aria-label="Close dialog">✕</button>
+      <div style="text-align: center; margin-bottom: 18px;">
+        <div style="font-size: 2.8rem; margin-bottom: 8px;">✈️</div>
+        <h3 style="font-size: 1.4rem; font-weight: 900;">iOS TestFlight Beta</h3>
+        <p style="color: var(--text-secondary); font-size: 0.92rem; margin-top: 4px;">
+          Join our Apple TestFlight testing cohort for early access to native iOS builds:
+        </p>
+      </div>
+
+      <div class="modal-instructions-box">
+        <div>1️⃣ Install <strong>TestFlight</strong> from the Apple App Store.</div>
+        <div>2️⃣ Tap the invitation link provided to join the StumpScore Cricket Scoring Beta.</div>
+        <div>3️⃣ Tap <strong>Accept</strong> and <strong>Install</strong>.</div>
+        <div>4️⃣ Automatic OTA updates delivered directly through TestFlight.</div>
+      </div>
+
+      <a href="https://testflight.apple.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary-ios" style="width: 100%;">
+        <span>Open Apple TestFlight ✈️</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Modal 4: APK Download Confirmation & Step-By-Step Sideload Guide -->
+  <div class="modal-overlay" id="modal-apk-download" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <button class="modal-close-btn js-modal-close" aria-label="Close dialog">✕</button>
+      <div style="text-align: center; margin-bottom: 14px;">
+        <div class="install-header-icon">
+          <span style="font-size: 2rem;">🏏</span>
+        </div>
+        <h3 style="font-size: 1.45rem; font-weight: 900; margin-top: 8px;">StumpScore APK Download</h3>
+        <div class="modal-version-pill">
+          <span>● Build v1.0.1</span>
+          <span>•</span>
+          <span>74.6 MB</span>
+          <span>•</span>
+          <span>Android 7.0+</span>
+        </div>
+      </div>
+
+      <p style="color: var(--text-secondary); text-align: center; margin-bottom: 12px; font-size: 0.9rem;">
+        Your download has started. Follow these quick steps on your phone to complete setup:
+      </p>
+
+      <div class="install-steps-stack">
+        <div class="install-step-item">
+          <div class="install-step-num">1</div>
+          <div class="install-step-content">
+            <div class="install-step-title">Open Downloaded File</div>
+            <div class="install-step-desc">Check your notification shade or open your phone's <strong>Downloads</strong> folder and tap <code>stumpscore-release.apk</code>.</div>
+          </div>
+        </div>
+        <div class="install-step-item">
+          <div class="install-step-num">2</div>
+          <div class="install-step-content">
+            <div class="install-step-title">Allow Unknown Sources (If prompted)</div>
+            <div class="install-step-desc">Tap <strong>Settings</strong> and turn on <strong>"Allow from this source"</strong> for your browser.</div>
+          </div>
+        </div>
+        <div class="install-step-item">
+          <div class="install-step-num">3</div>
+          <div class="install-step-content">
+            <div class="install-step-title">Install & Play</div>
+            <div class="install-step-desc">Tap <strong>Install</strong>, then open <strong>StumpScore</strong> to start real-time scoring! 🏆</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <button type="button" class="btn btn-primary-android js-modal-close" style="flex: 1; min-width: 140px;">
+          <span>Got It! ✓</span>
+        </button>
+        <a href="downloads/stumpscore-release.apk" download="stumpscore-release.apk" class="btn btn-outline-android js-download-apk" style="flex: 1; min-width: 140px;">
+          <span>Re-download 📥</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: QR Code Quick Scan Modal -->
+  <div class="modal-overlay" id="modal-qr-code" role="dialog" aria-modal="true">
+    <div class="modal-content text-center">
+      <button class="modal-close-btn js-modal-close" aria-label="Close dialog">✕</button>
+      
+      <div class="qr-modal-header">
+        <div class="qr-modal-icon-badge">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--pitch-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/>
+            <rect x="7" y="7" width="3.2" height="3.2" fill="var(--pitch-green)"/>
+            <rect x="13.8" y="7" width="3.2" height="3.2" fill="var(--pitch-green)"/>
+            <rect x="7" y="13.8" width="3.2" height="3.2" fill="var(--pitch-green)"/>
+            <rect x="13.8" y="13.8" width="3.2" height="3.2" fill="var(--pitch-green)"/>
+          </svg>
+        </div>
+        <h3 class="qr-modal-title">Scan to Open StumpScore</h3>
+        <p class="qr-modal-subtitle">Point your smartphone camera to open and install instantly:</p>
+      </div>
+
+      <div class="qr-modal-frame mx-auto mb-3">
+        <img src="assets/images/qr-code.png?v=3.4.0" alt="StumpScore Branded QR Code" width="210" height="210" class="qr-code-img" style="margin: 0 auto; display: block; border-radius: 8px;">
+      </div>
+
+      <div class="qr-modal-url">
+        <span>⚡ cricket-scoring-webapp.vercel.app</span>
+      </div>
+
+      <div class="qr-modal-actions">
+        <button type="button" class="btn btn-primary-android btn-sm" onclick="navigator.clipboard.writeText('https://cricket-scoring-webapp.vercel.app'); if(window.showStumpToast) window.showStumpToast('🔗 Live web app link copied!');">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          <span>Copy Link</span>
+        </button>
+        <button type="button" class="btn btn-outline btn-sm js-modal-close">
+          <span>Close</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       StumpAI Assistant Widget (Floating FAB & Interactive AI Window)
+       ========================================================================== -->
+  <!-- 1. Floating Action Trigger Button -->
+  <button id="stump-ai-fab" class="stump-ai-fab" aria-label="Open StumpAI Assistant" title="Ask any cricket or StumpScore doubt">
+    <span class="stump-ai-fab-icon">✨</span>
+    <span>Ask StumpAI</span>
+    <span class="stump-ai-fab-badge">AI Umpire</span>
+  </button>
+
+  <!-- 2. Interactive AI Chat Window -->
+  <div id="stump-ai-window" class="stump-ai-window" role="dialog" aria-labelledby="stump-ai-title" aria-modal="true">
+    <!-- Header -->
+    <div class="stump-ai-header">
+      <div class="stump-ai-header-left">
+        <div class="stump-ai-avatar">✨</div>
+        <div class="stump-ai-title-wrap">
+          <h4 id="stump-ai-title">StumpAI <span>Guru</span></h4>
+          <span class="stump-ai-status">Online • Cricket & App Guide</span>
+        </div>
+      </div>
+      <div class="stump-ai-header-actions">
+        <button type="button" id="stump-ai-sound-btn" class="stump-ai-btn-icon" title="Toggle Sound" aria-label="Toggle Sound">
+          🔊
+        </button>
+        <button type="button" id="stump-ai-settings-btn" class="stump-ai-btn-icon" title="AI Settings (Gemini API Key)" aria-label="AI Settings">
+          ⚙️
+        </button>
+        <button type="button" id="stump-ai-clear-btn" class="stump-ai-btn-icon" title="Clear Chat History" aria-label="Clear Chat">
+          🗑️
+        </button>
+        <button type="button" id="stump-ai-close-btn" class="stump-ai-btn-icon" title="Close StumpAI" aria-label="Close">
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <!-- Collapsible Settings Panel (Optional Gemini API Key) -->
+    <div id="stump-ai-settings-panel" class="stump-ai-settings-panel">
+      <div style="font-weight: 700; color: var(--pitch-green); margin-bottom: 4px;">⚙️ AI Engine Configuration</div>
+      <p style="margin: 0 0 6px 0; color: var(--text-muted); font-size: 0.76rem;">
+        Default: Instant Offline Knowledge Base (0ms lag). To enable live Google Gemini LLM reasoning, paste your free Gemini API key below:
+      </p>
+      <input type="password" id="stump-ai-api-key" class="stump-ai-settings-input" placeholder="Paste Google Gemini API Key (Optional)...">
+      <div style="display: flex; gap: 8px;">
+        <button type="button" id="stump-ai-save-key-btn" class="btn btn-primary-android btn-sm" style="flex: 1; padding: 5px 10px; font-size: 0.78rem;">
+          Save API Key
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages Body -->
+    <div id="stump-ai-messages" class="stump-ai-messages" aria-live="polite">
+      <!-- Welcome Message -->
+      <div class="stump-msg-row assistant">
+        <div class="stump-msg-avatar-small">✨</div>
+        <div class="stump-msg-bubble">
+          <div>
+            <p>🏏 <strong>Hello! I am StumpAI</strong>, your smart cricket scoring assistant & rules umpire.</p>
+            <p>Ask me any doubt about using <strong>StumpScore</strong>, scoring rules, Net Run Rate (NRR), or official cricket laws!</p>
+          </div>
+          <span class="stump-msg-time">Just now</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typing Indicator -->
+    <div id="stump-ai-typing" class="stump-typing-indicator" aria-hidden="true">
+      <span class="stump-typing-dot"></span>
+      <span class="stump-typing-dot"></span>
+      <span class="stump-typing-dot"></span>
+    </div>
+
+    <!-- Quick Prompt Chips -->
+    <div id="stump-ai-chips" class="stump-ai-chips-wrap">
+      <!-- Dynamically generated chips -->
+    </div>
+
+    <!-- Input Footer -->
+    <div class="stump-ai-footer">
+      <form id="stump-ai-form" class="stump-ai-form">
+        <textarea id="stump-ai-input" class="stump-ai-input" placeholder="Ask any cricket or app doubt..." rows="1" aria-label="Ask StumpAI"></textarea>
+        <button type="submit" id="stump-ai-send-btn" class="stump-ai-send-btn" title="Send Question" aria-label="Send">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Download Progress Top Dynamic Island Banner -->
+  <div id="stump-download-banner" class="stump-download-banner" role="status" aria-live="polite"></div>
+
+  <!-- Bootstrap 5.3 JavaScript Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Application Logic & Live Cricket Simulator -->
+  <script src="js/simulator.js?v=3.3.0"></script>
+  <script src="js/app.js?v=3.3.0"></script>
+  <script src="js/ai-assistant.js?v=1.0.0"></script>
+</body>
+</html>
