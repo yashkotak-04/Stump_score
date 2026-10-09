@@ -452,17 +452,31 @@ Keep answers concise, clear, and format with bullet points and cricket emojis.`;
       row.innerHTML = `
         <div class="stump-msg-avatar-small">✨</div>
         <div class="stump-msg-bubble">
-          <div>${parsedHtml}</div>
+          <div class="stump-bubble-content">${parsedHtml}</div>
           <div class="stump-msg-actions">
-            <button type="button" class="stump-msg-copy-btn" title="Copy answer" onclick="navigator.clipboard.writeText(${JSON.stringify(text)}); if(window.showStumpToast) window.showStumpToast('📋 Answer copied!');">Copy</button>
+            <button type="button" class="stump-msg-copy-btn" title="Copy answer">
+              <span>📋 Copy</span>
+            </button>
             <span class="stump-msg-time">${time}</span>
           </div>
         </div>
       `;
+
+      // Safe clipboard copy binding
+      const copyBtn = row.querySelector('.stump-msg-copy-btn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(text).then(() => {
+            if (window.showStumpToast) window.showStumpToast('📋 Answer copied!');
+            copyBtn.innerHTML = '<span>✓ Copied</span>';
+            setTimeout(() => { copyBtn.innerHTML = '<span>📋 Copy</span>'; }, 2000);
+          }).catch(() => {});
+        });
+      }
     } else {
       row.innerHTML = `
         <div class="stump-msg-bubble">
-          <div>${parsedHtml}</div>
+          <div class="stump-bubble-content">${parsedHtml}</div>
           <span class="stump-msg-time">${time}</span>
         </div>
       `;
@@ -505,19 +519,86 @@ Keep answers concise, clear, and format with bullet points and cricket emojis.`;
 
   formatMarkdown(raw) {
     if (!raw) return '';
-    let html = raw
+
+    // 1. Escape HTML entities
+    let text = raw
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
-    // Bold **text**
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    // Italic *text*
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    // Inline code `code`
-    html = html.replace(/`(.*?)`/g, '<code>$1</code>');
-    // Line breaks to <br> or paragraphs
-    html = html.split('\n\n').map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+    // 2. Math / LaTeX formulas $$\text{...}$$
+    text = text.replace(/\$\$(.*?)\$\$/gs, (match, formula) => {
+      const cleanFormula = formula
+        .replace(/\\text\{(.*?)\}/g, '$1')
+        .replace(/\\left\(|\\right\)/g, '')
+        .replace(/\\frac\{(.*?)\}\{(.*?)\}/g, '($1 / $2)')
+        .trim();
+      return `<div class="stump-formula-badge">${cleanFormula}</div>`;
+    });
+
+    // 3. Code blocks ```code```
+    text = text.replace(/```([\s\S]*?)```/g, '<pre class="stump-code-block"><code>$1</code></pre>');
+
+    // 4. Inline code `code`
+    text = text.replace(/`([^`]+)`/g, '<code class="stump-inline-code">$1</code>');
+
+    // 5. Bold & Italic
+    text = text.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
+    text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    text = text.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+    // 6. Split by lines to parse lists and paragraphs
+    const lines = text.split('\n');
+    let html = '';
+    let inUl = false;
+    let inOl = false;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      if (!line) {
+        if (inUl) { html += '</ul>'; inUl = false; }
+        if (inOl) { html += '</ol>'; inOl = false; }
+        continue;
+      }
+
+      // Check unordered list item (- item, * item, • item)
+      const ulMatch = line.match(/^[-*•]\s+(.*)$/);
+      if (ulMatch) {
+        if (inOl) { html += '</ol>'; inOl = false; }
+        if (!inUl) { html += '<ul class="stump-msg-list">'; inUl = true; }
+        html += `<li>${ulMatch[1]}</li>`;
+        continue;
+      }
+
+      // Check ordered list item (1. item, 2. item)
+      const olMatch = line.match(/^(\d+)\.\s+(.*)$/);
+      if (olMatch) {
+        if (inUl) { html += '</ul>'; inUl = false; }
+        if (!inOl) { html += '<ol class="stump-msg-list">'; inOl = true; }
+        html += `<li>${olMatch[2]}</li>`;
+        continue;
+      }
+
+      // Regular line: Close any open lists
+      if (inUl) { html += '</ul>'; inUl = false; }
+      if (inOl) { html += '</ol>'; inOl = false; }
+
+      // Check headings (### or ## or #)
+      if (line.startsWith('### ')) {
+        html += `<h5 class="stump-msg-h3">${line.substring(4)}</h5>`;
+      } else if (line.startsWith('## ')) {
+        html += `<h4 class="stump-msg-h2">${line.substring(3)}</h4>`;
+      } else if (line.startsWith('<div class="stump-formula-badge">')) {
+        html += line;
+      } else {
+        html += `<p class="stump-msg-p">${line}</p>`;
+      }
+    }
+
+    if (inUl) html += '</ul>';
+    if (inOl) html += '</ol>';
 
     return html;
   }

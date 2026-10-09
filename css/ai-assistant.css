@@ -373,12 +373,24 @@
 }
 
 /* Rich Markdown in Bubbles */
-.stump-msg-bubble p {
-  margin-bottom: 6px;
+.stump-bubble-content p.stump-msg-p {
+  margin: 0 0 6px 0;
+  line-height: 1.5;
 }
-.stump-msg-bubble p:last-child {
+.stump-bubble-content p.stump-msg-p:last-child {
   margin-bottom: 0;
 }
+
+.stump-msg-h2, .stump-msg-h3 {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-weight: 800;
+  margin: 8px 0 4px 0;
+  color: var(--pitch-green, #00e676);
+}
+[data-theme="light"] .stump-msg-h2, [data-theme="light"] .stump-msg-h3 {
+  color: #047857;
+}
+
 .stump-msg-bubble strong {
   font-weight: 700;
   color: var(--pitch-green, #00e676);
@@ -386,54 +398,106 @@
 [data-theme="light"] .stump-msg-row.assistant .stump-msg-bubble strong {
   color: #047857;
 }
-.stump-msg-bubble ul, .stump-msg-bubble ol {
-  margin: 6px 0 6px 18px;
-  padding: 0;
+
+/* Beautiful Lists */
+.stump-msg-list {
+  margin: 6px 0 8px 18px !important;
+  padding: 0 !important;
 }
-.stump-msg-bubble li {
+.stump-msg-list li {
   margin-bottom: 4px;
+  line-height: 1.48;
 }
-.stump-msg-bubble code {
-  background: rgba(0, 0, 0, 0.3);
+.stump-msg-list li::marker {
+  color: var(--pitch-green, #00e676);
+  font-weight: bold;
+}
+[data-theme="light"] .stump-msg-list li::marker {
+  color: #047857;
+}
+
+.stump-inline-code {
+  background: rgba(0, 0, 0, 0.35);
   padding: 2px 6px;
   border-radius: 4px;
   font-family: var(--font-mono, monospace);
   font-size: 0.82rem;
   color: #00e676;
+  border: 1px solid rgba(0, 230, 118, 0.25);
 }
-[data-theme="light"] .stump-msg-bubble code {
+[data-theme="light"] .stump-inline-code {
   background: #e2e8f0;
   color: #047857;
-}
-.stump-msg-time {
-  font-size: 0.65rem;
-  color: var(--text-muted, #64748b);
-  margin-top: 4px;
-  display: block;
-  text-align: right;
-  font-family: var(--font-mono, monospace);
+  border-color: rgba(4, 120, 87, 0.2);
 }
 
+.stump-formula-badge {
+  background: rgba(0, 230, 118, 0.12);
+  border: 1px solid rgba(0, 230, 118, 0.35);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 8px 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.84rem;
+  color: var(--pitch-green, #00e676);
+  font-weight: 700;
+  text-align: center;
+}
+[data-theme="light"] .stump-formula-badge {
+  background: #ecfdf5;
+  border-color: #047857;
+  color: #047857;
+}
+
+/* Action Bar with Copy Button & Timestamp */
 .stump-msg-actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
-  margin-top: 4px;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+[data-theme="light"] .stump-msg-actions {
+  border-top-color: rgba(15, 23, 42, 0.08);
+}
+
+.stump-msg-time {
+  font-size: 0.65rem;
+  color: var(--text-muted, #64748b);
+  display: inline-block;
+  font-family: var(--font-mono, monospace);
 }
 
 .stump-msg-copy-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted, #64748b);
-  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-secondary, #94a3b8);
+  font-size: 0.72rem;
+  font-weight: 600;
   cursor: pointer;
-  padding: 2px 5px;
-  border-radius: 4px;
-  transition: color 0.15s ease;
+  padding: 3px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+[data-theme="light"] .stump-msg-copy-btn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #475569;
 }
 .stump-msg-copy-btn:hover {
+  background: rgba(0, 230, 118, 0.18);
+  border-color: var(--pitch-green, #00e676);
   color: var(--pitch-green, #00e676);
+}
+[data-theme="light"] .stump-msg-copy-btn:hover {
+  background: #ecfdf5;
+  border-color: #047857;
+  color: #047857;
 }
 
 @keyframes fadeInMsg {
