@@ -38,6 +38,7 @@
   <link rel="stylesheet" href="css/style.css?v=3.4.0">
   <link rel="stylesheet" href="css/components.css?v=3.4.0">
   <link rel="stylesheet" href="css/ai-assistant.css?v=1.0.0">
+  <link rel="stylesheet" href="css/live-score-hub.css?v=1.0.0">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/icon/app_icon.png">
@@ -59,6 +60,7 @@
         <nav>
           <ul class="nav-menu" id="nav-menu">
             <li><a href="#features" class="nav-link">Features</a></li>
+            <li><a href="#live-scores" class="nav-link" style="color: var(--pitch-green); font-weight: 700;"><span style="color: #ef4444; font-size: 0.8rem; margin-right: 4px;">●</span>Live Matches</a></li>
             <li><a href="#demo" class="nav-link">Live Demo</a></li>
             <li><a href="#poster-studio" class="nav-link">Poster Studio</a></li>
             <li><a href="#install" class="nav-link">Install</a></li>
@@ -382,6 +384,175 @@
               "Scoring shouldn't feel like paperwork — it should feel like <span class="gradient-text-green">live television commentary</span>."
             </h2>
             <div class="philosophy-author">The StumpScore Philosophy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       4.5 International Live Match Center (India vs Pakistan & Global Clashes)
+       ========================================================================== -->
+  <section class="live-score-section" id="live-scores">
+    <div class="container">
+      <div class="section-header text-center mx-auto mb-4">
+        <div class="section-tag" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #ef4444;">
+          <span class="live-pulse-dot" style="margin-right: 6px;"></span> International Broadcast Hub
+        </div>
+        <h2 class="section-title">Live International Match Center</h2>
+        <p class="section-description">
+          Watch real-time live ball-by-ball commentary, animated chase equations, and dynamic win probability for premier clashes like India vs Pakistan.
+        </p>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-11 col-xl-10">
+          <div class="live-broadcast-card">
+            
+            <!-- Broadcast Header -->
+            <div class="broadcast-header">
+              <div class="d-flex align-items-center gap-3">
+                <div class="broadcast-status-badge">
+                  <span class="live-pulse-dot"></span>
+                  <span>LIVE CHASE</span>
+                </div>
+                <div class="broadcast-match-meta">
+                  <span class="broadcast-tournament-name" id="live-tournament-name">ICC Men's T20 World Cup Final</span>
+                  <span class="broadcast-venue" id="live-venue">Melbourne Cricket Ground (MCG), Australia</span>
+                </div>
+              </div>
+
+              <!-- Match Switcher -->
+              <div class="d-flex align-items-center gap-2">
+                <label for="live-match-select" class="d-none d-sm-inline" style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">FIXTURE:</label>
+                <select id="live-match-select" class="match-selector-dropdown" aria-label="Select International Live Match">
+                  <option value="ind_pak" selected>🇮🇳 IND vs 🇵🇰 PAK (World Cup)</option>
+                  <option value="eng_aus">🏴󠁧󠁢󠁥󠁮󠁧󠁿 ENG vs 🇦🇺 AUS (The Ashes)</option>
+                  <option value="csk_mi">🦁 CSK vs 🔵 MI (IPL Final)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Scoreboard Body -->
+            <div class="broadcast-body">
+              
+              <!-- Main Scores Row -->
+              <div class="scoreboard-main-row">
+                <div class="team-score-block">
+                  <div class="team-flag-emblem" id="live-team-a-flag">🇮🇳</div>
+                  <div>
+                    <div class="team-name-big" id="live-team-a-name">India</div>
+                    <div class="d-flex align-items-baseline gap-2">
+                      <div class="team-score-lcd" id="live-team-a-score">162/4</div>
+                      <div class="team-overs-lcd" id="live-team-a-overs">18.1 / 20.0 ov</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Versus & Target Equation -->
+                <div class="versus-target-box" id="live-target-box">
+                  <div class="target-equation-text">🎯 Target: 173</div>
+                  <div class="target-equation-sub">Need 11 runs in 11 balls</div>
+                  <div class="rates-pill-row">
+                    <span class="rates-pill" id="live-crr">CRR: 8.92</span>
+                    <span class="rates-pill" id="live-rrr">RRR: 6.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Crease Statistics: Batsmen & Bowler -->
+              <div class="crease-stats-row">
+                <div class="player-live-card is-striker">
+                  <div>
+                    <div class="player-name-tag" id="live-striker-name">V. Kohli* 🏏</div>
+                    <div class="player-role-sub">Striker (On Strike)</div>
+                  </div>
+                  <div class="player-stat-numbers">
+                    <div class="player-primary-score" id="live-striker-score">76 (48)</div>
+                    <div class="player-secondary-stat">6x4, 3x6 • SR: 158.3</div>
+                  </div>
+                </div>
+
+                <div class="player-live-card">
+                  <div>
+                    <div class="player-name-tag" id="live-nonstriker-name">H. Pandya</div>
+                    <div class="player-role-sub">Non-Striker</div>
+                  </div>
+                  <div class="player-stat-numbers">
+                    <div class="player-primary-score" id="live-nonstriker-score">34 (18)</div>
+                    <div class="player-secondary-stat">3x4, 2x6 • SR: 188.9</div>
+                  </div>
+                </div>
+
+                <div class="player-live-card">
+                  <div>
+                    <div class="player-name-tag" id="live-bowler-name">⚾ Shaheen Afridi</div>
+                    <div class="player-role-sub">Current Bowler</div>
+                  </div>
+                  <div class="player-stat-numbers">
+                    <div class="player-primary-score" id="live-bowler-fig">3.1 ov • 28/2</div>
+                    <div class="player-secondary-stat">Econ: 8.84</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recent Deliveries Strip -->
+              <div class="recent-balls-section">
+                <span class="recent-balls-label">Recent Balls:</span>
+                <div class="recent-balls-strip" id="live-recent-balls">
+                  <span class="ball-pill b-run">1</span>
+                  <span class="ball-pill b-four">4</span>
+                  <span class="ball-pill b-dot">0</span>
+                  <span class="ball-pill b-six">6</span>
+                  <span class="ball-pill b-run">1</span>
+                  <span class="ball-pill b-run">1</span>
+                </div>
+              </div>
+
+              <!-- Win Probability Gauge -->
+              <div class="win-prob-section">
+                <div class="win-prob-labels">
+                  <span class="win-prob-team-a" id="live-prob-a">IND: 78%</span>
+                  <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 700;">WIN PROBABILITY</span>
+                  <span class="win-prob-team-b" id="live-prob-b">PAK: 22%</span>
+                </div>
+                <div class="win-prob-bar-track">
+                  <div class="win-prob-bar-fill-a" id="live-prob-fill-a" style="width: 78%;"></div>
+                  <div class="win-prob-bar-fill-b" id="live-prob-fill-b" style="width: 22%;"></div>
+                </div>
+              </div>
+
+              <!-- Live Commentary Stream -->
+              <div class="live-commentary-wrap">
+                <div class="commentary-header">
+                  <span>🎙️ Ball-by-Ball Live Commentary</span>
+                  <span style="font-size: 0.74rem; color: var(--pitch-green); font-weight: 700;">Live Feed</span>
+                </div>
+                <div class="commentary-list-box" id="live-commentary-box">
+                  <!-- Dynamically populated commentary -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Ticker Control Bar -->
+            <div class="broadcast-controls-bar">
+              <div class="controls-left-group">
+                <button type="button" class="btn-auto-stream" id="live-auto-stream-btn" aria-label="Toggle Auto Streaming">
+                  <span>▶ Auto Stream</span>
+                </button>
+                <button type="button" class="btn-ticker-step" id="live-step-btn" title="Bowls the next delivery">
+                  <span>⚡ Next Ball</span>
+                </button>
+              </div>
+
+              <div class="controls-right-group">
+                <button type="button" class="btn-ticker-step" id="live-reset-btn" title="Reset match to ball 1">
+                  <span>🔄 Reset Chase</span>
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -1326,5 +1497,6 @@
   <script src="js/simulator.js?v=3.3.0"></script>
   <script src="js/app.js?v=3.3.0"></script>
   <script src="js/ai-assistant.js?v=1.0.0"></script>
+  <script src="js/live-score-hub.js?v=1.0.0"></script>
 </body>
 </html>
