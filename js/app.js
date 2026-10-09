@@ -882,7 +882,7 @@ function showToast(message, duration = 3500) {
    ========================================================================== */
 function initTickerObserver() {
   const tickerEl = document.querySelector('.live-status-ticker');
-  const trackEl = document.getElementById('real-ticker-track');
+  const trackEl = document.querySelector('.ticker-track');
   if (!tickerEl || !trackEl || !('IntersectionObserver' in window)) return;
 
   const tickerObserver = new IntersectionObserver((entries) => {
