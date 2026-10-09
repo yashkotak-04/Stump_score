@@ -49,7 +49,7 @@ class LiveScoreHub {
         title: 'England vs Australia',
         tournament: 'The Ashes T20 Championship',
         venue: "Lord's Cricket Ground, London",
-        teamA: { name: 'England', short: 'ENG', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+        teamA: { name: 'England', short: 'ENG', flag: '🇬🇧' },
         teamB: { name: 'Australia', short: 'AUS', flag: '🇦🇺' },
         firstInnings: { score: '186/6', overs: '20.0 ov', runs: 186, wickets: 6 },
         target: 187,
