@@ -995,32 +995,8 @@ GENERAL RULES:
     text = text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
     text = text.replace(/_([^_]+)_/g, '<em>$1</em>');
 
-    // 6. Interactive Instagram Social Card
-    const instaCardTemplate = `
-<div class="stump-social-card">
-  <div class="stump-social-card-header">
-    <div class="stump-social-card-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-      </svg>
-    </div>
-    <div class="stump-social-card-info">
-      <span class="stump-social-handle">@stump_score</span>
-      <span class="stump-social-badge">Official Community • Instagram</span>
-    </div>
-  </div>
-  <p class="stump-social-desc">Follow StumpScore for app release notes, cricket umpire guidelines, live scoring tips &amp; tournament highlights!</p>
-  <a href="https://instagram.com/stump_score" target="_blank" rel="noopener noreferrer" class="stump-social-btn">
-    <span>Follow @stump_score on Instagram</span>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="7" y1="17" x2="17" y2="7"></line>
-      <polyline points="7 7 17 7 17 17"></polyline>
-    </svg>
-  </a>
-</div>`;
-    text = text.replace(/\[instagram-card:[^\]]+\]/g, instaCardTemplate);
+    // 6. Interactive Instagram Social Card Token (Prevent multiline HTML split)
+    text = text.replace(/\[instagram-card:[^\]]+\]/g, '%%STUMP_INSTA_CARD%%');
 
     // 7. Markdown Links [text](url)
     text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="stump-chat-link">$1</a>');
@@ -1067,8 +1043,10 @@ GENERAL RULES:
         html += `<h5 class="stump-msg-h3">${line.substring(4)}</h5>`;
       } else if (line.startsWith('## ')) {
         html += `<h4 class="stump-msg-h2">${line.substring(3)}</h4>`;
-      } else if (line.startsWith('<div class="stump-formula-badge">') || line.includes('class="stump-social-card"')) {
+      } else if (line.startsWith('<div class="stump-formula-badge">')) {
         html += line;
+      } else if (line === '%%STUMP_INSTA_CARD%%') {
+        html += '%%STUMP_INSTA_CARD%%';
       } else {
         html += `<p class="stump-msg-p">${line}</p>`;
       }
@@ -1076,6 +1054,12 @@ GENERAL RULES:
 
     if (inUl) html += '</ul>';
     if (inOl) html += '</ol>';
+
+    // Post-process Instagram Card: Single clean component without fragmented p tags
+    const instaCardClean = `<div class="stump-social-card"><div class="stump-social-card-header"><div class="stump-social-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><circle cx="12" cy="12" r="4"></circle><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></div><div class="stump-social-card-info"><span class="stump-social-handle">@stump_score</span><span class="stump-social-badge">Official Community • Instagram</span></div></div><p class="stump-social-desc">Follow StumpScore for app release notes, cricket umpire guidelines, live scoring tips &amp; tournament highlights!</p><a href="https://instagram.com/stump_score" target="_blank" rel="noopener noreferrer" class="stump-social-btn"><span>Follow @stump_score on Instagram ↗</span></a></div>`;
+
+    html = html.replace(/<p class="stump-msg-p">\s*%%STUMP_INSTA_CARD%%\s*<\/p>/g, instaCardClean);
+    html = html.replace(/%%STUMP_INSTA_CARD%%/g, instaCardClean);
 
     return html;
   }

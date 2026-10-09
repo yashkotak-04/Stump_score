@@ -436,6 +436,15 @@ function initPosterStudio() {
     });
   }
 
+  const storyDownloadBtn = document.getElementById('poster-download-story-btn');
+  if (storyDownloadBtn) {
+    storyDownloadBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      generateAndDownloadStoryPoster();
+    });
+  }
+
   const whatsappBtn = document.getElementById('poster-whatsapp-btn');
   if (whatsappBtn) {
     whatsappBtn.addEventListener('click', (e) => {
@@ -649,6 +658,219 @@ function initPosterStudio() {
       setTimeout(() => {
         downloadBtn.innerHTML = originalHTML;
       }, 3000);
+    }
+  }
+
+  function generateAndDownloadStoryPoster() {
+    const btn = document.getElementById('poster-download-story-btn');
+    if (!btn) return;
+
+    const originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.style.opacity = '0.85';
+    btn.innerHTML = '<span>⏳ Generating 1080x1350 Story Poster...</span>';
+
+    try {
+      const t1 = (team1Input ? team1Input.value.trim() : '') || 'India';
+      const s1 = (score1Input ? score1Input.value.trim() : '') || '184/4 (20.0 ov)';
+      const t2 = (team2Input ? team2Input.value.trim() : '') || 'Australia';
+      const s2 = (score2Input ? score2Input.value.trim() : '') || '168/8 (20.0 ov)';
+      const res = (resultInput ? resultInput.value.trim() : '') || 'India won by 16 runs';
+      const mvp = (mvpInput ? mvpInput.value.trim() : '') || 'V. Kohli (82 runs & 1/14)';
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 1350;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas 2D context not supported');
+
+      // Stadium Night Mesh Background
+      const bgGrad = ctx.createRadialGradient(540, 675, 120, 540, 675, 900);
+      bgGrad.addColorStop(0, '#152033');
+      bgGrad.addColorStop(0.6, '#090f1c');
+      bgGrad.addColorStop(1, '#04070e');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, 1080, 1350);
+
+      // Stadium Floodlights
+      ctx.fillStyle = 'rgba(0, 230, 118, 0.08)';
+      ctx.beginPath();
+      ctx.arc(200, 220, 360, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = 'rgba(0, 176, 255, 0.08)';
+      ctx.beginPath();
+      ctx.arc(880, 1150, 400, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Outer & Inner Borders
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(36, 36, 1008, 1278);
+
+      ctx.strokeStyle = 'rgba(0, 230, 118, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(48, 48, 984, 1254);
+
+      // Top Brand Header
+      ctx.fillStyle = '#00e676';
+      ctx.font = '900 46px "Outfit", "Segoe UI", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('🏏 STUMPSCORE', 80, 130);
+
+      ctx.fillStyle = '#f59e0b';
+      ctx.font = '800 28px "Outfit", "Segoe UI", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('STORY PROMO • FINAL', 1000, 130);
+
+      // Divider line
+      const lineGrad = ctx.createLinearGradient(80, 160, 1000, 160);
+      lineGrad.addColorStop(0, '#00e676');
+      lineGrad.addColorStop(0.5, '#00b0ff');
+      lineGrad.addColorStop(1, '#f59e0b');
+      ctx.fillStyle = lineGrad;
+      ctx.fillRect(80, 160, 920, 4);
+
+      // Tournament Badge
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+      ctx.lineWidth = 2;
+      roundRect(ctx, 80, 200, 920, 60, 14, true, true);
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = '800 26px "Outfit", "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('CHAMPIONSHIP TROPHY 2026 • GRAND FINAL', 540, 240);
+
+      // Main Match Card
+      const cardY = 290;
+      const cardH = 460;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+      ctx.lineWidth = 2;
+      roundRect(ctx, 80, cardY, 920, cardH, 24, true, true);
+
+      // Team 1
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 62px "Outfit", "Segoe UI", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(t1, 130, cardY + 110);
+
+      ctx.fillStyle = '#00e676';
+      ctx.font = '900 64px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText(s1, 950, cardY + 110);
+
+      // Divider between teams
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.fillRect(130, cardY + 170, 820, 2);
+
+      // Team 2
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = '800 56px "Outfit", "Segoe UI", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(t2, 130, cardY + 270);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '800 56px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText(s2, 950, cardY + 270);
+
+      // Result Gold Banner
+      const winGrad = ctx.createLinearGradient(80, cardY + 340, 1000, cardY + 430);
+      winGrad.addColorStop(0, 'rgba(245, 158, 11, 0.3)');
+      winGrad.addColorStop(1, 'rgba(217, 119, 6, 0.2)');
+      ctx.fillStyle = winGrad;
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 3;
+      roundRect(ctx, 130, cardY + 330, 820, 90, 18, true, true);
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = '900 38px "Outfit", "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`🏆 ${res}`, 540, cardY + 390);
+
+      // MVP Box
+      const mvpY = cardY + cardH + 30;
+      ctx.fillStyle = 'rgba(30, 41, 59, 0.85)';
+      ctx.strokeStyle = 'rgba(0, 176, 255, 0.45)';
+      ctx.lineWidth = 2;
+      roundRect(ctx, 80, mvpY, 920, 110, 20, true, true);
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = '800 34px "Outfit", "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`🌟 Player of the Match: ${mvp}`, 540, mvpY + 70);
+
+      // Venue Box
+      const venueY = mvpY + 140;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.6)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, 80, venueY, 920, 90, 18, true, true);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 26px "Inter", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('📍 Melbourne Cricket Ground • Night Match', 540, venueY + 56);
+
+      // App Pitch Footer
+      const footY = 1350 - 190;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.95)';
+      roundRect(ctx, 80, footY, 920, 130, 20, true, false);
+
+      ctx.fillStyle = '#00e676';
+      ctx.font = '800 28px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Scored with StumpScore Engine • Ball-by-Ball Live Scoring', 540, footY + 55);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 23px "Inter", sans-serif';
+      ctx.fillText('Available at stumpscore.vercel.app • Follow @stump_score', 540, footY + 95);
+
+      const filename = `stumpscore-story-1080x1350-${t1.toLowerCase().replace(/[^a-z0-9]/g, '-')}-vs-${t2.toLowerCase().replace(/[^a-z0-9]/g, '-')}.png`;
+
+      const triggerDownload = (url) => {
+        const a = document.createElement('a');
+        a.download = filename;
+        a.href = url;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { if (a.parentNode) a.parentNode.removeChild(a); }, 400);
+
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.innerHTML = '<span>✅ 1080x1350 Story Downloaded (PNG)</span>';
+        btn.style.borderColor = '#00e676';
+        btn.style.color = '#00e676';
+        showToast('🎉 1080x1350 Story Poster downloaded successfully!');
+
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.style.borderColor = '';
+          btn.style.color = '';
+        }, 3500);
+      };
+
+      if (canvas.toBlob) {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const blobUrl = URL.createObjectURL(blob);
+            triggerDownload(blobUrl);
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+          } else {
+            triggerDownload(canvas.toDataURL('image/png'));
+          }
+        }, 'image/png');
+      } else {
+        triggerDownload(canvas.toDataURL('image/png'));
+      }
+    } catch (err) {
+      console.error('Story poster error:', err);
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.innerHTML = originalHTML;
+      showToast('⚠️ Could not generate story poster.');
     }
   }
 

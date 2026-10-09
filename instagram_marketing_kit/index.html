@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StumpScore — Master 1080x1350 Promo Poster Studio</title>
+  <meta name="description" content="Generate broadcast-style 1080x1350 and 1080x1080 match graphics for Instagram, WhatsApp status, and club cricket tournaments.">
+  <link rel="icon" type="image/png" href="../assets/icon/app_icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070c18;
+      --bg-card: rgba(15, 23, 42, 0.85);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --pitch-green: #00e676;
+      --gold: #f59e0b;
+      --cyan: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 16px 24px;
+      background: rgba(11, 18, 33, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .brand h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .brand h1 span {
+      color: var(--pitch-green);
+    }
+
+    .back-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-card h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-card p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: #fff;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: var(--pitch-green);
+      box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-action {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+      text-decoration: none;
+      margin-bottom: 10px;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-story {
+      background: linear-gradient(135deg, #00b0ff 0%, #00e676 100%);
+      color: #050811;
+      border: none;
+      box-shadow: 0 8px 20px rgba(0, 230, 118, 0.25);
+    }
+
+    .btn-square {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+    }
+
+    .btn-square:hover {
+      background: rgba(245, 158, 11, 0.2);
+    }
+
+    /* Live Canvas Preview */
+    .preview-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: sticky;
+      top: 90px;
+    }
+
+    .preview-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .preview-badge {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--cyan);
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .canvas-wrapper {
+      width: 100%;
+      max-width: 440px;
+      aspect-ratio: 4 / 5;
+      background: #04070e;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html" class="brand">
+      <img src="../assets/icon/app_icon.png" alt="StumpScore">
+      <h1>StumpScore <span>Studio</span></h1>
+    </a>
+    <a href="../index.html" class="back-btn">
+      ← Back to StumpScore App
+    </a>
+  </header>
+
+  <main>
+    <!-- Controls Form -->
+    <div class="form-card">
+      <h2>📢 Master 1080x1350 Story Studio</h2>
+      <p>Generate broadcast-grade 1080x1350 Portrait posters optimized for Instagram Stories, Reels &amp; WhatsApp Status.</p>
+
+      <div class="form-group">
+        <label class="form-label" for="inp-tournament">Tournament / Match Title</label>
+        <input type="text" id="inp-tournament" class="form-input" value="CHAMPIONSHIP TROPHY 2026 • GRAND FINAL">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="inp-team1">Team 1 Name</label>
+          <input type="text" id="inp-team1" class="form-input" value="India">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="inp-score1">Team 1 Score</label>
+          <input type="text" id="inp-score1" class="form-input" value="184/4 (20.0 ov)">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="inp-team2">Team 2 Name</label>
+          <input type="text" id="inp-team2" class="form-input" value="Australia">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="inp-score2">Team 2 Score</label>
+          <input type="text" id="inp-score2" class="form-input" value="168/8 (20.0 ov)">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="inp-result">Match Result</label>
+        <input type="text" id="inp-result" class="form-input" value="India won by 16 runs">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="inp-mvp">Player of the Match (MVP)</label>
+        <input type="text" id="inp-mvp" class="form-input" value="Virat Kohli (82* runs & 1/14)">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="inp-venue">Venue / League</label>
+        <input type="text" id="inp-venue" class="form-input" value="Melbourne Cricket Ground • Night Final">
+      </div>
+
+      <div style="margin-top: 24px;">
+        <button type="button" id="btn-download-story" class="btn-action btn-story">
+          <span>📲 Download 1080x1350 Story Poster (PNG)</span>
+        </button>
+        <button type="button" id="btn-download-square" class="btn-action btn-square">
+          <span>🎨 Download 1080x1080 Square Post (PNG)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Preview -->
+    <div class="preview-column">
+      <div class="preview-header">
+        <span style="font-weight: 700; font-size: 0.95rem;">Live Studio Preview</span>
+        <span class="preview-badge">1080 × 1350 (4:5 Portrait)</span>
+      </div>
+      <div class="canvas-wrapper">
+        <canvas id="preview-canvas" width="1080" height="1350"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('preview-canvas');
+    const ctx = canvas.getContext('2d');
+
+    const inpTournament = document.getElementById('inp-tournament');
+    const inpTeam1 = document.getElementById('inp-team1');
+    const inpScore1 = document.getElementById('inp-score1');
+    const inpTeam2 = document.getElementById('inp-team2');
+    const inpScore2 = document.getElementById('inp-score2');
+    const inpResult = document.getElementById('inp-result');
+    const inpMvp = document.getElementById('inp-mvp');
+    const inpVenue = document.getElementById('inp-venue');
+
+    const btnDownloadStory = document.getElementById('btn-download-story');
+    const btnDownloadSquare = document.getElementById('btn-download-square');
+
+    function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+      if (typeof radius === 'number') {
+        radius = { tl: radius, tr: radius, br: radius, bl: radius };
+      }
+      ctx.beginPath();
+      ctx.moveTo(x + radius.tl, y);
+      ctx.lineTo(x + width - radius.tr, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+      ctx.lineTo(x + width, y + height - radius.br);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+      ctx.lineTo(x + radius.bl, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+      ctx.lineTo(x, y + radius.tl);
+      ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) ctx.stroke();
+    }
+
+    function renderPoster(w = 1080, h = 1350) {
+      canvas.width = w;
+      canvas.height = h;
+
+      const tournament = inpTournament.value.trim() || 'CHAMPIONSHIP TROPHY 2026';
+      const t1 = inpTeam1.value.trim() || 'India';
+      const s1 = inpScore1.value.trim() || '184/4 (20.0 ov)';
+      const t2 = inpTeam2.value.trim() || 'Australia';
+      const s2 = inpScore2.value.trim() || '168/8 (20.0 ov)';
+      const result = inpResult.value.trim() || 'India won by 16 runs';
+      const mvp = inpMvp.value.trim() || 'Virat Kohli';
+      const venue = inpVenue.value.trim() || 'Melbourne Cricket Ground';
+
+      // 1. Stadium Night Mesh Background
+      const bgGrad = ctx.createRadialGradient(w/2, h/2, 100, w/2, h/2, h*0.75);
+      bgGrad.addColorStop(0, '#152033');
+      bgGrad.addColorStop(0.6, '#090f1c');
+      bgGrad.addColorStop(1, '#04070e');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      // Stadium floodlights
+      ctx.fillStyle = 'rgba(0, 230, 118, 0.08)';
+      ctx.beginPath();
+      ctx.arc(200, 200, 360, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = 'rgba(0, 176, 255, 0.08)';
+      ctx.beginPath();
+      ctx.arc(w - 200, h - 200, 400, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Border frames
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(36, 36, w - 72, h - 72);
+
+      ctx.strokeStyle = 'rgba(0, 230, 118, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(48, 48, w - 96, h - 96);
+
+      // Top Brand Header
+      ctx.fillStyle = '#00e676';
+      ctx.font = '900 46px "Outfit", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('🏏 STUMPSCORE', 80, 130);
+
+      ctx.fillStyle = '#f59e0b';
+      ctx.font = '800 28px "Outfit", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('OFFICIAL MATCH GRAPHIC', w - 80, 130);
+
+      // Divider line
+      const lineGrad = ctx.createLinearGradient(80, 160, w - 80, 160);
+      lineGrad.addColorStop(0, '#00e676');
+      lineGrad.addColorStop(0.5, '#00b0ff');
+      lineGrad.addColorStop(1, '#f59e0b');
+      ctx.fillStyle = lineGrad;
+      ctx.fillRect(80, 160, w - 160, 4);
+
+      // Tournament Badge
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+      ctx.lineWidth = 2;
+      roundRect(ctx, 80, 200, w - 160, 60, 14, true, true);
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = '800 24px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(tournament.toUpperCase(), w/2, 240);
+
+      // Main Match Card
+      const cardY = 290;
+      const cardH = 460;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+      ctx.lineWidth = 2;
+      roundRect(ctx, 80, cardY, w - 160, cardH, 24, true, true);
+
+      // Team 1
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 62px "Outfit", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(t1, 130, cardY + 110);
+
+      ctx.fillStyle = '#00e676';
+      ctx.font = '900 64px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText(s1, w - 130, cardY + 110);
+
+      // Divider between teams
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.fillRect(130, cardY + 170, w - 260, 2);
+
+      // Team 2
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = '800 56px "Outfit", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(t2, 130, cardY + 270);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '800 56px "JetBrains Mono", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText(s2, w - 130, cardY + 270);
+
+      // Result Gold Banner
+      const winGrad = ctx.createLinearGradient(80, cardY + 340, w - 80, cardY + 430);
+      winGrad.addColorStop(0, 'rgba(245, 158, 11, 0.3)');
+      winGrad.addColorStop(1, 'rgba(217, 119, 6, 0.2)');
+      ctx.fillStyle = winGrad;
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 3;
+      roundRect(ctx, 130, cardY + 330, w - 260, 90, 18, true, true);
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = '900 38px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`🏆 ${result}`, w/2, cardY + 390);
+
+      // MVP Box
+      const mvpY = cardY + cardH + 30;
+      ctx.fillStyle = 'rgba(30, 41, 59, 0.85)';
+      ctx.strokeStyle = 'rgba(0, 176, 255, 0.45)';
+      ctx.lineWidth = 2;
+      roundRect(ctx, 80, mvpY, w - 160, 110, 20, true, true);
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = '800 34px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`🌟 Player of the Match: ${mvp}`, w/2, mvpY + 70);
+
+      // Venue Box
+      const venueY = mvpY + 140;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.6)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, 80, venueY, w - 160, 90, 18, true, true);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 26px "Inter", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`📍 ${venue}`, w/2, venueY + 56);
+
+      // App Pitch Footer
+      const footY = h - 190;
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.95)';
+      roundRect(ctx, 80, footY, w - 160, 130, 20, true, false);
+
+      ctx.fillStyle = '#00e676';
+      ctx.font = '800 28px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Scored with StumpScore Engine • Ball-by-Ball Live Scoring', w/2, footY + 55);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '600 23px "Inter", sans-serif';
+      ctx.fillText('Available at stumpscore.vercel.app • Follow @stump_score', w/2, footY + 95);
+    }
+
+    [inpTournament, inpTeam1, inpScore1, inpTeam2, inpScore2, inpResult, inpMvp, inpVenue].forEach(inp => {
+      inp.addEventListener('input', () => renderPoster(1080, 1350));
+    });
+
+    // Initial render
+    window.addEventListener('load', () => renderPoster(1080, 1350));
+    renderPoster(1080, 1350);
+
+    // Download handlers
+    function downloadCanvas(name, w, h) {
+      renderPoster(w, h);
+      setTimeout(() => {
+        const a = document.createElement('a');
+        a.download = name;
+        a.href = canvas.toDataURL('image/png');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        // Restore story preview
+        renderPoster(1080, 1350);
+      }, 100);
+    }
+
+    btnDownloadStory.addEventListener('click', () => {
+      const t1 = inpTeam1.value.trim() || 'team1';
+      const t2 = inpTeam2.value.trim() || 'team2';
+      downloadCanvas(`stumpscore-story-1080x1350-${t1}-vs-${t2}.png`, 1080, 1350);
+    });
+
+    btnDownloadSquare.addEventListener('click', () => {
+      const t1 = inpTeam1.value.trim() || 'team1';
+      const t2 = inpTeam2.value.trim() || 'team2';
+      downloadCanvas(`stumpscore-post-1080x1080-${t1}-vs-${t2}.png`, 1080, 1080);
+    });
+  </script>
+</body>
+</html>
