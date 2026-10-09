@@ -1,11 +1,11 @@
 /**
- * StumpAI — Intelligent In-App AI Cricket Assistant & Rulebook Umpire
- * Dual-Engine: Google Gemini 1.5/2.0 API + Instant Smart Offline Knowledge Base
+ * StumpAI — Ultra-Premium In-App AI Assistant & Cricket Rules Umpire
+ * Dual-Engine: Google Gemini 1.5/2.0 API + Comprehensive Expert Offline Knowledge Base
  */
 
 class StumpAIAssistant {
   constructor() {
-    this.storageKey = 'stump_ai_history_v1';
+    this.storageKey = 'stump_ai_history_v2';
     this.apiKeyStorageKey = 'stump_gemini_api_key';
     this.soundEnabledKey = 'stump_ai_sound_enabled';
 
@@ -13,6 +13,30 @@ class StumpAIAssistant {
     this.isGenerating = false;
     this.soundEnabled = localStorage.getItem(this.soundEnabledKey) !== 'false';
     this.audioCtx = null;
+
+    // Professional SVG AI icon template
+    this.aiSvgIcon = `
+      <svg class="stump-ai-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L14.4 8.6L21 11L14.4 13.4L12 20L9.6 13.4L3 11L9.6 8.6L12 2Z" fill="url(#aiGrad1)" stroke="url(#aiStroke1)" stroke-width="0.8"/>
+        <circle cx="19" cy="5" r="2" fill="url(#aiGrad2)"/>
+        <circle cx="5" cy="19" r="1.6" fill="url(#aiGrad2)"/>
+        <defs>
+          <linearGradient id="aiGrad1" x1="3" y1="2" x2="21" y2="20" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#00E676"/>
+            <stop offset="0.5" stop-color="#00B0FF"/>
+            <stop offset="1" stop-color="#A855F7"/>
+          </linearGradient>
+          <linearGradient id="aiStroke1" x1="3" y1="2" x2="21" y2="20" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FFFFFF"/>
+            <stop offset="1" stop-color="#00E676"/>
+          </linearGradient>
+          <linearGradient id="aiGrad2" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#00B0FF"/>
+            <stop offset="1" stop-color="#00E676"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    `;
 
     // Preloaded comprehensive Knowledge Base (0ms instant answers)
     this.knowledgeBase = this.initKnowledgeBase();
@@ -23,99 +47,106 @@ class StumpAIAssistant {
   }
 
   /* --------------------------------------------------------------------------
-     1. Knowledge Base Initialization (Comprehensive App & Cricket Guide)
+     1. Comprehensive Knowledge Base (Expert Professional Level)
      -------------------------------------------------------------------------- */
   initKnowledgeBase() {
     return [
       {
         id: 'start_match',
-        keywords: ['start match', 'new match', 'how to score', 'create match', 'begin match', 'setup match', 'toss', 'overs'],
+        keywords: ['start match', 'new match', 'how to score', 'create match', 'begin match', 'setup match', 'toss', 'overs', 'play match'],
         title: 'How to Start & Score a Match in StumpScore',
-        response: `🏏 **Starting a New Match in StumpScore:**\n\n1. **Tap "New Match"** from the home screen.\n2. **Enter Match Details**: Team names, total overs (e.g. 10, 20), ball type (Tennis/Leather), and pitch condition.\n3. **Add Squads**: Select or type opening batsmen and opening bowler.\n4. **Conduct Toss**: Pick toss winner and their decision (Bat / Bowl).\n5. **Tap "Start Match"**: The live scoring keypad will open immediately!\n\n⚡ *Tip: Scores sync to the cloud in real-time for spectators!*`,
+        response: `🏏 **Starting a New Match in StumpScore:**\n\n1. **Tap "New Match"** on the home screen or navigation bar.\n2. **Configure Match Settings**: Enter Team A & Team B names, total overs (e.g. 10, 20), ball type (Tennis/Leather), and pitch condition.\n3. **Select Opening Squads**: Choose your opening batsmen (Striker & Non-Striker) and opening bowler.\n4. **Conduct Digital Toss**: Select toss winner and their decision (**Bat First** or **Bowl First**).\n5. **Launch Scorer**: Tap **"Start Match"** to open the interactive live scoring keypad!\n\n💡 *Pro Tip: All scores sync to the cloud in real-time so spectators can watch live on any device!*`,
         chips: ['How does strike rotation work?', 'How to score a Wide or No Ball?', 'Undo a wrong ball']
       },
       {
         id: 'strike_rotation',
-        keywords: ['strike rotation', 'swap batsman', 'strike change', 'who is batting', 'odd runs', 'over complete'],
+        keywords: ['strike rotation', 'swap batsman', 'strike change', 'who is batting', 'odd runs', 'over complete', 'switch striker'],
         title: 'Strike Rotation & Batsman Switching',
-        response: `🔄 **How Strike Rotation Works:**\n\n- **Automatic Rotation on Odd Runs**: Taking **1, 3, or 5 runs** automatically switches the striker and non-striker.\n- **End of Over**: When 6 legal balls are bowled, strike automatically switches for the next bowler.\n- **Manual Swap**: You can tap the **"Swap Strike"** button anytime if batsmen crossed during a run out or boundary check!`,
+        response: `🔄 **How Strike Rotation Works:**\n\n- **Automatic Odd Run Rotation**: Scoring **1, 3, or 5 runs** automatically swaps the active striker and non-striker.\n- **End of Over**: When 6 legal deliveries are bowled, strike automatically switches ends for the new bowler.\n- **Manual Swap Option**: Tap the **"Swap Strike"** button anytime to correct striker ends if batsmen crossed during a boundary check or run-out attempt.\n\n💡 *Pro Tip: StumpScore tracks individual balls faced, boundaries, and strike rates automatically for both batsmen.*`,
         chips: ['How to score a Wicket?', 'Undo a wrong ball', 'How to calculate NRR?']
       },
       {
         id: 'extras_scoring',
-        keywords: ['wide', 'no ball', 'bye', 'leg bye', 'extras', 'penalty', 'wd', 'nb', 'lb'],
-        title: 'Recording Extras (Wide, No-Ball, Byes)',
-        response: `⚾ **How Extras Work in StumpScore:**\n\n- **Wide (Wd)**: Adds +1 extra run to team score. Does NOT count as a legal ball (must be re-bowled). If batsmen run extra runs, tap \`Wd + Runs\`.\n- **No Ball (Nb)**: Adds +1 extra run and awards a **Free Hit** on the next delivery. Not counted as a legal delivery.\n- **Bye (B) & Leg Bye (Lb)**: Runs added to team total, but **NOT** credited to batsman's individual runs or bowler's runs conceded.\n- **Penalty Runs**: Can be awarded directly via the match options drawer.`,
+        keywords: ['wide', 'no ball', 'bye', 'leg bye', 'extras', 'penalty', 'wd', 'nb', 'lb', 'free hit'],
+        title: 'Recording Extras (Wide, No-Ball, Byes & Penalty Runs)',
+        response: `⚾ **Recording Extras in StumpScore:**\n\n- **Wide Ball (\`Wd\`)**: Adds **+1 extra run** to team total. Does NOT count as a legal delivery (must be re-bowled). If batsmen run additional bye runs, tap \`Wd + Runs\`.\n- **No Ball (\`Nb\`)**: Adds **+1 extra run**, requires re-bowling, and automatically triggers a **Free Hit** on the next delivery!\n- **Byes (\`B\`) & Leg Byes (\`Lb\`)**: Runs added to team total, but **NOT debited** to the bowler's runs conceded, and not added to batsman's individual score.\n- **Penalty Runs**: Award +5 penalty runs to batting or bowling side via Match Options.\n\n💡 *Pro Tip: Bowler economy is calculated strictly on earned runs conceded.*`,
         chips: ['What happens on a Free Hit?', 'Explain LBW rules', 'How to score a Wicket?']
       },
       {
+        id: 'dismissals_scoring',
+        keywords: ['wicket', 'out', 'dismissal', 'bowled', 'caught', 'run out', 'stumped', 'hit wicket', 'retired hurt', 'how to take wicket'],
+        title: 'Recording Wickets & Dismissal Modes',
+        response: `🎯 **Recording Wickets in StumpScore:**\n\n1. Tap the **"Out / Wicket"** button on the scoring keypad.\n2. Select the dismissal mode:\n   - **Bowled / LBW / Hit Wicket**: Credited directly to the bowler.\n   - **Caught**: Pick the fielder who took the catch.\n   - **Run Out**: Select whether Striker or Non-Striker was dismissed and assign fielder.\n   - **Stumped**: Select wicketkeeper.\n   - **Retired Hurt / Retired Out**: Updates batsman status without bowler credit.\n3. Pick the new incoming batsman to resume scoring immediately.\n\n💡 *Pro Tip: Fall of Wickets (FOW) timeline and partnership charts update instantly!*`,
+        chips: ['The 4 LBW Conditions', 'Can batsman be run out on Mankad?', 'Undo a wrong ball']
+      },
+      {
         id: 'undo_ball',
-        keywords: ['undo', 'mistake', 'wrong ball', 'correct score', 'edit ball', 'redo', 'delete ball'],
-        title: 'Correcting Mistakes with Undo',
-        response: `⏪ **How to Fix a Wrong Entry (Undo):**\n\n1. Tap the **"Undo" button** (top bar or next to keypad).\n2. StumpScore will instantly:\n   - Subtract the runs and reset team total.\n   - Restore bowler's previous figures and over count.\n   - Restore batsman's runs, balls faced, and strike status.\n   - Bring back a dismissed batsman if a wicket was undone!\n\n✨ *You can undo multiple deliveries back safely without database corruption.*`,
-        chips: ['How to score a Wicket?', 'Start a New Match', 'How to export scorecard?']
+        keywords: ['undo', 'mistake', 'wrong ball', 'correct score', 'edit ball', 'redo', 'delete ball', 'rollback'],
+        title: 'Correcting Mistakes with Instant Undo',
+        response: `⏪ **How to Fix a Scoring Mistake (Undo):**\n\n1. Tap the **"Undo" button** (top bar or next to keypad).\n2. StumpScore will automatically:\n   - Deduct the runs and restore previous team total.\n   - Restore bowler's previous over balls, runs conceded, and maidens.\n   - Restore batsman's individual runs, balls faced, and strike status.\n   - **Revive dismissed batsman** if the undone delivery was a wicket!\n\n💡 *Pro Tip: You can undo multiple balls in a row safely without database corruption.*`,
+        chips: ['How to score a match?', 'How to export scorecard?', 'How is NRR calculated?']
       },
       {
         id: 'nrr_formula',
-        keywords: ['nrr', 'net run rate', 'nrr calculation', 'points table', 'tournament formula', 'how nrr works'],
-        title: 'ICC Net Run Rate (NRR) Formula',
-        response: `📊 **ICC Net Run Rate (NRR) Formula:**\n\n$$\\text{NRR} = \\left(\\frac{\\text{Total Runs Scored}}{\\text{Total Overs Faced}}\\right) - \\left(\\frac{\\text{Total Runs Conceded}}{\\text{Total Overs Bowled}}\\right)$$\n\n📌 **Key Rules:**\n- If a team is **all out**, their overs faced are counted as the **full allocated overs** (e.g. 20.0 overs), not the premature over.\n- Super Overs do not count toward NRR calculations.\n- In StumpScore tournaments, NRR updates automatically after every match! 🏆`,
+        keywords: ['nrr', 'net run rate', 'nrr calculation', 'points table', 'tournament formula', 'how nrr works', 'nrr math'],
+        title: 'ICC Net Run Rate (NRR) Formula & Rules',
+        response: `📊 **ICC Net Run Rate (NRR) Formula:**\n\n$$\\text{NRR} = \\left(\\frac{\\text{Total Runs Scored}}{\\text{Total Overs Faced}}\\right) - \\left(\\frac{\\text{Total Runs Conceded}}{\\text{Total Overs Bowled}}\\right)$$\n\n📌 **Key ICC Regulations:**\n- **All-Out Rule**: If a team is bowled all out before completing their quota (e.g. all out in 15.2 overs of a 20-over match), their overs faced are counted as the **full 20.0 overs** for NRR calculation.\n- **Super Overs**: Do not count toward tournament NRR.\n- **Example**: If Team A scores 180 in 20 ov (Run Rate: 9.00) and concedes 140 in 20 ov (Run Rate: 7.00), their NRR is **+2.000**.\n\n💡 *Pro Tip: In StumpScore Tournaments, NRR updates automatically after every match!*`,
         chips: ['How to create a Tournament?', 'Explain DLS method', 'Start a New Match']
       },
       {
         id: 'lbw_rules',
-        keywords: ['lbw', 'leg before wicket', 'lbw rule', 'lbw 4 conditions', 'umpire lbw', 'impact', 'pitching'],
-        title: 'The 4 Golden Conditions for an LBW Dismissal',
-        response: `⚖️ **The 4 Rules for an LBW Dismissal (MCC Law 36):**\n\n1. **No Bat First**: Ball must hit the batsman's pad/body without touching bat or glove.\n2. **Pitching**: Ball must pitch **In-Line** or **Outside Off-Stump** (*Pitching outside leg-stump is NEVER out*).\n3. **Impact**: Point of impact on pad must be **In-Line with stumps** (unless no shot was offered outside off).\n4. **Wickets**: The trajectory must show the ball was going on to **hit the stumps** (bails/stumps).`,
+        keywords: ['lbw', 'leg before wicket', 'lbw rule', 'lbw 4 conditions', 'umpire lbw', 'impact', 'pitching', 'mcc law 36'],
+        title: 'The 4 Golden Conditions for an LBW Dismissal (MCC Law 36)',
+        response: `⚖️ **The 4 Rules for an LBW Dismissal (MCC Law 36):**\n\n1. **No Bat Contact First**: The ball must touch the batsman's pad/body without first making contact with the bat or batting glove.\n2. **Pitching Condition**: The ball must pitch **In-Line** with the stumps or **Outside Off-Stump**. (*A ball pitching outside leg-stump is NEVER out LBW, regardless of impact!*)\n3. **Point of Impact**: The impact on the pad must be **In-Line with the stumps** (unless no genuine shot was offered outside off-stump).\n4. **Wicket Trajectory**: The projected trajectory must show the ball would have gone on to **hit the stumps** (dislodging bails).\n\n💡 *Pro Tip: If any of these 4 conditions fails, the umpire must rule NOT OUT.*`,
         chips: ['What happens on a Free Hit?', 'Can batsman be run out on Mankad?', 'What is Dead Ball?']
       },
       {
         id: 'free_hit_rules',
-        keywords: ['free hit', 'no ball free hit', 'free hit dismissal', 'free hit wicket', 'can get out on free hit'],
-        title: 'Rules & Dismissals on a Free Hit',
-        response: `⚡ **Free Hit Regulations (T20 & ODI):**\n\n- Awarded immediately after any front-foot or illegal No-Ball.\n- **Fielding Restriction**: Fielders cannot be changed unless the batsmen crossed ends.\n- **How can a batsman be dismissed?** Only in 3 rare ways:\n  1. **Run Out** ✅\n  2. **Hit Ball Twice** ✅\n  3. **Obstructing the Field** ✅\n- *Cannot be out Bowled, Caught, LBW, or Stumped!*`,
+        keywords: ['free hit', 'no ball free hit', 'free hit dismissal', 'free hit wicket', 'can get out on free hit', 'free hit rules'],
+        title: 'Free Hit Regulations & Dismissal Rules (T20 & ODI)',
+        response: `⚡ **Free Hit Regulations (T20 & ODI):**\n\n- Awarded immediately after any front-foot or illegal No-Ball.\n- **Fielding Restriction**: Fielders cannot be moved unless the batsmen crossed ends on the No-Ball delivery.\n- **Dismissal Rules**: Batsmen **CANNOT** be dismissed Bowled, Caught, LBW, or Stumped!\n- **The ONLY 3 Legal Dismissals on a Free Hit**:\n  1. **Run Out** ✅\n  2. **Hit Ball Twice** ✅\n  3. **Obstructing the Field** ✅\n\n💡 *Pro Tip: Batsmen can run byes or leg-byes if bowled on a Free Hit!*`,
         chips: ['Explain LBW rules', 'Recording Extras', 'How does strike rotation work?']
       },
       {
         id: 'mankad_rule',
-        keywords: ['mankad', 'mankading', 'non striker run out', 'run out at non striker', 'law 41', 'backing up'],
-        title: 'Non-Striker Run Out (Mankading Law 41.16)',
-        response: `🏃‍♂️ **Non-Striker Run Out (Mankad / Law 41.16):**\n\n- It is a **100% legitimate Run Out** under official MCC Laws of Cricket (no warning is legally required).\n- **Timing Rule**: The bowler can run out the non-striker only **before** the bowler enters their normal delivery stride release point.\n- In StumpScore, select **Dismissal -> Run Out -> Non-Striker** to log this cleanly.`,
+        keywords: ['mankad', 'mankading', 'non striker run out', 'run out at non striker', 'law 41', 'backing up', 'mcc law 41.16'],
+        title: 'Non-Striker Run Out (Mankad / MCC Law 41.16)',
+        response: `🏃‍♂️ **Non-Striker Run Out (MCC Law 41.16):**\n\n- It is a **100% legitimate Run Out** under official MCC Laws of Cricket (no warning is legally required).\n- **Timing Window**: The bowler can run out the non-striker only **before** the bowler reaches their normal delivery stride release point.\n- **In StumpScore**: Select **Dismissal ➔ Run Out ➔ Non-Striker** to record it cleanly in the scorebook.\n\n💡 *Pro Tip: The ICC officially moved this rule from "Unfair Play" to "Run Out" in 2022.*`,
         chips: ['Explain LBW rules', 'What happens on a Free Hit?', 'Undo a wrong ball']
       },
       {
         id: 'dls_method',
-        keywords: ['dls', 'duckworth lewis', 'rain rule', 'rain stopped', 'interrupted match', 'target revised'],
-        title: 'DLS (Duckworth-Lewis-Stern) Rain Method',
-        response: `🌧️ **DLS Method in Interrupted Matches:**\n\n- Cricket uses two resources: **Overs remaining** and **Wickets in hand**.\n- When rain cuts overs in the 2nd innings, the target is revised using the standard ICC Resource Percentage Table.\n- If Team 1 scores 180 in 20 ov, and Team 2 gets only 10 overs with 10 wickets left, their revised target might be ~105 runs.\n- StumpScore has built-in DLS calculator support for tournament matches.`,
+        keywords: ['dls', 'duckworth lewis', 'rain rule', 'rain stopped', 'interrupted match', 'target revised', 'rain calculation'],
+        title: 'DLS (Duckworth-Lewis-Stern) Rain Calculation Method',
+        response: `🌧️ **DLS Method for Rain-Affected Matches:**\n\n- Cricket matches have two resources: **Overs remaining** and **Wickets in hand**.\n- When rain cuts overs in the 2nd innings, the target score is revised using the ICC Resource Percentage Table.\n- **Example**: If Team A scores 180 in 20 ov, and rain reduces Team B's chase to 10 overs with all 10 wickets in hand, the revised target might be ~105 runs.\n- StumpScore has built-in DLS target calculator support for tournament matches.\n\n💡 *Pro Tip: In T20 cricket, a minimum of 5 overs per side is required for a valid DLS result.*`,
         chips: ['How is NRR calculated?', 'How to create a Tournament?', 'Start a New Match']
       },
       {
         id: 'live_scores_ind_pak',
-        keywords: ['india pakistan', 'ind vs pak', 'live score', 'international match', 'cricapi', 'world cup live', 'ipl live'],
-        title: 'Live International Scores (India vs Pakistan & World Cup)',
-        response: `🇮🇳🇵🇰 **Live International Match Tracking:**\n\n- StumpScore supports tracking high-octane international clashes (like **India vs Pakistan**, T20 World Cup, IPL)!\n- Real-time live scores, ball commentary, and win probability meters are fetched via Cricket APIs (CricAPI / RapidAPI).\n- For offline demos and college vivas, a **Live Simulation Engine** is built-in to stream a thrilling IND vs PAK chase anytime without internet! 🏆`,
+        keywords: ['india pakistan', 'ind vs pak', 'live score', 'international match', 'cricapi', 'world cup live', 'ipl live', 'api score'],
+        title: 'Live International Match Tracking (India vs Pakistan & World Cup)',
+        response: `🇮🇳🇵🇰 **Live International Match Tracking:**\n\n- StumpScore supports tracking live international clashes (like **India vs Pakistan**, T20 World Cup, and IPL)!\n- **Live API Integration**: Scores, ball commentary, run rates, and win probability meters stream via Cricket REST APIs (CricAPI / RapidAPI).\n- **Offline Live Simulator Mode**: For college vivas, presentations, and offline demos, a built-in simulation engine streams a thrilling ball-by-ball IND vs PAK chase anytime with 0ms lag!\n\n💡 *Pro Tip: Toggle between Live API and Simulation mode in the Match Hub!*`,
         chips: ['How to start scoring a match?', 'How is NRR calculated?', 'Download APK for Android']
       },
       {
         id: 'poster_studio',
-        keywords: ['poster', 'poster studio', 'social graphics', 'instagram poster', 'share poster', 'download poster', '1080p'],
+        keywords: ['poster', 'poster studio', 'social graphics', 'instagram poster', 'share poster', 'download poster', '1080p', 'match graphic'],
         title: 'Creating 1080p Social Match Posters',
-        response: `🎨 **StumpScore Poster Studio:**\n\n1. Scroll to the **"Poster Studio"** section on this web page.\n2. Pick a template: **Match Result**, **Player of the Match**, or **Top Scorer**.\n3. Customize team names, scores, player photos, and match highlights.\n4. Tap **"Download High-Res (1080x1080 PNG)"** to post directly to Instagram, WhatsApp, and Twitter! 📸`,
+        response: `🎨 **StumpScore Poster Studio:**\n\n1. Scroll to the **"Poster Studio"** section on this web page.\n2. Pick a template: **Match Result**, **Player of the Match (MVP)**, or **Top Scorer**.\n3. Customize team names, scores, player photos, and match highlights.\n4. Tap **"Download High-Res (1080x1080 PNG)"** to post directly to Instagram, WhatsApp, and Twitter!\n\n💡 *Pro Tip: Posters render with stadium floodlight effects and custom team jersey colors.*`,
         chips: ['Download APK for Android', 'Start a New Match', 'How to calculate NRR?']
       },
       {
         id: 'apk_install',
-        keywords: ['apk', 'download', 'install', 'android', 'ios', 'how to install', 'apk download', 'unknown sources'],
-        title: 'How to Download & Install StumpScore APK',
-        response: `📱 **Installing StumpScore on Android & iOS:**\n\n- **Android APK (v1.0.1)**:\n  1. Tap the green **"Download APK"** button at the top of this page.\n  2. When prompted, tap **"Download Anyway"**.\n  3. Open the downloaded file and tap **"Install"** (Enable *"Allow from this source"* if prompted in Settings).\n- **Apple iOS / Web App**:\n  - Open this website in Safari -> Tap **Share icon** -> Tap **"Add to Home Screen"** for a full app experience!`,
+        keywords: ['apk', 'download', 'install', 'android', 'ios', 'how to install', 'apk download', 'unknown sources', 'pwa'],
+        title: 'How to Download & Install StumpScore (Android & iOS)',
+        response: `📱 **Installing StumpScore on Android & iOS:**\n\n- **Android APK (v1.0.1)**:\n  1. Tap the green **"Download APK"** button at the top of this page.\n  2. When prompted by your browser, tap **"Download Anyway"**.\n  3. Open the downloaded file and tap **"Install"** (Enable *"Allow from this source"* if prompted in Settings).\n- **Apple iOS / Desktop PWA**:\n  1. Open this website in Safari on your iPhone/iPad.\n  2. Tap the **Share icon** at the bottom.\n  3. Tap **"Add to Home Screen"** for full offline app capabilities!\n\n💡 *Pro Tip: The app works 100% offline and syncs data whenever internet reconnects.*`,
         chips: ['Start a New Match', 'Poster Studio', 'India vs Pakistan live scores']
       },
       {
         id: 'tournaments',
-        keywords: ['tournament', 'create tournament', 'points table', 'fixtures', 'knockout', 'league', 'semifinal'],
+        keywords: ['tournament', 'create tournament', 'points table', 'fixtures', 'knockout', 'league', 'semifinal', 'round robin'],
         title: 'Tournament Mode & Fixtures Management',
-        response: `🏆 **Managing Tournaments in StumpScore:**\n\n1. Go to **"Tournaments"** in the app menu.\n2. Tap **"Create Tournament"** (League, Round Robin, or Knockout).\n3. Add all participating teams.\n4. StumpScore automatically generates **match schedules**, calculates **Win/Loss points (2 pts for win)**, and live **Net Run Rate (NRR)**!`,
+        response: `🏆 **Managing Tournaments in StumpScore:**\n\n1. Navigate to **"Tournaments"** in the app menu.\n2. Tap **"Create Tournament"** and select format: **Round Robin League**, **Knockout**, or **Group Stages**.\n3. Add participating teams and team squads.\n4. StumpScore automatically generates **match schedules**, awards **points (2 pts win, 1 pt no-result)**, and computes live **Net Run Rate (NRR)**!\n\n💡 *Pro Tip: Top teams are automatically seeded into Semi-Final and Final fixtures.*`,
         chips: ['How is NRR calculated?', 'Start a New Match', 'How to export scorecard?']
       }
     ];
@@ -198,10 +229,10 @@ class StumpAIAssistant {
         const key = this.apiKeyInput.value.trim();
         if (key) {
           localStorage.setItem(this.apiKeyStorageKey, key);
-          alert('✅ Google Gemini API key saved! StumpAI will use live Gemini intelligence.');
+          if (window.showStumpToast) window.showStumpToast('✅ Google Gemini API key saved!');
         } else {
           localStorage.removeItem(this.apiKeyStorageKey);
-          alert('ℹ️ API key removed. StumpAI will use its instant built-in knowledge base.');
+          if (window.showStumpToast) window.showStumpToast('ℹ️ Using instant built-in AI engine.');
         }
         if (this.settingsPanel) this.settingsPanel.classList.remove('is-active');
       });
@@ -334,7 +365,7 @@ class StumpAIAssistant {
     if (geminiKey && geminiKey.trim().length > 10 && navigator.onLine) {
       try {
         const answer = await this.queryGeminiAPI(queryText, geminiKey.trim());
-        this.renderAssistantResponse(answer, ['How to score a match?', 'NRR formula', 'Explain LBW rules']);
+        this.renderAssistantResponse(answer, ['How to score a match?', 'ICC NRR Formula', '4 LBW Conditions']);
         return;
       } catch (err) {
         console.warn('Gemini API call failed, falling back to instant knowledge base:', err);
@@ -345,7 +376,7 @@ class StumpAIAssistant {
     setTimeout(() => {
       const match = this.findBestLocalMatch(queryText);
       this.renderAssistantResponse(match.response, match.chips);
-    }, 450); // slight natural typing cadence
+    }, 400); // slight natural typing cadence
   }
 
   renderAssistantResponse(text, chips = []) {
@@ -375,11 +406,11 @@ class StumpAIAssistant {
       for (const kw of item.keywords) {
         const cleanKw = kw.toLowerCase();
         if (cleanQuery.includes(cleanKw)) {
-          score += 10;
+          score += 12;
         }
         for (const token of queryTokens) {
           if (cleanKw.includes(token)) {
-            score += 2;
+            score += 3;
           }
         }
       }
@@ -396,8 +427,8 @@ class StumpAIAssistant {
 
     // Smart default response if no exact rule match
     return {
-      response: `🏏 **StumpScore Cricket Assistant**\n\nI can help you with anything regarding:\n- 🎯 **Scoring Matches**: Keypad, Wide, No-Ball, Wickets, Strike Swap, and Undo.\n- 📊 **Tournaments & NRR**: Formulas, Points table, and Fixtures.\n- ⚖️ **Cricket Laws & Rules**: LBW conditions, Free Hit, DLS, and Mankading.\n- 📱 **App Features**: Poster Studio, APK download, and India vs Pakistan live scores!\n\n*Try picking a quick topic below or asking a specific cricket doubt!*`,
-      chips: ['How to start scoring a match?', 'How is Net Run Rate calculated?', 'What are the 4 LBW conditions?', 'Download APK for Android']
+      response: `🏏 **StumpScore AI Cricket Assistant & Rulebook Umpire**\n\nI can help you with anything regarding:\n- 🎯 **Match Scoring**: Keypad controls, Extras (Wide, No-Ball, Byes), Wickets, Strike Swap, and Undo.\n- 📊 **Tournaments & NRR**: Formulas, Points table, and Fixtures.\n- ⚖️ **Official Cricket Laws**: LBW 4-point checklist, Free Hit regulations, DLS rain method, and Mankading.\n- 📱 **App Suite**: 1080p Poster Studio, APK download, and India vs Pakistan live score tracking!\n\n*Choose a suggested topic below or ask any specific cricket question!*`,
+      chips: ['How to start a match?', 'ICC Net Run Rate (NRR) Formula', 'The 4 LBW Conditions', 'How to Download APK']
     };
   }
 
@@ -450,7 +481,9 @@ Keep answers concise, clear, and format with bullet points and cricket emojis.`;
 
     if (sender === 'assistant') {
       row.innerHTML = `
-        <div class="stump-msg-avatar-small">✨</div>
+        <div class="stump-msg-avatar-small">
+          ${this.aiSvgIcon}
+        </div>
         <div class="stump-msg-bubble">
           <div class="stump-bubble-content">${parsedHtml}</div>
           <div class="stump-msg-actions">
@@ -623,7 +656,7 @@ Keep answers concise, clear, and format with bullet points and cricket emojis.`;
       const rows = this.messagesContainer.querySelectorAll('.stump-msg-row');
       rows.forEach(r => {
         const isUser = r.classList.contains('user');
-        const textEl = r.querySelector('.stump-msg-bubble div');
+        const textEl = r.querySelector('.stump-bubble-content');
         const timeEl = r.querySelector('.stump-msg-time');
         if (textEl) {
           messages.push({
@@ -651,16 +684,23 @@ Keep answers concise, clear, and format with bullet points and cricket emojis.`;
             row.className = `stump-msg-row ${item.sender}`;
             if (item.sender === 'assistant') {
               row.innerHTML = `
-                <div class="stump-msg-avatar-small">✨</div>
+                <div class="stump-msg-avatar-small">
+                  ${this.aiSvgIcon}
+                </div>
                 <div class="stump-msg-bubble">
-                  <div>${item.html}</div>
-                  <span class="stump-msg-time">${item.time || ''}</span>
+                  <div class="stump-bubble-content">${item.html}</div>
+                  <div class="stump-msg-actions">
+                    <button type="button" class="stump-msg-copy-btn" title="Copy answer">
+                      <span>📋 Copy</span>
+                    </button>
+                    <span class="stump-msg-time">${item.time || ''}</span>
+                  </div>
                 </div>
               `;
             } else {
               row.innerHTML = `
                 <div class="stump-msg-bubble">
-                  <div>${item.html}</div>
+                  <div class="stump-bubble-content">${item.html}</div>
                   <span class="stump-msg-time">${item.time || ''}</span>
                 </div>
               `;
@@ -688,13 +728,20 @@ Keep answers concise, clear, and format with bullet points and cricket emojis.`;
     if (this.messagesContainer) {
       this.messagesContainer.innerHTML = `
         <div class="stump-msg-row assistant">
-          <div class="stump-msg-avatar-small">✨</div>
+          <div class="stump-msg-avatar-small">
+            ${this.aiSvgIcon}
+          </div>
           <div class="stump-msg-bubble">
-            <div>
-              <p>🏏 <strong>Hello! I am StumpAI</strong>, your smart cricket scoring assistant & rules umpire.</p>
-              <p>Ask me any doubt about using <strong>StumpScore</strong>, scoring rules, Net Run Rate (NRR), or official cricket laws!</p>
+            <div class="stump-bubble-content">
+              <p class="stump-msg-p">🏏 <strong>Hello! I am StumpAI</strong>, your intelligent cricket scoring assistant & official rules umpire.</p>
+              <p class="stump-msg-p">Ask me any question regarding <strong>StumpScore app usage</strong>, scoring rules, Net Run Rate (NRR), or official MCC cricket laws!</p>
             </div>
-            <span class="stump-msg-time">${this.getFormattedTime()}</span>
+            <div class="stump-msg-actions">
+              <button type="button" class="stump-msg-copy-btn" title="Copy answer">
+                <span>📋 Copy</span>
+              </button>
+              <span class="stump-msg-time">${this.getFormattedTime()}</span>
+            </div>
           </div>
         </div>
       `;

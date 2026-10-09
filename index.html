@@ -1187,9 +1187,30 @@
   <!-- ==========================================================================
        StumpAI Assistant Widget (Floating FAB & Interactive AI Window)
        ========================================================================== -->
-  <!-- 1. Floating Action Trigger Button (Compact Symbol Only) -->
+  <!-- 1. Floating Action Trigger Button (Holographic Neural AI Symbol) -->
   <button id="stump-ai-fab" class="stump-ai-fab" aria-label="Open StumpAI Assistant" title="Ask StumpAI (Cricket & App Guide)">
-    <span class="stump-ai-fab-icon">✨</span>
+    <span class="stump-ai-fab-icon">
+      <svg class="stump-ai-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L14.4 8.6L21 11L14.4 13.4L12 20L9.6 13.4L3 11L9.6 8.6L12 2Z" fill="url(#fabAiGrad1)" stroke="url(#fabAiStroke1)" stroke-width="0.8"/>
+        <circle cx="19" cy="5" r="2" fill="url(#fabAiGrad2)"/>
+        <circle cx="5" cy="19" r="1.6" fill="url(#fabAiGrad2)"/>
+        <defs>
+          <linearGradient id="fabAiGrad1" x1="3" y1="2" x2="21" y2="20" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#00E676"/>
+            <stop offset="0.5" stop-color="#00B0FF"/>
+            <stop offset="1" stop-color="#A855F7"/>
+          </linearGradient>
+          <linearGradient id="fabAiStroke1" x1="3" y1="2" x2="21" y2="20" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FFFFFF"/>
+            <stop offset="1" stop-color="#00E676"/>
+          </linearGradient>
+          <linearGradient id="fabAiGrad2" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#00B0FF"/>
+            <stop offset="1" stop-color="#00E676"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </span>
   </button>
 
   <!-- 2. Interactive AI Chat Window -->
@@ -1197,7 +1218,28 @@
     <!-- Header -->
     <div class="stump-ai-header">
       <div class="stump-ai-header-left">
-        <div class="stump-ai-avatar">✨</div>
+        <div class="stump-ai-avatar">
+          <svg class="stump-ai-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L14.4 8.6L21 11L14.4 13.4L12 20L9.6 13.4L3 11L9.6 8.6L12 2Z" fill="url(#hdrAiGrad1)" stroke="url(#hdrAiStroke1)" stroke-width="0.8"/>
+            <circle cx="19" cy="5" r="2" fill="url(#hdrAiGrad2)"/>
+            <circle cx="5" cy="19" r="1.6" fill="url(#hdrAiGrad2)"/>
+            <defs>
+              <linearGradient id="hdrAiGrad1" x1="3" y1="2" x2="21" y2="20" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#00E676"/>
+                <stop offset="0.5" stop-color="#00B0FF"/>
+                <stop offset="1" stop-color="#A855F7"/>
+              </linearGradient>
+              <linearGradient id="hdrAiStroke1" x1="3" y1="2" x2="21" y2="20" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFFFFF"/>
+                <stop offset="1" stop-color="#00E676"/>
+              </linearGradient>
+              <linearGradient id="hdrAiGrad2" x1="0" y1="0" x2="1" y2="1">
+                <stop stop-color="#00B0FF"/>
+                <stop offset="1" stop-color="#00E676"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
         <div class="stump-ai-title-wrap">
           <h4 id="stump-ai-title">StumpAI <span>Guru</span></h4>
           <span class="stump-ai-status">Online • Cricket & App Guide</span>
