@@ -158,10 +158,11 @@ body.stump-ai-body-locked {
     position: fixed;
     bottom: 88px;
     right: 26px;
-    width: 380px;
-    height: 600px;
+    width: 400px;
+    max-width: calc(100vw - 32px);
+    height: 610px;
     max-height: calc(100vh - 110px);
-    border-radius: 22px;
+    border-radius: 20px;
     z-index: 1051;
     transform: translate3d(0, 16px, 0) scale(0.96);
     transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, visibility 0.2s;
@@ -174,52 +175,69 @@ body.stump-ai-body-locked {
   }
 }
 
-/* 4. Sticky Header */
+/* 4. Sticky Header (Perfect Proportions & Spacing) */
 .stump-ai-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
-  background: rgba(5, 8, 17, 0.88);
+  padding: 13px 16px;
+  background: rgba(7, 12, 22, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
+  gap: 12px;
 }
 
 [data-theme="light"] .stump-ai-header {
-  background: rgba(240, 253, 244, 0.95);
+  background: rgba(240, 253, 244, 0.96);
   border-bottom-color: rgba(15, 23, 42, 0.08);
 }
 
 .stump-ai-header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 11px;
+  min-width: 0;
+  flex: 1;
 }
 
 .stump-ai-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: radial-gradient(circle at 30% 30%, #1a2c4e 0%, #080e1a 100%);
-  border: 1.5px solid rgba(0, 230, 118, 0.5);
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: radial-gradient(circle at 30% 30%, #1e293b 0%, #090e17 100%);
+  border: 1.5px solid rgba(0, 230, 118, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 14px rgba(0, 230, 118, 0.25);
+  box-shadow: 0 0 12px rgba(0, 230, 118, 0.2);
   flex-shrink: 0;
   padding: 6px;
+}
+
+.stump-ai-title-wrap {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .stump-ai-title-wrap h4 {
   margin: 0;
   font-family: var(--font-heading, 'Outfit', sans-serif);
-  font-size: 1.05rem;
-  font-weight: 800;
+  font-size: 0.98rem;
+  font-weight: 700;
   color: var(--text-primary, #f8fafc);
+  letter-spacing: -0.2px;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: flex;
   align-items: center;
-  gap: 5px;
-  letter-spacing: -0.2px;
+  gap: 4px;
 }
 
 [data-theme="light"] .stump-ai-title-wrap h4 {
@@ -231,71 +249,133 @@ body.stump-ai-body-locked {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-weight: 800;
 }
 
 .stump-ai-status {
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   color: var(--pitch-green, #00e676);
-  font-weight: 600;
+  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  margin-top: 2px;
 }
 
 [data-theme="light"] .stump-ai-status {
   color: #047857;
 }
 
-.stump-ai-status::before {
-  content: '';
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  background: var(--pitch-green, #00e676);
+.stump-ai-status-dot {
+  width: 6.5px;
+  height: 6.5px;
+  min-width: 6.5px;
   border-radius: 50%;
+  background: var(--pitch-green, #00e676);
   box-shadow: 0 0 8px var(--pitch-green, #00e676);
+  flex-shrink: 0;
+  animation: stumpAiStatusPulse 2.4s infinite ease-in-out;
 }
 
-/* Header Action Buttons (Minimum 44x44px Touch Targets) */
+[data-theme="light"] .stump-ai-status-dot {
+  background: #059669;
+  box-shadow: 0 0 6px rgba(5, 150, 105, 0.5);
+}
+
+@keyframes stumpAiStatusPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+}
+
+.stump-ai-status-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Header Action Buttons (Refined 32x32px Toolbar) */
 .stump-ai-header-actions {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .stump-ai-btn-icon {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-secondary, #94a3b8);
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  min-height: 44px;
-  border-radius: 10px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: #94a3b8;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 1.1rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
+.stump-ai-btn-icon svg {
+  width: 14.5px;
+  height: 14.5px;
+  stroke-width: 2;
+  transition: transform 0.2s ease, stroke 0.2s ease;
+}
+
 [data-theme="light"] .stump-ai-btn-icon {
+  background: rgba(15, 23, 42, 0.04);
   border-color: rgba(15, 23, 42, 0.1);
   color: #475569;
 }
 
 .stump-ai-btn-icon:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: var(--text-primary, #ffffff);
+  color: #ffffff;
   border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+#stump-ai-sound-btn:hover,
+#stump-ai-settings-btn:hover {
+  border-color: rgba(0, 230, 118, 0.45);
+  color: var(--pitch-green, #00e676);
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
+}
+
+#stump-ai-clear-btn:hover {
+  border-color: rgba(245, 158, 11, 0.45);
+  color: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+}
+
+#stump-ai-close-btn:hover {
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
 }
 
 [data-theme="light"] .stump-ai-btn-icon:hover {
-  background: rgba(15, 23, 42, 0.05);
+  background: rgba(15, 23, 42, 0.08);
   color: #090d16;
+}
+
+.stump-ai-btn-icon:active {
+  transform: translateY(0) scale(0.95);
 }
 
 .stump-ai-btn-icon:focus-visible {
@@ -519,6 +599,165 @@ body.stump-ai-body-locked {
   border-color: var(--pitch-green, #00e676);
 }
 
+/* TTS Listen Button */
+.stump-msg-tts-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted, #94a3b8);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  min-height: 28px;
+}
+
+[data-theme="light"] .stump-msg-tts-btn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.stump-msg-tts-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--pitch-green, #00e676);
+  border-color: rgba(0, 230, 118, 0.3);
+}
+
+.stump-msg-tts-btn.is-speaking {
+  color: #00e676;
+  border-color: #00e676;
+  background: rgba(0, 230, 118, 0.15);
+  animation: ttsWave 1.2s infinite ease-in-out;
+}
+
+@keyframes ttsWave {
+  0%, 100% { box-shadow: 0 0 4px rgba(0, 230, 118, 0.2); }
+  50% { box-shadow: 0 0 12px rgba(0, 230, 118, 0.5); }
+}
+
+/* Chat Links */
+.stump-chat-link {
+  color: var(--pitch-green, #00e676);
+  text-decoration: underline;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.stump-chat-link:hover {
+  opacity: 0.8;
+}
+
+/* Interactive Instagram Social Card */
+.stump-social-card {
+  margin: 10px 0 6px 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(20, 24, 38, 0.95) 0%, rgba(10, 14, 24, 0.98) 100%);
+  border: 1px solid rgba(225, 48, 108, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 16px rgba(225, 48, 108, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.stump-social-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+[data-theme="light"] .stump-social-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border-color: rgba(225, 48, 108, 0.25);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+}
+
+.stump-social-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.stump-social-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(225, 48, 108, 0.35);
+}
+
+.stump-social-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stump-social-handle {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+[data-theme="light"] .stump-social-handle {
+  color: #0f172a;
+}
+
+.stump-social-badge {
+  font-size: 0.68rem;
+  color: #f43f5e;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.stump-social-desc {
+  font-size: 0.78rem;
+  color: var(--text-secondary, #94a3b8);
+  margin: 0 0 10px 0;
+  line-height: 1.35;
+}
+
+.stump-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-decoration: none !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+  box-shadow: 0 4px 14px rgba(225, 48, 108, 0.35);
+}
+
+.stump-social-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(225, 48, 108, 0.5);
+  opacity: 0.95;
+}
+
+.stump-social-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
 .stump-msg-time {
   margin-left: auto;
   font-size: 0.68rem;
@@ -662,6 +901,57 @@ body.stump-ai-body-locked {
 .stump-ai-input::placeholder {
   color: var(--text-muted, #64748b);
   font-size: 14px;
+}
+
+/* Voice Dictation (Speech-to-Text) Button */
+.stump-ai-mic-btn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-muted, #94a3b8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[data-theme="light"] .stump-ai-mic-btn {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.stump-ai-mic-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--pitch-green, #00e676);
+  border-color: rgba(0, 230, 118, 0.4);
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 230, 118, 0.2);
+}
+
+.stump-ai-mic-btn.is-listening {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #ef4444;
+  animation: micListeningGlow 1.2s infinite ease-in-out;
+}
+
+@keyframes micListeningGlow {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(239, 68, 68, 0.8);
+    transform: scale(1.08);
+  }
 }
 
 .stump-ai-send-btn {

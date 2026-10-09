@@ -360,9 +360,9 @@ class StumpAIAssistant {
       },
       {
         id: 'q50_social_media',
-        keywords: ['social media', 'instagram', 'insta', 'follow on instagram', '@stump_score', 'do you have social media'],
-        response: 'Yes, you can follow us on Instagram at @stump_score.',
-        chips: ['How can I contact creator?', 'What is StumpScore?', 'Where can I download it?']
+        keywords: ['social media', 'instagram', 'insta', 'follow on instagram', '@stump_score', 'do you have social media', 'instagram link', 'insta link', 'ig link', 'ig', 'handle', 'page', 'instagram account', 'follow', 'socials', 'connect on instagram', 'insta id', 'instagram id', 'insta account'],
+        response: `We would be delighted to have you join our cricket community! 🏏✨\n\nYou can connect with us directly on Instagram at [@stump_score](https://instagram.com/stump_score) for:\n• 🚀 Instant announcements & new feature updates\n• 📊 Interactive cricket scoring tips & umpire rule guides\n• 🏆 Grassroots tournaments and match highlights\n• 💬 Direct feedback, feature requests & community discussions\n\n[instagram-card:https://instagram.com/stump_score]\n\nFeel free to send us a direct message anytime. How else may I assist you today?`,
+        chips: ['How can I contact creator?', 'Try Live Demo', 'What is StumpScore?']
       }
     ];
   }
@@ -386,6 +386,16 @@ class StumpAIAssistant {
     this.form = document.getElementById('stump-ai-form');
     this.input = document.getElementById('stump-ai-input');
     this.sendBtn = document.getElementById('stump-ai-send-btn');
+    this.micBtn = document.getElementById('stump-ai-mic-btn');
+    this.isListening = false;
+    this.recognition = null;
+    this.previousPlaceholder = '';
+
+    // Initialize sound button opacity
+    if (this.soundBtn) {
+      this.soundBtn.style.opacity = this.soundEnabled ? '1' : '0.4';
+      this.soundBtn.title = this.soundEnabled ? 'Sound On' : 'Sound Muted';
+    }
 
     // Load saved API key if present
     const savedKey = localStorage.getItem(this.apiKeyStorageKey);
@@ -450,6 +460,13 @@ class StumpAIAssistant {
           if (window.showStumpToast) window.showStumpToast('ℹ️ Using instant built-in AI engine.');
         }
         if (this.settingsPanel) this.settingsPanel.classList.remove('is-active');
+      });
+    }
+
+    if (this.micBtn) {
+      this.micBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.toggleSpeechRecognition();
       });
     }
 
@@ -711,6 +728,12 @@ class StumpAIAssistant {
     if (/(are you there|can you help me|anybody there)/i.test(rawQuery)) {
       return this.knowledgeBase.find(k => k.id === 'q10_are_you_there');
     }
+    if (/(instagram|insta\b|ig link|@stump_score|social media|follow you|follow us|socials|instagram page|instagram link|insta id|instagram id|insta account|instagram account)/i.test(rawQuery)) {
+      return this.knowledgeBase.find(k => k.id === 'q50_social_media');
+    }
+    if (/(live scoring demo|try live demo|try demo|scoring keypad)/i.test(rawQuery)) {
+      return this.knowledgeBase.find(k => k.id === 'q47_try_before_installing');
+    }
 
     // 3. Keyword Scoring across the 50 knowledge items
     let bestItem = null;
@@ -763,7 +786,7 @@ Your purpose is to help users with questions about the StumpScore app, cricket s
 CONTACT DETAILS (the only personal details you may share):
 - Creator: Yash Kotak
 - Email: Stump_score@gmail.com
-- Instagram: @stump_score
+- Instagram: https://instagram.com/stump_score (Handle: @stump_score). When asked for Instagram or social media, always respond warmly and politely, provide the direct link https://instagram.com/stump_score, explain what they can find on our page (scoring updates, community highlights, cricket tips), and invite them to connect!
 Never share any other personal information about Yash Kotak. If asked about his education, phone number, address, or other private details, politely say you cannot share that and offer the email instead.
 
 LANGUAGE RULE:
@@ -836,6 +859,9 @@ GENERAL RULES:
             <button type="button" class="stump-msg-copy-btn" title="Copy answer" aria-label="Copy answer">
               <span>📋 Copy</span>
             </button>
+            <button type="button" class="stump-msg-tts-btn js-tts-btn" title="Listen to answer" aria-label="Listen">
+              <span>🔊 Listen</span>
+            </button>
             <button type="button" class="stump-msg-thumb-btn js-thumb-up" title="Helpful answer" aria-label="Thumbs up">
               <span>👍</span>
             </button>
@@ -847,6 +873,14 @@ GENERAL RULES:
           </div>
         </div>
       `;
+
+      // Text-to-speech listen binding
+      const ttsBtn = row.querySelector('.js-tts-btn');
+      if (ttsBtn) {
+        ttsBtn.addEventListener('click', () => {
+          this.toggleTextToSpeech(text, ttsBtn);
+        });
+      }
 
       // Safe clipboard copy binding
       const copyBtn = row.querySelector('.stump-msg-copy-btn');
@@ -961,7 +995,37 @@ GENERAL RULES:
     text = text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
     text = text.replace(/_([^_]+)_/g, '<em>$1</em>');
 
-    // 6. Split by lines to parse lists and paragraphs
+    // 6. Interactive Instagram Social Card
+    const instaCardTemplate = `
+<div class="stump-social-card">
+  <div class="stump-social-card-header">
+    <div class="stump-social-card-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+      </svg>
+    </div>
+    <div class="stump-social-card-info">
+      <span class="stump-social-handle">@stump_score</span>
+      <span class="stump-social-badge">Official Community • Instagram</span>
+    </div>
+  </div>
+  <p class="stump-social-desc">Follow StumpScore for app release notes, cricket umpire guidelines, live scoring tips &amp; tournament highlights!</p>
+  <a href="https://instagram.com/stump_score" target="_blank" rel="noopener noreferrer" class="stump-social-btn">
+    <span>Follow @stump_score on Instagram</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="7" y1="17" x2="17" y2="7"></line>
+      <polyline points="7 7 17 7 17 17"></polyline>
+    </svg>
+  </a>
+</div>`;
+    text = text.replace(/\[instagram-card:[^\]]+\]/g, instaCardTemplate);
+
+    // 7. Markdown Links [text](url)
+    text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="stump-chat-link">$1</a>');
+
+    // 8. Split by lines to parse lists and paragraphs
     const lines = text.split('\n');
     let html = '';
     let inUl = false;
@@ -1003,7 +1067,7 @@ GENERAL RULES:
         html += `<h5 class="stump-msg-h3">${line.substring(4)}</h5>`;
       } else if (line.startsWith('## ')) {
         html += `<h4 class="stump-msg-h2">${line.substring(3)}</h4>`;
-      } else if (line.startsWith('<div class="stump-formula-badge">')) {
+      } else if (line.startsWith('<div class="stump-formula-badge">') || line.includes('class="stump-social-card"')) {
         html += line;
       } else {
         html += `<p class="stump-msg-p">${line}</p>`;
@@ -1104,10 +1168,11 @@ GENERAL RULES:
       }
     } catch (_) {}
 
-    // Default welcome prompt chips (Requested Part 1 quick chips)
+    // Default welcome prompt chips
     this.renderChips([
+      '📸 Instagram Page',
+      'Try Live Demo',
       'How to install?',
-      'Live matches',
       'Scoring rules',
       'NRR help',
       'Contact'
@@ -1138,12 +1203,144 @@ GENERAL RULES:
       `;
     }
     this.renderChips([
+      '📸 Instagram Page',
+      'Try Live Demo',
       'How to install?',
-      'Live matches',
       'Scoring rules',
       'NRR help',
       'Contact'
     ]);
+  }
+
+  /* --------------------------------------------------------------------------
+     9. Trending Feature: Voice Dictation (Speech-to-Text)
+     -------------------------------------------------------------------------- */
+  toggleSpeechRecognition() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      if (window.showStumpToast) {
+        window.showStumpToast('🎙️ Voice dictation not supported in this browser. Try Chrome or Safari.');
+      } else {
+        alert('Voice dictation is not supported in this browser. Please use Chrome or Safari.');
+      }
+      return;
+    }
+
+    if (this.isListening && this.recognition) {
+      this.stopSpeechRecognition();
+      return;
+    }
+
+    try {
+      this.recognition = new SpeechRecognition();
+      this.recognition.continuous = false;
+      this.recognition.interimResults = true;
+      this.recognition.lang = 'en-US';
+
+      this.recognition.onstart = () => {
+        this.isListening = true;
+        if (this.micBtn) {
+          this.micBtn.classList.add('is-listening');
+          this.micBtn.title = 'Listening... Speak your cricket doubt';
+        }
+        if (this.input) {
+          this.previousPlaceholder = this.input.placeholder;
+          this.input.placeholder = '🎙️ Listening to your voice... Speak now!';
+        }
+        if (window.showStumpToast) window.showStumpToast('🎙️ Listening... Ask your cricket question!');
+      };
+
+      this.recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        if (this.input && transcript) {
+          this.input.value = transcript;
+          this.input.dispatchEvent(new Event('input'));
+        }
+      };
+
+      this.recognition.onerror = (event) => {
+        console.warn('Speech recognition notice:', event.error);
+        this.stopSpeechRecognition();
+        if (event.error === 'not-allowed') {
+          if (window.showStumpToast) window.showStumpToast('⚠️ Microphone permission was denied.');
+        }
+      };
+
+      this.recognition.onend = () => {
+        this.stopSpeechRecognition();
+      };
+
+      this.recognition.start();
+    } catch (err) {
+      console.warn('Speech recognition initiation error:', err);
+      this.stopSpeechRecognition();
+    }
+  }
+
+  stopSpeechRecognition() {
+    this.isListening = false;
+    if (this.micBtn) {
+      this.micBtn.classList.remove('is-listening');
+      this.micBtn.title = 'Voice Dictation (Speak Question)';
+    }
+    if (this.input && this.previousPlaceholder) {
+      this.input.placeholder = this.previousPlaceholder;
+    }
+    if (this.recognition) {
+      try { this.recognition.abort(); } catch (_) {}
+      this.recognition = null;
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     10. Trending Feature: Voice Audio Playback (Text-to-Speech)
+     -------------------------------------------------------------------------- */
+  toggleTextToSpeech(rawText, btnEl) {
+    if (!('speechSynthesis' in window)) {
+      if (window.showStumpToast) window.showStumpToast('⚠️ Voice read-aloud not supported in this browser.');
+      return;
+    }
+
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+      document.querySelectorAll('.js-tts-btn').forEach(b => {
+        b.classList.remove('is-speaking');
+        b.innerHTML = '<span>🔊 Listen</span>';
+      });
+      if (btnEl.classList.contains('is-speaking')) return;
+    }
+
+    // Clean text: strip markdown symbols, URLs, and social card tags
+    const cleanSpeech = rawText
+      .replace(/\[instagram-card:[^\]]+\]/g, '')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/[*_#`~>]/g, '')
+      .replace(/https?:\/\/\S+/g, '')
+      .trim();
+
+    if (!cleanSpeech) return;
+
+    const utterance = new SpeechSynthesisUtterance(cleanSpeech);
+    utterance.rate = 0.98;
+    utterance.pitch = 1.0;
+
+    btnEl.classList.add('is-speaking');
+    btnEl.innerHTML = '<span>⏹️ Stop</span>';
+
+    utterance.onend = () => {
+      btnEl.classList.remove('is-speaking');
+      btnEl.innerHTML = '<span>🔊 Listen</span>';
+    };
+
+    utterance.onerror = () => {
+      btnEl.classList.remove('is-speaking');
+      btnEl.innerHTML = '<span>🔊 Listen</span>';
+    };
+
+    window.speechSynthesis.speak(utterance);
   }
 }
 
