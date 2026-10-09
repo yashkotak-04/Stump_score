@@ -928,7 +928,9 @@ GENERAL RULES:
 
   scrollToBottom() {
     if (this.messagesContainer) {
-      this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+      requestAnimationFrame(() => {
+        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+      });
     }
   }
 

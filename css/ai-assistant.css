@@ -4,158 +4,129 @@
    ========================================================================== */
 
 /* 1. Floating Action Trigger Button (FAB) - Holographic Neural AI Orb */
+/* 1. Floating Action Trigger Button (FAB) - Professional Enterprise AI Button */
 .stump-ai-fab {
   position: fixed;
   bottom: 26px;
   right: 26px;
   z-index: 1050;
-  width: 58px;
-  height: 58px;
-  min-width: 58px;
-  min-height: 58px;
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  min-height: 52px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 30% 30%, #152238 0%, #050811 100%);
-  border: 2px solid rgba(0, 230, 118, 0.6);
+  background: radial-gradient(circle at 35% 35%, #131d33 0%, #080d19 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 50%;
   color: #ffffff;
   cursor: pointer;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 230, 118, 0.45);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
   user-select: none;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  position: fixed;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
-/* Pulsing Outer Energy Ripple */
+/* Subtle, refined inner accent ring - clean & non-blinding */
 .stump-ai-fab::before {
   content: '';
   position: absolute;
-  inset: -6px;
+  inset: -1px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, #00e676, #00b0ff, #a855f7, #00e676);
-  z-index: -1;
-  opacity: 0.75;
-  filter: blur(8px);
-  animation: aiOrbSpin 4s linear infinite;
-  transition: opacity 0.3s ease;
+  border: 1px solid rgba(0, 230, 118, 0.25);
+  pointer-events: none;
+  transition: border-color 0.2s ease;
 }
 
-/* Soft Ambient Breathing Glow */
 .stump-ai-fab::after {
-  content: '';
-  position: absolute;
-  inset: -14px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 230, 118, 0.35) 0%, rgba(0, 176, 255, 0.15) 50%, transparent 70%);
-  z-index: -2;
-  animation: aiHaloPulse 2.8s infinite ease-in-out;
+  display: none;
 }
 
 [data-theme="light"] .stump-ai-fab {
-  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #f0fdf4 100%);
-  border-color: rgba(4, 120, 87, 0.5);
-  box-shadow: 0 10px 25px rgba(4, 120, 87, 0.25), 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.15);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15), 0 2px 6px rgba(15, 23, 42, 0.08);
 }
 
 [data-theme="light"] .stump-ai-fab::before {
-  background: conic-gradient(from 0deg, #047857, #0284c7, #9333ea, #047857);
-  opacity: 0.6;
+  border-color: rgba(4, 120, 87, 0.2);
 }
 
 .stump-ai-fab:hover {
-  transform: translateY(-5px) scale(1.1);
+  transform: translateY(-2px) scale(1.04);
   border-color: var(--pitch-green, #00e676);
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 230, 118, 0.7);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 230, 118, 0.25);
 }
 
 .stump-ai-fab:hover::before {
-  opacity: 1;
-  filter: blur(12px);
+  border-color: rgba(0, 230, 118, 0.5);
 }
 
 .stump-ai-fab:active {
-  transform: translateY(-1px) scale(0.96);
+  transform: translateY(0) scale(0.97);
 }
 
-/* Futuristic SVG AI Icon */
+/* Crisp Professional SVG AI Icon */
 .stump-ai-fab-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 26px;
+  height: 26px;
+  transition: transform 0.2s ease;
 }
 
 .stump-ai-fab:hover .stump-ai-fab-icon {
-  transform: rotate(15deg) scale(1.12);
+  transform: scale(1.08);
 }
 
 .stump-ai-svg-icon {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 6px rgba(0, 230, 118, 0.6));
 }
 
 .stump-ai-fab-badge {
   display: none !important;
 }
 
-@keyframes aiOrbSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes aiHaloPulse {
-  0%, 100% {
-    transform: scale(0.92);
-    opacity: 0.4;
-  }
-  50% {
-    transform: scale(1.18);
-    opacity: 0.85;
-  }
-}
-
 /* 2. Chat Widget Window / Card */
 .stump-ai-window {
   position: fixed;
-  bottom: 96px;
+  bottom: 88px;
   right: 26px;
   z-index: 1051;
-  width: 420px;
+  width: 410px;
   max-width: calc(100vw - 32px);
-  height: 640px;
-  max-height: calc(100vh - 120px);
-  background: linear-gradient(180deg, rgba(17, 26, 44, 0.96) 0%, rgba(8, 13, 24, 0.98) 100%);
-  border: 1px solid rgba(0, 230, 118, 0.25);
-  border-radius: 22px;
+  height: 610px;
+  max-height: calc(100vh - 105px);
+  background: #0b1326;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.8), 0 0 50px rgba(0, 230, 118, 0.18);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 1px rgba(255, 255, 255, 0.1);
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(24px) scale(0.94);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 14px, 0) scale(0.97);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+  contain: layout paint;
+  will-change: transform, opacity;
 }
 
 [data-theme="light"] .stump-ai-window {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  border-color: rgba(4, 120, 87, 0.2);
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15), 0 4px 12px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15), 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .stump-ai-window.is-open {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 /* 3. Window Header */
@@ -311,8 +282,9 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  scroll-behavior: smooth;
+  gap: 12px;
+  contain: layout;
+  -webkit-overflow-scrolling: touch;
 }
 
 .stump-ai-messages::-webkit-scrollbar {
@@ -323,12 +295,25 @@
   border-radius: 4px;
 }
 
-/* Message Rows */
+/* Message Rows - Hardware Accelerated */
 .stump-msg-row {
   display: flex;
   gap: 10px;
   max-width: 92%;
-  animation: fadeInMsg 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeInMsg 0.16s ease-out forwards;
+  will-change: opacity, transform;
+  contain: content;
+}
+
+@keyframes fadeInMsg {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .stump-msg-row.user {
