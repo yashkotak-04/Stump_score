@@ -911,6 +911,10 @@ body,
   animation-play-state: paused;
 }
 
+.ticker-track.is-paused {
+  animation-play-state: paused !important;
+}
+
 .ticker-item {
   display: inline-flex;
   align-items: center;
@@ -1031,4 +1035,16 @@ body,
     transform: scale(4);
     opacity: 0;
   }
+}
+
+/* ==========================================================================
+   Content Visibility Performance Optimization for Below-Fold Sections
+   ========================================================================== */
+#specs,
+#reviews,
+#faq,
+#poster-studio,
+#cta-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
 }

@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDownloadActions();
   initModals();
   initContactForm();
+  initTickerObserver();
 });
 
 /* ==========================================================================
@@ -874,5 +875,26 @@ function showToast(message, duration = 3500) {
   toast.dismissTimeout = setTimeout(() => {
     toast.classList.remove('is-active');
   }, duration);
+}
+
+/* ==========================================================================
+   Ticker Marquee Viewport Optimization (Pauses GPU marquee animation when off-screen)
+   ========================================================================== */
+function initTickerObserver() {
+  const tickerEl = document.querySelector('.live-status-ticker');
+  const trackEl = document.getElementById('real-ticker-track');
+  if (!tickerEl || !trackEl || !('IntersectionObserver' in window)) return;
+
+  const tickerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        trackEl.classList.remove('is-paused');
+      } else {
+        trackEl.classList.add('is-paused');
+      }
+    });
+  }, { threshold: 0.05 });
+
+  tickerObserver.observe(tickerEl);
 }
 

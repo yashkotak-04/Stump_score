@@ -461,6 +461,7 @@ class StumpAIAssistant {
     }
 
     if (this.input) {
+      // Enter to send (Shift+Enter for newline)
       this.input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
@@ -468,10 +469,13 @@ class StumpAIAssistant {
         }
       });
 
-      // Auto-resize textarea
+      // Auto-resize textarea & dynamically update send button disabled state
       this.input.addEventListener('input', () => {
         this.input.style.height = 'auto';
         this.input.style.height = Math.min(this.input.scrollHeight, 80) + 'px';
+        if (this.sendBtn) {
+          this.sendBtn.disabled = (this.input.value.trim() === '' || this.isGenerating);
+        }
       });
     }
 
@@ -492,6 +496,11 @@ class StumpAIAssistant {
         this.closeWindow();
       }
     });
+
+    // Initialize send button state
+    if (this.sendBtn && this.input) {
+      this.sendBtn.disabled = (this.input.value.trim() === '');
+    }
   }
 
   /* --------------------------------------------------------------------------
@@ -522,7 +531,7 @@ class StumpAIAssistant {
   }
 
   /* --------------------------------------------------------------------------
-     5. Window Toggle & Visibility
+     5. Window Toggle & Visibility (Visual Viewport & Body Scroll Lock)
      -------------------------------------------------------------------------- */
   toggleWindow() {
     if (this.isOpen) {
@@ -536,16 +545,49 @@ class StumpAIAssistant {
     this.isOpen = true;
     if (this.windowEl) this.windowEl.classList.add('is-open');
     if (this.fabBtn) this.fabBtn.style.display = 'none';
+
+    // Lock page background scrolling while chat is active
+    document.body.classList.add('stump-ai-body-locked');
+
+    // Visual Viewport API: Keeps chat bottom and input bar above mobile keyboard
+    if (window.visualViewport) {
+      this.viewportHandler = () => {
+        if (!this.isOpen || window.innerWidth >= 640 || !this.windowEl) return;
+        const vh = window.visualViewport.height;
+        const offsetTop = window.visualViewport.offsetTop;
+        this.windowEl.style.height = `${vh}px`;
+        this.windowEl.style.top = `${offsetTop}px`;
+        this.scrollToBottom();
+      };
+      window.visualViewport.addEventListener('resize', this.viewportHandler, { passive: true });
+      window.visualViewport.addEventListener('scroll', this.viewportHandler, { passive: true });
+      this.viewportHandler();
+    }
+
     if (this.input) {
-      setTimeout(() => this.input.focus(), 200);
+      setTimeout(() => this.input.focus(), 220);
     }
     this.scrollToBottom();
   }
 
   closeWindow() {
     this.isOpen = false;
-    if (this.windowEl) this.windowEl.classList.remove('is-open');
+    if (this.windowEl) {
+      this.windowEl.classList.remove('is-open');
+      this.windowEl.style.height = '';
+      this.windowEl.style.top = '';
+    }
     if (this.fabBtn) this.fabBtn.style.display = 'inline-flex';
+
+    // Restore background page scroll
+    document.body.classList.remove('stump-ai-body-locked');
+
+    // Remove Visual Viewport listeners
+    if (window.visualViewport && this.viewportHandler) {
+      window.visualViewport.removeEventListener('resize', this.viewportHandler);
+      window.visualViewport.removeEventListener('scroll', this.viewportHandler);
+      this.viewportHandler = null;
+    }
   }
 
   /* --------------------------------------------------------------------------
@@ -558,6 +600,7 @@ class StumpAIAssistant {
 
     this.input.value = '';
     this.input.style.height = 'auto';
+    if (this.sendBtn) this.sendBtn.disabled = true;
     this.sendMessage(text);
   }
 
@@ -589,9 +632,23 @@ class StumpAIAssistant {
 
     // 3. Fallback to Instant Smart Offline Knowledge Base (0ms lag, viva guarantee)
     setTimeout(() => {
-      const match = this.findBestLocalMatch(queryText);
-      this.renderAssistantResponse(match.response, match.chips);
-    }, 400); // slight natural typing cadence
+      try {
+        const match = this.findBestLocalMatch(queryText);
+        this.renderAssistantResponse(match.response, match.chips);
+      } catch (err) {
+        this.renderAssistantError(queryText);
+      }
+    }, 380); // slight natural typing cadence
+  }
+
+  renderAssistantError(originalQuery) {
+    this.setGenerating(false);
+    this.appendMessage({
+      sender: 'assistant',
+      text: `I encountered an unexpected issue processing your request. Please try again.`,
+      time: this.getFormattedTime(),
+      retryQuery: originalQuery
+    });
   }
 
   renderAssistantResponse(text, chips = []) {
@@ -756,7 +813,7 @@ GENERAL RULES:
   /* --------------------------------------------------------------------------
      9. UI Rendering & Markdown Parsing
      -------------------------------------------------------------------------- */
-  appendMessage({ sender, text, time }) {
+  appendMessage({ sender, text, time, retryQuery = null }) {
     if (!this.messagesContainer) return;
 
     const row = document.createElement('div');
@@ -765,6 +822,10 @@ GENERAL RULES:
     const parsedHtml = this.formatMarkdown(text);
 
     if (sender === 'assistant') {
+      const retryBtnHtml = retryQuery
+        ? `<button type="button" class="stump-msg-thumb-btn js-retry-btn" style="color: var(--pitch-green); border-color: var(--pitch-green); font-weight: 700;"><span>↻ Retry</span></button>`
+        : '';
+
       row.innerHTML = `
         <div class="stump-msg-avatar-small">
           ${this.aiSvgIcon}
@@ -772,9 +833,16 @@ GENERAL RULES:
         <div class="stump-msg-bubble">
           <div class="stump-bubble-content">${parsedHtml}</div>
           <div class="stump-msg-actions">
-            <button type="button" class="stump-msg-copy-btn" title="Copy answer">
+            <button type="button" class="stump-msg-copy-btn" title="Copy answer" aria-label="Copy answer">
               <span>📋 Copy</span>
             </button>
+            <button type="button" class="stump-msg-thumb-btn js-thumb-up" title="Helpful answer" aria-label="Thumbs up">
+              <span>👍</span>
+            </button>
+            <button type="button" class="stump-msg-thumb-btn js-thumb-down" title="Not helpful" aria-label="Thumbs down">
+              <span>👎</span>
+            </button>
+            ${retryBtnHtml}
             <span class="stump-msg-time">${time}</span>
           </div>
         </div>
@@ -789,6 +857,33 @@ GENERAL RULES:
             copyBtn.innerHTML = '<span>✓ Copied</span>';
             setTimeout(() => { copyBtn.innerHTML = '<span>📋 Copy</span>'; }, 2000);
           }).catch(() => {});
+        });
+      }
+
+      // Thumbs feedback bindings
+      const upBtn = row.querySelector('.js-thumb-up');
+      const downBtn = row.querySelector('.js-thumb-down');
+      if (upBtn) {
+        upBtn.addEventListener('click', () => {
+          upBtn.classList.toggle('is-voted');
+          if (downBtn) downBtn.classList.remove('is-voted');
+          if (window.showStumpToast) window.showStumpToast('👍 Thanks for your feedback!');
+        });
+      }
+      if (downBtn) {
+        downBtn.addEventListener('click', () => {
+          downBtn.classList.toggle('is-voted');
+          if (upBtn) upBtn.classList.remove('is-voted');
+          if (window.showStumpToast) window.showStumpToast('👎 Feedback noted, improving answers.');
+        });
+      }
+
+      // Retry button binding
+      const retryBtn = row.querySelector('.js-retry-btn');
+      if (retryBtn && retryQuery) {
+        retryBtn.addEventListener('click', () => {
+          row.remove();
+          this.sendMessage(retryQuery);
         });
       }
     } else {
@@ -984,6 +1079,17 @@ GENERAL RULES:
                   </div>
                 </div>
               `;
+              const copyBtn = row.querySelector('.stump-msg-copy-btn');
+              if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                  const plainText = row.querySelector('.stump-bubble-content')?.innerText || '';
+                  navigator.clipboard.writeText(plainText).then(() => {
+                    if (window.showStumpToast) window.showStumpToast('📋 Answer copied!');
+                    copyBtn.innerHTML = '<span>✓ Copied</span>';
+                    setTimeout(() => { copyBtn.innerHTML = '<span>📋 Copy</span>'; }, 2000);
+                  }).catch(() => {});
+                });
+              }
             } else {
               row.innerHTML = `
                 <div class="stump-msg-bubble">
@@ -994,19 +1100,17 @@ GENERAL RULES:
             }
             this.messagesContainer.appendChild(row);
           });
-          return;
         }
       }
     } catch (_) {}
 
-    // Default welcome prompt chips
+    // Default welcome prompt chips (Requested Part 1 quick chips)
     this.renderChips([
-      'What is StumpScore?',
-      'How do I install on Android?',
-      'How does scoring work?',
-      'Net Run Rate (NRR) formula',
-      'Poster Generator',
-      'Contact Creator'
+      'How to install?',
+      'Live matches',
+      'Scoring rules',
+      'NRR help',
+      'Contact'
     ]);
   }
 
@@ -1021,10 +1125,10 @@ GENERAL RULES:
           <div class="stump-msg-bubble">
             <div class="stump-bubble-content">
               <p class="stump-msg-p">Hello! Welcome to StumpScore.</p>
-              <p class="stump-msg-p">I am <strong>StumpAI Guru</strong>, the virtual assistant of StumpScore, created by Yash Kotak. How may I be of assistance today?</p>
+              <p class="stump-msg-p">I am <strong>StumpAI Guru</strong>, the official virtual assistant of StumpScore, created by Yash Kotak. How may I be of assistance today?</p>
             </div>
             <div class="stump-msg-actions">
-              <button type="button" class="stump-msg-copy-btn" title="Copy answer">
+              <button type="button" class="stump-msg-copy-btn" title="Copy answer" aria-label="Copy answer">
                 <span>📋 Copy</span>
               </button>
               <span class="stump-msg-time">${this.getFormattedTime()}</span>
@@ -1034,12 +1138,11 @@ GENERAL RULES:
       `;
     }
     this.renderChips([
-      'What is StumpScore?',
-      'How do I install on Android?',
-      'How does scoring work?',
-      'Net Run Rate (NRR) formula',
-      'Poster Generator',
-      'Contact Creator'
+      'How to install?',
+      'Live matches',
+      'Scoring rules',
+      'NRR help',
+      'Contact'
     ]);
   }
 }

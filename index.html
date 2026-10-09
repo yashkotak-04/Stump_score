@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   
   <!-- Primary Meta Tags -->
   <title>StumpScore — Smart Live Cricket Scoring, Tournaments & APK/iOS Download</title>
@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="css/style.css?v=3.4.0">
   <link rel="stylesheet" href="css/components.css?v=3.4.0">
   <link rel="stylesheet" href="css/ai-assistant.css?v=1.0.0">
-  <link rel="stylesheet" href="css/live-score-hub.css?v=1.0.0">
+  <link rel="stylesheet" href="css/live-score-hub.css?v=2.0.0">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/icon/app_icon.png">
@@ -111,15 +111,13 @@
     </div>
   </header>
 
-  <!-- Live Marquee Status Ticker -->
+  <!-- Live Marquee Status Ticker (Real Live Matches Only) -->
   <div class="live-status-ticker" aria-label="Live Match Status Ticker">
-    <div class="ticker-track">
-      <div class="ticker-item"><span class="ticker-pill">LIVE NOW</span> <strong>India vs Australia</strong> — 184/4 (18.2 ov) CRR 10.03 • V. Kohli 82*(53)</div>
-      <div class="ticker-item">🏆 <strong>Premier League 2026</strong>: Royal Challengers Top Group A (+1.450 NRR)</div>
-      <div class="ticker-item">⚡ <strong>App v1.0.1 Ready</strong>: Offline Guest Scoring • ICC DLS & NRR • Instant 1080p Poster Export</div>
-      <div class="ticker-item"><span class="ticker-pill">LIVE NOW</span> <strong>India vs Australia</strong> — 184/4 (18.2 ov) CRR 10.03 • V. Kohli 82*(53)</div>
-      <div class="ticker-item">🏆 <strong>Premier League 2026</strong>: Royal Challengers Top Group A (+1.450 NRR)</div>
-      <div class="ticker-item">⚡ <strong>App v1.0.1 Ready</strong>: Offline Guest Scoring • ICC DLS & NRR • Instant 1080p Poster Export</div>
+    <div class="ticker-track" id="real-ticker-track">
+      <div class="ticker-item"><span class="ticker-pill">SYNCING</span> <strong>Connecting to live cricket stream...</strong></div>
+      <div class="ticker-item">⚡ <strong>StumpScore Live Engine</strong>: Real-time ball-by-ball updates & Test session tracking</div>
+      <div class="ticker-item"><span class="ticker-pill">SYNCING</span> <strong>Connecting to live cricket stream...</strong></div>
+      <div class="ticker-item">⚡ <strong>StumpScore Live Engine</strong>: Real-time ball-by-ball updates & Test session tracking</div>
     </div>
   </div>
 
@@ -391,184 +389,92 @@
   </section>
 
   <!-- ==========================================================================
-       4.5 International Live Match Center (India vs Pakistan & Global Clashes)
+       4.5 Real-Time Live Cricket Match Center
        ========================================================================== -->
-  <section class="live-score-section" id="live-scores">
+  <section class="live-score-section" id="live-scores" aria-label="Real Live Cricket Matches">
     <div class="container">
       <div class="section-header text-center mx-auto mb-4">
         <div class="section-tag" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #ef4444;">
-          <span class="live-pulse-dot" style="margin-right: 6px;"></span> International Broadcast Hub
+          <span class="live-pulse-dot" style="margin-right: 6px;"></span> Official Cricket Data Stream
         </div>
-        <h2 class="section-title">Live International Match Center</h2>
+        <h2 class="section-title">Live Match Center</h2>
         <p class="section-description">
-          Watch real-time live ball-by-ball commentary, animated chase equations, and dynamic win probability for premier clashes like India vs Pakistan.
+          Real live matches streamed directly from licensed cricket data feeds. Track live scores, Test match day & session status, active batters, and ball-by-ball updates.
         </p>
       </div>
 
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-11 col-xl-10">
-          <div class="live-broadcast-card">
-            
-            <!-- Broadcast Header -->
-            <div class="broadcast-header">
-              <div class="d-flex align-items-center gap-3">
-                <div class="broadcast-status-badge">
-                  <span class="live-pulse-dot"></span>
-                  <span>LIVE CHASE</span>
-                </div>
-                <div class="broadcast-match-meta">
-                  <span class="broadcast-tournament-name" id="live-tournament-name">ICC Men's T20 World Cup Final</span>
-                  <span class="broadcast-venue" id="live-venue">Melbourne Cricket Ground (MCG), Australia</span>
-                </div>
-              </div>
+      <!-- Live Center Hub Wrapper -->
+      <div class="real-hub-container">
+        
+        <!-- Hub Top Toolbar: Filter Tabs & Live Status -->
+        <div class="real-hub-toolbar">
+          <div class="real-hub-tabs" role="tablist" aria-label="Match Category Tabs">
+            <button type="button" class="real-tab-btn is-active" id="tab-btn-live" data-tab="live" role="tab" aria-selected="true">
+              <span class="real-live-dot-mini"></span>
+              <span>LIVE</span>
+              <span class="real-tab-badge" id="badge-live-count">0</span>
+            </button>
+            <button type="button" class="real-tab-btn" id="tab-btn-upcoming" data-tab="upcoming" role="tab" aria-selected="false">
+              <span>📅 UPCOMING</span>
+              <span class="real-tab-badge" id="badge-upcoming-count">0</span>
+            </button>
+            <button type="button" class="real-tab-btn" id="tab-btn-completed" data-tab="completed" role="tab" aria-selected="false">
+              <span>🏁 COMPLETED</span>
+              <span class="real-tab-badge" id="badge-completed-count">0</span>
+            </button>
+          </div>
 
-              <!-- Match Switcher -->
-              <div class="d-flex align-items-center gap-2">
-                <label for="live-match-select" class="d-none d-sm-inline" style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">FIXTURE:</label>
-                <select id="live-match-select" class="match-selector-dropdown" aria-label="Select International Live Match">
-                  <option value="ind_pak" selected>🇮🇳 IND vs 🇵🇰 PAK (World Cup)</option>
-                  <option value="eng_aus">🇬🇧 ENG vs 🇦🇺 AUS (The Ashes)</option>
-                  <option value="csk_mi">🦁 CSK vs 🔵 MI (IPL Final)</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Scoreboard Body -->
-            <div class="broadcast-body">
-              
-              <!-- Main Scores Row -->
-              <div class="scoreboard-main-row">
-                <div class="team-score-block">
-                  <div class="team-flag-emblem" id="live-team-a-flag">🇮🇳</div>
-                  <div>
-                    <div class="team-name-big" id="live-team-a-name">India</div>
-                    <div class="d-flex align-items-baseline gap-2">
-                      <div class="team-score-lcd" id="live-team-a-score">162/4</div>
-                      <div class="team-overs-lcd" id="live-team-a-overs">18.1 / 20.0 ov</div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Versus & Target Equation -->
-                <div class="versus-target-box" id="live-target-box">
-                  <div class="target-equation-text">🎯 Target: 173</div>
-                  <div class="target-equation-sub">Need 11 runs in 11 balls</div>
-                  <div class="rates-pill-row">
-                    <span class="rates-pill" id="live-crr">CRR: 8.92</span>
-                    <span class="rates-pill" id="live-rrr">RRR: 6.00</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Crease Statistics: Batsmen & Bowler -->
-              <div class="crease-stats-row">
-                <div class="player-live-card is-striker">
-                  <div>
-                    <div class="player-name-tag" id="live-striker-name">V. Kohli* 🏏</div>
-                    <div class="player-role-sub">Striker (On Strike)</div>
-                  </div>
-                  <div class="player-stat-numbers">
-                    <div class="player-primary-score" id="live-striker-score">76 (48)</div>
-                    <div class="player-secondary-stat">6x4, 3x6 • SR: 158.3</div>
-                  </div>
-                </div>
-
-                <div class="player-live-card">
-                  <div>
-                    <div class="player-name-tag" id="live-nonstriker-name">H. Pandya</div>
-                    <div class="player-role-sub">Non-Striker</div>
-                  </div>
-                  <div class="player-stat-numbers">
-                    <div class="player-primary-score" id="live-nonstriker-score">34 (18)</div>
-                    <div class="player-secondary-stat">3x4, 2x6 • SR: 188.9</div>
-                  </div>
-                </div>
-
-                <div class="player-live-card">
-                  <div>
-                    <div class="player-name-tag" id="live-bowler-name">⚾ Shaheen Afridi</div>
-                    <div class="player-role-sub">Current Bowler</div>
-                  </div>
-                  <div class="player-stat-numbers">
-                    <div class="player-primary-score" id="live-bowler-fig">3.1 ov • 28/2</div>
-                    <div class="player-secondary-stat">Econ: 8.84</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Recent Deliveries Strip -->
-              <div class="recent-balls-section">
-                <span class="recent-balls-label">Recent Balls:</span>
-                <div class="recent-balls-strip" id="live-recent-balls">
-                  <span class="ball-pill b-run">1</span>
-                  <span class="ball-pill b-four">4</span>
-                  <span class="ball-pill b-dot">0</span>
-                  <span class="ball-pill b-six">6</span>
-                  <span class="ball-pill b-run">1</span>
-                  <span class="ball-pill b-run">1</span>
-                </div>
-              </div>
-
-              <!-- Win Probability Gauge -->
-              <div class="win-prob-section">
-                <div class="win-prob-labels">
-                  <span class="win-prob-team-a" id="live-prob-a">IND: 78%</span>
-                  <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 700;">WIN PROBABILITY</span>
-                  <span class="win-prob-team-b" id="live-prob-b">PAK: 22%</span>
-                </div>
-                <div class="win-prob-bar-track">
-                  <div class="win-prob-bar-fill-a" id="live-prob-fill-a" style="width: 78%;"></div>
-                  <div class="win-prob-bar-fill-b" id="live-prob-fill-b" style="width: 22%;"></div>
-                </div>
-              </div>
-
-              <!-- Live Commentary Stream -->
-              <div class="live-commentary-wrap">
-                <div class="commentary-header">
-                  <span>🎙️ Ball-by-Ball Live Commentary</span>
-                  <span style="font-size: 0.74rem; color: var(--pitch-green); font-weight: 700;">Live Feed</span>
-                </div>
-                <div class="commentary-list-box" id="live-commentary-box">
-                  <!-- Dynamically populated commentary -->
-                </div>
-              </div>
-
-            </div>
-
-            <!-- Ticker Control Bar -->
-            <div class="broadcast-controls-bar">
-              <div class="controls-left-group">
-                <button type="button" class="btn-auto-stream" id="live-auto-stream-btn" aria-label="Toggle Auto Streaming">
-                  <span>▶ Auto Stream</span>
-                </button>
-                <button type="button" class="btn-ticker-step" id="live-step-btn" title="Bowls the next delivery">
-                  <span>⚡ Next Ball</span>
-                </button>
-              </div>
-
-              <div class="controls-right-group">
-                <button type="button" class="btn-ticker-step" id="live-reset-btn" title="Reset match to ball 1">
-                  <span>🔄 Reset Chase</span>
-                </button>
-              </div>
-            </div>
-
+          <div class="real-hub-meta">
+            <span class="real-update-status" id="real-update-status" title="Scores auto-refresh every 20 seconds; paused when tab is inactive">
+              <span class="real-sync-dot"></span>
+              <span id="real-last-updated-text">Connecting...</span>
+            </span>
+            <button type="button" class="real-btn-refresh" id="real-refresh-btn" title="Refresh live matches immediately" aria-label="Refresh Scores">
+              <span class="real-refresh-icon" id="real-refresh-icon">↻</span>
+              <span>Refresh</span>
+            </button>
           </div>
         </div>
+
+        <!-- Delay / Cache Notice Banner (Dynamic) -->
+        <div id="real-delay-notice" class="real-delay-notice" style="display: none;" role="alert">
+          <span class="real-notice-icon">⚠️</span>
+          <span id="real-delay-notice-msg">Live data may be delayed due to API rate limits. Showing latest cached update.</span>
+        </div>
+
+        <!-- Matches Cards Grid Container -->
+        <div class="real-matches-grid" id="real-matches-grid" aria-live="polite">
+          <!-- Initial Modern Animated Skeleton Loaders -->
+          <div class="real-match-card is-skeleton">
+            <div class="skel-bar skel-shimmer" style="width: 45%; height: 14px; margin-bottom: 14px;"></div>
+            <div class="skel-bar skel-shimmer" style="width: 80%; height: 26px; margin-bottom: 10px;"></div>
+            <div class="skel-bar skel-shimmer" style="width: 60%; height: 22px; margin-bottom: 18px;"></div>
+            <div class="skel-box skel-shimmer" style="height: 52px; margin-bottom: 12px;"></div>
+            <div class="skel-bar skel-shimmer" style="width: 100%; height: 38px;"></div>
+          </div>
+          <div class="real-match-card is-skeleton">
+            <div class="skel-bar skel-shimmer" style="width: 45%; height: 14px; margin-bottom: 14px;"></div>
+            <div class="skel-bar skel-shimmer" style="width: 80%; height: 26px; margin-bottom: 10px;"></div>
+            <div class="skel-bar skel-shimmer" style="width: 60%; height: 22px; margin-bottom: 18px;"></div>
+            <div class="skel-box skel-shimmer" style="height: 52px; margin-bottom: 12px;"></div>
+            <div class="skel-bar skel-shimmer" style="width: 100%; height: 38px;"></div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- ==========================================================================
-       5. Interactive Simulator Section (Live in Browser Demo)
+       5. Interactive Simulator Section (Try the Scoring Demo)
        ========================================================================== -->
   <section class="section" id="demo">
     <div class="container">
       <div class="section-header text-center mx-auto">
         <div class="section-tag">Interactive Preview</div>
-        <h2 class="section-title">Try Scoring A Live Match Right Now</h2>
+        <h2 class="section-title">Try the Scoring Demo (sample data)</h2>
         <p class="section-description">
-          Experience StumpScore's live scoring engine right inside your browser. Tap runs, hit boundaries, take wickets, and hear real synthesized sound effects!
+          Experience StumpScore's live scoring engine right inside your browser with interactive sample data. Tap runs, hit boundaries, take wickets, and hear real synthesized sound effects!
         </p>
       </div>
 
@@ -741,7 +647,7 @@
         <div class="poster-canvas-box">
           <div class="poster-canvas-header">
             <div class="poster-canvas-brand">
-              <img src="assets/icon/app_icon.png" alt="StumpScore" class="poster-brand-icon">
+              <img src="assets/icon/app_icon.png" alt="StumpScore" class="poster-brand-icon" loading="lazy" decoding="async" width="28" height="28">
               <span class="poster-brand-text">STUMPSCORE</span>
             </div>
             <div class="poster-badge-final">FINAL MATCH</div>
@@ -923,7 +829,7 @@
             <div class="row align-items-center g-4">
               <div class="col-12 col-md-5 text-center">
                 <div class="qr-code-frame">
-                  <img src="assets/images/qr-code.png?v=3.4.0" alt="StumpScore Branded QR Code" class="qr-code-img" width="180" height="180">
+                  <img src="assets/images/qr-code.png?v=3.4.0" alt="StumpScore Branded QR Code" class="qr-code-img" width="180" height="180" loading="lazy" decoding="async">
                 </div>
                 <div class="qr-caption mt-2" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
                   <span class="pulse-dot-green"></span>
@@ -1102,7 +1008,7 @@
       <div class="row g-4 mb-4">
         <div class="col-12 col-md-6 col-lg-4">
           <div class="brand-logo mb-3">
-            <img src="assets/icon/app_icon.png" alt="StumpScore Logo" class="brand-icon-img" width="38" height="38">
+            <img src="assets/icon/app_icon.png" alt="StumpScore Logo" class="brand-icon-img" width="38" height="38" loading="lazy" decoding="async">
             <span>Stump<span class="gradient-text-green">Score</span></span>
           </div>
           <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; max-width: 320px; font-weight: 500;">
@@ -1167,6 +1073,11 @@
           <span>•</span>
           <a href="#hero" class="footer-link" style="font-weight: 700; color: var(--pitch-green);">Back to Top ↑</a>
         </div>
+      </div>
+
+      <!-- Cricket API Terms Data-Source Attribution -->
+      <div class="footer-api-attribution" style="text-align: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.06); font-size: 0.78rem; color: var(--text-muted);">
+        🏏 Real-time live scores powered by licensed Cricket Data API (<a href="https://cricketdata.org" target="_blank" rel="noopener noreferrer" style="color: var(--pitch-green); text-decoration: underline;">CricketData.org</a> / <a href="https://cricapi.com" target="_blank" rel="noopener noreferrer" style="color: var(--pitch-green); text-decoration: underline;">CricAPI</a>). All official match stats cached for low latency and high reliability.
       </div>
     </div>
   </footer>
@@ -1333,7 +1244,7 @@
       </div>
 
       <div class="qr-modal-frame mx-auto mb-3">
-        <img src="assets/images/qr-code.png?v=3.4.0" alt="StumpScore Branded QR Code" width="210" height="210" class="qr-code-img" style="margin: 0 auto; display: block; border-radius: 8px;">
+        <img src="assets/images/qr-code.png?v=3.4.0" alt="StumpScore Branded QR Code" width="210" height="210" class="qr-code-img" style="margin: 0 auto; display: block; border-radius: 8px;" loading="lazy" decoding="async">
       </div>
 
       <div class="qr-modal-url">
@@ -1351,6 +1262,130 @@
         <button type="button" class="btn btn-outline btn-sm js-modal-close">
           <span>Close</span>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tasteful Live Wicket Toast Notification Banner -->
+  <div id="stump-wicket-banner" class="stump-wicket-banner" role="status" aria-live="polite">
+    <span class="wicket-icon">⚡</span>
+    <span id="stump-wicket-banner-text">WICKET!</span>
+  </div>
+
+  <!-- Modal 6: Real Match Full Scorecard, Batting, Bowling & Commentary -->
+  <div class="modal-overlay" id="modal-match-scorecard" role="dialog" aria-labelledby="sc-modal-title" aria-modal="true">
+    <div class="modal-content scorecard-modal-content">
+      <button class="modal-close-btn js-modal-close" aria-label="Close scorecard dialog">✕</button>
+      
+      <!-- Scorecard Header -->
+      <div class="scorecard-modal-header">
+        <div class="d-flex align-items-center justify-content-between gap-2 mb-2 flex-wrap">
+          <div class="d-flex align-items-center gap-2">
+            <span class="sc-badge-format" id="sc-badge-format">TEST</span>
+            <span class="sc-badge-status" id="sc-badge-status">LIVE</span>
+          </div>
+          <span class="sc-header-time" id="sc-header-time"></span>
+        </div>
+        <h3 class="sc-match-title" id="sc-modal-title">Match Scorecard</h3>
+        <div class="sc-meta-sub" id="sc-meta-sub">Venue & Series</div>
+        <div class="sc-status-note" id="sc-status-note">Status</div>
+        <div class="sc-lead-note" id="sc-lead-note" style="display: none;"></div>
+      </div>
+
+      <!-- Innings Selector Tabs (For Test matches or 2nd innings) -->
+      <div class="sc-innings-nav" id="sc-innings-nav">
+        <!-- Dynamically rendered innings tabs -->
+      </div>
+
+      <!-- Category Filter Tabs (Batting | Bowling | FoW | Commentary) -->
+      <div class="sc-category-nav" id="sc-category-nav" role="tablist" aria-label="Scorecard Views">
+        <button type="button" class="sc-cat-btn active" data-cat="all" role="tab" aria-selected="true">All</button>
+        <button type="button" class="sc-cat-btn" data-cat="batting" role="tab" aria-selected="false">🏏 Batting</button>
+        <button type="button" class="sc-cat-btn" data-cat="bowling" role="tab" aria-selected="false">⚾ Bowling</button>
+        <button type="button" class="sc-cat-btn" data-cat="fow" role="tab" aria-selected="false">📉 Wickets</button>
+        <button type="button" class="sc-cat-btn" data-cat="commentary" role="tab" aria-selected="false">🎙️ Commentary</button>
+      </div>
+
+      <!-- Scorecard Content Scroll Area -->
+      <div class="scorecard-scroll-area" id="scorecard-scroll-area">
+        <div class="sc-loading-state text-center py-5" id="sc-loading-state">
+          <div class="spinner-border text-success" role="status" style="width: 2.5rem; height: 2.5rem; border-width: 3px;">
+            <span class="visually-hidden">Loading detailed scorecard...</span>
+          </div>
+          <div class="mt-3 text-muted" style="font-size: 0.9rem;">Fetching live batting, bowling, and fall of wickets...</div>
+        </div>
+        
+        <div class="sc-details-wrap" id="sc-details-wrap" style="display: none;">
+          <!-- Batting Table -->
+          <div class="sc-section-box" data-cat-section="batting" id="sc-sec-batting">
+            <div class="sc-table-heading">🏏 Batting Scorecard</div>
+            <div class="table-responsive">
+              <table class="sc-table" id="sc-batting-table">
+                <thead>
+                  <tr>
+                    <th>Batter</th>
+                    <th>Dismissal</th>
+                    <th class="text-end">R</th>
+                    <th class="text-end">B</th>
+                    <th class="text-end">4s</th>
+                    <th class="text-end">6s</th>
+                    <th class="text-end">SR</th>
+                  </tr>
+                </thead>
+                <tbody id="sc-batting-tbody">
+                  <!-- Batters rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Bowling Table -->
+          <div class="sc-section-box" data-cat-section="bowling" id="sc-sec-bowling">
+            <div class="sc-table-heading">⚾ Bowling Figures</div>
+            <div class="table-responsive">
+              <table class="sc-table" id="sc-bowling-table">
+                <thead>
+                  <tr>
+                    <th>Bowler</th>
+                    <th class="text-end">O</th>
+                    <th class="text-end">M</th>
+                    <th class="text-end">R</th>
+                    <th class="text-end">W</th>
+                    <th class="text-end">Econ</th>
+                  </tr>
+                </thead>
+                <tbody id="sc-bowling-tbody">
+                  <!-- Bowlers rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Fall of Wickets & Partnerships -->
+          <div class="sc-section-box" data-cat-section="fow" id="sc-sec-fow">
+            <div class="sc-table-heading">📉 Fall of Wickets</div>
+            <div class="sc-fow-strip" id="sc-fow-strip">
+              <!-- FoW items -->
+            </div>
+            <div class="sc-partnership-box mt-3" id="sc-partnership-box" style="display: none;">
+              <!-- Current partnership -->
+            </div>
+          </div>
+
+          <!-- Ball-by-ball Commentary Feed -->
+          <div class="sc-section-box" id="sc-commentary-section" data-cat-section="commentary" style="display: none;">
+            <div class="sc-table-heading">🎙️ Live Commentary</div>
+            <div class="sc-commentary-feed" id="sc-commentary-feed">
+              <!-- Commentary items -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scorecard Modal Footer -->
+      <div class="scorecard-modal-footer">
+        <span style="font-size: 0.76rem; color: var(--text-muted);">Data: Licensed Cricket Data API</span>
+        <button type="button" class="btn btn-outline btn-sm js-modal-close">Close Scorecard</button>
       </div>
     </div>
   </div>
@@ -1493,10 +1528,10 @@
   <!-- Bootstrap 5.3 JavaScript Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-  <!-- Application Logic & Live Cricket Simulator -->
-  <script src="js/simulator.js?v=3.3.0"></script>
-  <script src="js/app.js?v=3.3.0"></script>
-  <script src="js/ai-assistant.js?v=1.0.0"></script>
-  <script src="js/live-score-hub.js?v=1.0.0"></script>
+  <!-- Application Logic & Live Cricket Simulator (Deferred for High Performance) -->
+  <script src="js/simulator.js?v=3.3.0" defer></script>
+  <script src="js/app.js?v=3.3.0" defer></script>
+  <script src="js/ai-assistant.js?v=2.0.0" defer></script>
+  <script src="js/live-score-hub.js?v=2.0.0" defer></script>
 </body>
 </html>
