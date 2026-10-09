@@ -10,61 +10,184 @@ body.stump-ai-body-locked {
   touch-action: none;
 }
 
-/* 2. Floating Action Trigger Button (FAB) - 56x56px with Safe Area Inset */
-.stump-ai-fab {
+/* 2. Floating Action Trigger Container (Levitating 3D AI Button "Floating in the Air") */
+.stump-ai-fab-container {
   position: fixed;
-  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+  right: calc(22px + env(safe-area-inset-right, 0px));
   z-index: 1050;
-  width: 56px;
-  height: 56px;
-  min-width: 56px;
-  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: none; /* Children enable pointer events */
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s ease;
+}
+
+.stump-ai-fab-container.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 16px, 0) scale(0.9);
+  pointer-events: none;
+}
+
+/* Floating Pill Badge that hovers synchronously in the air */
+.stump-ai-fab-pill {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(11, 19, 38, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(0, 230, 118, 0.45);
+  border-radius: 9999px;
+  color: #f8fafc;
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 230, 118, 0.22);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: stumpAiFloatPill 3.6s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+[data-theme="light"] .stump-ai-fab-pill {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: rgba(4, 120, 87, 0.38);
+  color: #0f172a;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12), 0 0 14px rgba(4, 120, 87, 0.16);
+}
+
+.stump-ai-fab-pill:hover {
+  transform: translateY(-4px) scale(1.05);
+  border-color: var(--pitch-green, #00e676);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 22px rgba(0, 230, 118, 0.4);
+}
+
+.stump-ai-fab-pill-sparkle {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.stump-ai-fab-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pitch-green, #00e676);
+  box-shadow: 0 0 8px var(--pitch-green, #00e676);
+  margin-left: 2px;
+  animation: stumpAiStatusPulse 2s infinite ease-in-out;
+}
+
+[data-theme="light"] .stump-ai-fab-pill-dot {
+  background: #059669;
+  box-shadow: 0 0 6px rgba(5, 150, 105, 0.6);
+}
+
+/* Orb Button Wrapper holding the button and its 3D floor shadow */
+.stump-ai-fab-btn-wrap {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  pointer-events: auto;
+  flex-shrink: 0;
+}
+
+/* Floor Contact Shadow (stays on the ground plane, expands & softens as orb rises) */
+.stump-ai-fab-shadow {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 44px;
+  height: 10px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 72%);
+  border-radius: 50%;
+  filter: blur(4px);
+  pointer-events: none;
+  animation: stumpAiShadowFloat 3.6s ease-in-out infinite;
+  z-index: 1;
+}
+
+[data-theme="light"] .stump-ai-fab-shadow {
+  background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.35) 0%, rgba(15, 23, 42, 0) 72%);
+}
+
+/* The Levitating Orb Button (Zero Gravity Motion) */
+.stump-ai-fab {
+  position: relative;
+  z-index: 2;
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  min-height: 58px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 35% 35%, #131d33 0%, #080d19 100%);
-  border: 1.5px solid rgba(0, 230, 118, 0.4);
+  background: radial-gradient(circle at 35% 30%, #15223c 0%, #080d19 100%);
+  border: 1.5px solid rgba(0, 230, 118, 0.5);
   border-radius: 50%;
   color: #ffffff;
   cursor: pointer;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 230, 118, 0.2);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 
+    0 14px 32px rgba(0, 0, 0, 0.55),
+    0 0 24px rgba(0, 230, 118, 0.28),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  transform: translate3d(0, 0, 0);
+  animation: stumpAiFloatOrb 3.6s ease-in-out infinite;
   will-change: transform;
 }
 
-.stump-ai-fab::before {
-  content: '';
+/* Radiating Atmosphere Air Halo */
+.stump-ai-fab-halo {
   position: absolute;
-  inset: -1px;
+  inset: -6px;
   border-radius: 50%;
-  border: 1px solid rgba(0, 230, 118, 0.3);
+  border: 1.5px solid rgba(0, 230, 118, 0.38);
   pointer-events: none;
-  transition: border-color 0.2s ease;
+  animation: stumpAiHaloPulse 2.8s infinite ease-in-out;
 }
 
 [data-theme="light"] .stump-ai-fab {
-  background: #ffffff;
-  border-color: rgba(4, 120, 87, 0.35);
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.16), 0 0 12px rgba(4, 120, 87, 0.15);
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f1f5f9 100%);
+  border-color: rgba(4, 120, 87, 0.45);
+  box-shadow: 
+    0 12px 28px rgba(15, 23, 42, 0.18),
+    0 0 18px rgba(4, 120, 87, 0.22),
+    inset 0 1px 2px rgba(255, 255, 255, 0.9);
 }
 
-[data-theme="light"] .stump-ai-fab::before {
-  border-color: rgba(4, 120, 87, 0.25);
+[data-theme="light"] .stump-ai-fab-halo {
+  border-color: rgba(4, 120, 87, 0.3);
 }
 
-.stump-ai-fab:hover {
-  transform: translateY(-2px) scale(1.05);
+/* Hover: Orb lifts higher into the air */
+.stump-ai-fab:hover,
+.stump-ai-fab-btn-wrap:hover .stump-ai-fab {
+  transform: translateY(-16px) scale(1.08) !important;
   border-color: var(--pitch-green, #00e676);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 20px rgba(0, 230, 118, 0.35);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.65),
+    0 0 32px rgba(0, 230, 118, 0.45),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.stump-ai-fab-btn-wrap:hover .stump-ai-fab-shadow {
+  transform: translateX(-50%) scale(0.55) !important;
+  opacity: 0.18 !important;
+  filter: blur(7px) !important;
 }
 
 .stump-ai-fab:active {
-  transform: translateY(0) scale(0.96);
+  transform: translateY(-2px) scale(0.96) !important;
 }
 
 .stump-ai-fab:focus-visible {
@@ -88,6 +211,81 @@ body.stump-ai-body-locked {
 .stump-ai-svg-icon {
   width: 100%;
   height: 100%;
+}
+
+/* Floating Physics Keyframes */
+@keyframes stumpAiFloatOrb {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  28% {
+    transform: translateY(-7px) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-13px) rotate(0deg);
+  }
+  72% {
+    transform: translateY(-7px) rotate(1.5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes stumpAiFloatPill {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes stumpAiShadowFloat {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.7;
+    filter: blur(3.5px);
+  }
+  50% {
+    transform: translateX(-50%) scale(0.62);
+    opacity: 0.22;
+    filter: blur(6.5px);
+  }
+}
+
+@keyframes stumpAiHaloPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.16);
+    opacity: 0.9;
+    box-shadow: 0 0 18px rgba(0, 230, 118, 0.45);
+  }
+}
+
+@media (max-width: 479.98px) {
+  .stump-ai-fab-container {
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    gap: 8px;
+  }
+  .stump-ai-fab-pill {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+  }
+  .stump-ai-fab,
+  .stump-ai-fab-btn-wrap {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px;
+  }
 }
 
 /* 3. Main Chat Window Container */
@@ -383,41 +581,655 @@ body.stump-ai-body-locked {
   outline-offset: 2px;
 }
 
-/* Settings Drawer */
+/* Settings / Preferences Drawer */
 .stump-ai-settings-panel {
   display: none;
-  padding: 12px 18px;
+  padding: 14px 18px 16px 18px;
   background: rgba(8, 13, 24, 0.98);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 0.82rem;
   flex-shrink: 0;
+  animation: stumpSettingsFadeIn 0.22s ease-out;
 }
 
-[data-theme="light"] .stump-ai-settings-panel {
-  background: #f1f5f9;
-  border-bottom-color: rgba(15, 23, 42, 0.1);
+@keyframes stumpSettingsFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .stump-ai-settings-panel.is-active {
   display: block;
 }
 
-.stump-ai-settings-input {
+.stump-ai-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.stump-ai-settings-title {
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--pitch-green, #00e676);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stump-ai-settings-close {
+  background: none;
+  border: none;
+  color: var(--text-muted, #94a3b8);
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.stump-ai-settings-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Engine Status Reassurance Card */
+.stump-ai-status-card {
+  padding: 10px 12px;
+  background: rgba(0, 230, 118, 0.08);
+  border: 1px solid rgba(0, 230, 118, 0.25);
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.stump-ai-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--pitch-green, #00e676);
+  margin-bottom: 4px;
+}
+
+.stump-ai-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pitch-green, #00e676);
+  box-shadow: 0 0 8px var(--pitch-green, #00e676);
+  animation: stumpAiStatusPulse 2s infinite ease-in-out;
+  flex-shrink: 0;
+}
+
+.stump-ai-status-sub {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.35;
+}
+
+/* Preference Group & Row */
+.stump-ai-pref-group {
+  margin-bottom: 12px;
+}
+
+.stump-ai-pref-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
+
+.stump-ai-pref-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+  margin-bottom: 6px;
+}
+
+.stump-ai-pref-hint {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-muted, #94a3b8);
+}
+
+.stump-ai-pref-label-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+}
+
+.stump-ai-pref-label-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted, #94a3b8);
+}
+
+/* Dedicated Segmented Theme Pills */
+.stump-ai-theme-segmented {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stump-ai-theme-pill {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted, #94a3b8);
+  border-radius: 8px;
+  padding: 7px 4px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stump-ai-theme-pill:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.stump-ai-theme-pill.is-active {
+  background: radial-gradient(circle at 30% 30%, #1e293b 0%, #0f172a 100%);
+  color: var(--pitch-green, #00e676);
+  border-color: rgba(0, 230, 118, 0.5);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 230, 118, 0.2);
+}
+
+/* Switch Toggle Component */
+.stump-switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+  margin: 0;
+}
+
+.stump-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.stump-slider {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.14);
+  border-radius: 34px;
+  transition: 0.25s ease;
+}
+
+.stump-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.25s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.stump-switch input:checked + .stump-slider {
+  background-color: var(--pitch-green, #00e676);
+}
+
+.stump-switch input:checked + .stump-slider:before {
+  transform: translateX(18px);
+}
+
+/* Advanced Developer Dropdown */
+.stump-ai-advanced-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.stump-ai-advanced-toggle {
+  background: none;
+  border: none;
+  color: var(--text-muted, #94a3b8);
+  font-size: 0.74rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  padding: 9px 12px;
+  padding: 4px 0;
+  transition: color 0.2s ease;
+}
+
+.stump-ai-advanced-toggle:hover {
+  color: #ffffff;
+}
+
+.stump-ai-caret {
+  transition: transform 0.2s ease;
+}
+
+.stump-ai-advanced-toggle[aria-expanded="true"] .stump-ai-caret {
+  transform: rotate(180deg);
+}
+
+.stump-ai-advanced-panel {
+  padding-top: 8px;
+}
+
+.stump-ai-advanced-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted, #94a3b8);
+  margin: 0 0 6px 0;
+  line-height: 1.35;
+}
+
+.stump-ai-key-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.stump-ai-settings-input {
+  flex: 1;
+  padding: 8px 12px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
   color: #ffffff;
   font-size: 16px; /* Prevents auto-zoom on iOS */
-  margin-top: 6px;
-  margin-bottom: 8px;
 }
 
-[data-theme="light"] .stump-ai-settings-input {
-  background: #ffffff;
-  border-color: #cbd5e1;
-  color: #090d16;
+.stump-ai-key-status {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  min-height: 16px;
+}
+
+/* ==========================================================================
+   StumpAI Dedicated Theme Overrides (Independent Dark / Light Theme)
+   ========================================================================== */
+
+/* 1. Light Theme: Applied via website [data-theme="light"] (unless AI forced dark),
+   OR explicitly forced via .stump-ai-theme-light */
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark),
+.stump-ai-window.stump-ai-theme-light {
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 25px 50px rgba(15, 23, 42, 0.18) !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-header,
+.stump-ai-window.stump-ai-theme-light .stump-ai-header {
+  background: rgba(240, 253, 244, 0.96) !important;
+  border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-title-wrap h4,
+.stump-ai-window.stump-ai-theme-light .stump-ai-title-wrap h4 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-status,
+.stump-ai-window.stump-ai-theme-light .stump-ai-status {
+  color: #047857 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-status-dot,
+.stump-ai-window.stump-ai-theme-light .stump-ai-status-dot {
+  background: #059669 !important;
+  box-shadow: 0 0 6px rgba(5, 150, 105, 0.5) !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-btn-icon,
+.stump-ai-window.stump-ai-theme-light .stump-ai-btn-icon {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-btn-icon:hover,
+.stump-ai-window.stump-ai-theme-light .stump-ai-btn-icon:hover {
+  background: rgba(15, 23, 42, 0.08) !important;
+  color: #090d16 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-settings-panel,
+.stump-ai-window.stump-ai-theme-light .stump-ai-settings-panel {
+  background: #f8fafc !important;
+  border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-settings-close,
+.stump-ai-window.stump-ai-theme-light .stump-ai-settings-close {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-status-card,
+.stump-ai-window.stump-ai-theme-light .stump-ai-status-card {
+  background: #ecfdf5 !important;
+  border-color: rgba(5, 150, 105, 0.25) !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-status-badge,
+.stump-ai-window.stump-ai-theme-light .stump-ai-status-badge {
+  color: #047857 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-status-sub,
+.stump-ai-window.stump-ai-theme-light .stump-ai-status-sub {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-pref-label,
+.stump-ai-window.stump-ai-theme-light .stump-ai-pref-label,
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-pref-label-title,
+.stump-ai-window.stump-ai-theme-light .stump-ai-pref-label-title {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-pref-hint,
+.stump-ai-window.stump-ai-theme-light .stump-ai-pref-hint,
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-pref-label-desc,
+.stump-ai-window.stump-ai-theme-light .stump-ai-pref-label-desc {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-pref-row,
+.stump-ai-window.stump-ai-theme-light .stump-ai-pref-row {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-theme-segmented,
+.stump-ai-window.stump-ai-theme-light .stump-ai-theme-segmented {
+  background: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-theme-pill,
+.stump-ai-window.stump-ai-theme-light .stump-ai-theme-pill {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-theme-pill.is-active,
+.stump-ai-window.stump-ai-theme-light .stump-ai-theme-pill.is-active {
+  background: #ffffff !important;
+  color: #047857 !important;
+  border-color: rgba(4, 120, 87, 0.4) !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-slider,
+.stump-ai-window.stump-ai-theme-light .stump-slider {
+  background-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-switch input:checked + .stump-slider,
+.stump-ai-window.stump-ai-theme-light .stump-switch input:checked + .stump-slider {
+  background-color: #059669 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-settings-input,
+.stump-ai-window.stump-ai-theme-light .stump-ai-settings-input {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-msg-row.assistant .stump-msg-bubble,
+.stump-ai-window.stump-ai-theme-light .stump-msg-row.assistant .stump-msg-bubble {
+  background: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-bubble-content a,
+.stump-ai-window.stump-ai-theme-light .stump-bubble-content a {
+  color: #047857 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-msg-actions,
+.stump-ai-window.stump-ai-theme-light .stump-msg-actions {
+  border-top-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-msg-copy-btn,
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-msg-thumb-btn,
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-msg-tts-btn,
+.stump-ai-window.stump-ai-theme-light .stump-msg-copy-btn,
+.stump-ai-window.stump-ai-theme-light .stump-msg-thumb-btn,
+.stump-ai-window.stump-ai-theme-light .stump-msg-tts-btn {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-social-card,
+.stump-ai-window.stump-ai-theme-light .stump-social-card {
+  background: #ffffff !important;
+  border-color: rgba(225, 48, 108, 0.35) !important;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-social-handle,
+.stump-ai-window.stump-ai-theme-light .stump-social-handle {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-chips-wrap,
+.stump-ai-window.stump-ai-theme-light .stump-ai-chips-wrap {
+  background: #f8fafc !important;
+  border-top-color: rgba(15, 23, 42, 0.06) !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-prompt-chip,
+.stump-ai-window.stump-ai-theme-light .stump-prompt-chip {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-prompt-chip:hover,
+.stump-ai-window.stump-ai-theme-light .stump-prompt-chip:hover {
+  background: #e6f4ea !important;
+  border-color: #047857 !important;
+  color: #047857 !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-footer,
+.stump-ai-window.stump-ai-theme-light .stump-ai-footer {
+  background: #ffffff !important;
+  border-top-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .stump-ai-window:not(.stump-ai-theme-dark) .stump-ai-input,
+.stump-ai-window.stump-ai-theme-light .stump-ai-input {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* 2. Forced Dark Theme: When .stump-ai-theme-dark is active, even if [data-theme="light"] on page */
+.stump-ai-window.stump-ai-theme-dark {
+  background: #0b1326 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-header {
+  background: rgba(7, 12, 22, 0.95) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-title-wrap h4 {
+  color: #f8fafc !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-status {
+  color: #00e676 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-status-dot {
+  background: #00e676 !important;
+  box-shadow: 0 0 8px #00e676 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-btn-icon {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  color: #94a3b8 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-btn-icon:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-settings-panel {
+  background: rgba(8, 13, 24, 0.98) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-settings-close {
+  color: #94a3b8 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-status-card {
+  background: rgba(0, 230, 118, 0.08) !important;
+  border-color: rgba(0, 230, 118, 0.25) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-status-badge {
+  color: #00e676 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-status-sub {
+  color: #94a3b8 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-pref-label,
+.stump-ai-window.stump-ai-theme-dark .stump-ai-pref-label-title {
+  color: #ffffff !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-pref-hint,
+.stump-ai-window.stump-ai-theme-dark .stump-ai-pref-label-desc {
+  color: #94a3b8 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-pref-row {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-theme-segmented {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-theme-pill {
+  color: #94a3b8 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-theme-pill.is-active {
+  background: radial-gradient(circle at 30% 30%, #1e293b 0%, #0f172a 100%) !important;
+  color: #00e676 !important;
+  border-color: rgba(0, 230, 118, 0.5) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-slider {
+  background-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-switch input:checked + .stump-slider {
+  background-color: #00e676 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-settings-input {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-msg-row.assistant .stump-msg-bubble {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-bubble-content a {
+  color: #00e676 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-msg-actions {
+  border-top-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-msg-copy-btn,
+.stump-ai-window.stump-ai-theme-dark .stump-msg-thumb-btn,
+.stump-ai-window.stump-ai-theme-dark .stump-msg-tts-btn {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #94a3b8 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-social-card {
+  background: #0d1527 !important;
+  border-color: rgba(225, 48, 108, 0.4) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-social-handle {
+  color: #ffffff !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-chips-wrap {
+  background: rgba(5, 8, 17, 0.5) !important;
+  border-top-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-prompt-chip {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-prompt-chip:hover {
+  background: rgba(0, 230, 118, 0.15) !important;
+  border-color: #00e676 !important;
+  color: #00e676 !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-footer {
+  background: rgba(5, 8, 17, 0.88) !important;
+  border-top-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.stump-ai-window.stump-ai-theme-dark .stump-ai-input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
 }
 
 /* 5. Scrollable Message Area (Hardware Accelerated) */
@@ -993,6 +1805,9 @@ body.stump-ai-body-locked {
 @media (prefers-reduced-motion: reduce) {
   .stump-ai-window,
   .stump-ai-fab,
+  .stump-ai-fab-pill,
+  .stump-ai-fab-shadow,
+  .stump-ai-fab-halo,
   .stump-msg-row,
   .stump-typing-dot {
     transition: none !important;

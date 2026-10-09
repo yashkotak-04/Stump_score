@@ -8,6 +8,7 @@ class StumpAIAssistant {
     this.storageKey = 'stump_ai_history_v2';
     this.apiKeyStorageKey = 'stump_gemini_api_key';
     this.soundEnabledKey = 'stump_ai_sound_enabled';
+    this.themeStorageKey = 'stump_ai_theme';
 
     this.isOpen = false;
     this.isGenerating = false;
@@ -42,6 +43,7 @@ class StumpAIAssistant {
     this.knowledgeBase = this.initKnowledgeBase();
 
     this.initElements();
+    this.initTheme();
     this.bindEvents();
     this.loadHistory();
   }
@@ -371,15 +373,23 @@ class StumpAIAssistant {
      2. DOM Element Binding
      -------------------------------------------------------------------------- */
   initElements() {
+    this.fabContainer = document.getElementById('stump-ai-fab-container');
     this.fabBtn = document.getElementById('stump-ai-fab');
+    this.fabPill = document.getElementById('stump-ai-fab-pill');
     this.windowEl = document.getElementById('stump-ai-window');
     this.closeBtn = document.getElementById('stump-ai-close-btn');
     this.clearBtn = document.getElementById('stump-ai-clear-btn');
     this.settingsBtn = document.getElementById('stump-ai-settings-btn');
     this.soundBtn = document.getElementById('stump-ai-sound-btn');
     this.settingsPanel = document.getElementById('stump-ai-settings-panel');
+    this.settingsCloseBtn = document.getElementById('stump-ai-settings-close-btn');
+    this.themeButtons = document.querySelectorAll('.stump-ai-theme-pill');
+    this.soundToggle = document.getElementById('stump-ai-sound-toggle');
+    this.advancedToggle = document.getElementById('stump-ai-advanced-toggle');
+    this.advancedPanel = document.getElementById('stump-ai-advanced-panel');
     this.apiKeyInput = document.getElementById('stump-ai-api-key');
     this.saveKeyBtn = document.getElementById('stump-ai-save-key-btn');
+    this.keyStatus = document.getElementById('stump-ai-key-status');
     this.messagesContainer = document.getElementById('stump-ai-messages');
     this.typingIndicator = document.getElementById('stump-ai-typing');
     this.chipsContainer = document.getElementById('stump-ai-chips');
@@ -391,16 +401,65 @@ class StumpAIAssistant {
     this.recognition = null;
     this.previousPlaceholder = '';
 
-    // Initialize sound button opacity
+    // Initialize sound button opacity & switch state
     if (this.soundBtn) {
       this.soundBtn.style.opacity = this.soundEnabled ? '1' : '0.4';
       this.soundBtn.title = this.soundEnabled ? 'Sound On' : 'Sound Muted';
+    }
+    if (this.soundToggle) {
+      this.soundToggle.checked = this.soundEnabled;
     }
 
     // Load saved API key if present
     const savedKey = localStorage.getItem(this.apiKeyStorageKey);
     if (savedKey && this.apiKeyInput) {
       this.apiKeyInput.value = savedKey;
+      if (this.keyStatus) {
+        this.keyStatus.textContent = 'Custom Gemini Key connected';
+        this.keyStatus.style.color = 'var(--pitch-green, #00e676)';
+      }
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     Theme Management (Dedicated StumpAI Appearance Selector)
+     -------------------------------------------------------------------------- */
+  initTheme() {
+    const savedTheme = localStorage.getItem(this.themeStorageKey) || 'auto';
+    this.applyAiTheme(savedTheme, false);
+  }
+
+  setAiTheme(themeChoice) {
+    if (!['dark', 'light', 'auto'].includes(themeChoice)) return;
+    localStorage.setItem(this.themeStorageKey, themeChoice);
+    this.applyAiTheme(themeChoice, true);
+  }
+
+  applyAiTheme(themeChoice, notifyUser = false) {
+    if (!this.windowEl) return;
+
+    if (themeChoice === 'dark') {
+      this.windowEl.classList.remove('stump-ai-theme-light');
+      this.windowEl.classList.add('stump-ai-theme-dark');
+    } else if (themeChoice === 'light') {
+      this.windowEl.classList.remove('stump-ai-theme-dark');
+      this.windowEl.classList.add('stump-ai-theme-light');
+    } else {
+      // Auto: Match website theme
+      this.windowEl.classList.remove('stump-ai-theme-dark', 'stump-ai-theme-light');
+    }
+
+    // Update segmented theme pills active state
+    if (this.themeButtons) {
+      this.themeButtons.forEach(btn => {
+        const choice = btn.getAttribute('data-theme-choice');
+        btn.classList.toggle('is-active', choice === themeChoice);
+      });
+    }
+
+    if (notifyUser && window.showStumpToast) {
+      const label = themeChoice === 'dark' ? 'Dark Mode 🌙' : themeChoice === 'light' ? 'Light Mode ☀️' : 'Auto (App Matching) 📱';
+      window.showStumpToast(`🎨 StumpAI appearance updated to ${label}`);
     }
   }
 
@@ -410,6 +469,13 @@ class StumpAIAssistant {
   bindEvents() {
     if (this.fabBtn) {
       this.fabBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.toggleWindow();
+      });
+    }
+
+    if (this.fabPill) {
+      this.fabPill.addEventListener('click', (e) => {
         e.preventDefault();
         this.toggleWindow();
       });
@@ -438,6 +504,39 @@ class StumpAIAssistant {
       });
     }
 
+    if (this.settingsCloseBtn) {
+      this.settingsCloseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (this.settingsPanel) {
+          this.settingsPanel.classList.remove('is-active');
+        }
+      });
+    }
+
+    // Theme selector buttons
+    if (this.themeButtons) {
+      this.themeButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const choice = btn.getAttribute('data-theme-choice');
+          if (choice) this.setAiTheme(choice);
+        });
+      });
+    }
+
+    // Sound toggle in settings drawer
+    if (this.soundToggle) {
+      this.soundToggle.addEventListener('change', () => {
+        this.soundEnabled = this.soundToggle.checked;
+        localStorage.setItem(this.soundEnabledKey, this.soundEnabled.toString());
+        if (this.soundBtn) {
+          this.soundBtn.style.opacity = this.soundEnabled ? '1' : '0.4';
+          this.soundBtn.title = this.soundEnabled ? 'Sound On' : 'Sound Muted';
+        }
+      });
+    }
+
+    // Header sound button
     if (this.soundBtn) {
       this.soundBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -445,21 +544,39 @@ class StumpAIAssistant {
         localStorage.setItem(this.soundEnabledKey, this.soundEnabled.toString());
         this.soundBtn.style.opacity = this.soundEnabled ? '1' : '0.4';
         this.soundBtn.title = this.soundEnabled ? 'Sound On' : 'Sound Muted';
+        if (this.soundToggle) this.soundToggle.checked = this.soundEnabled;
+      });
+    }
+
+    // Advanced developer drawer toggle
+    if (this.advancedToggle && this.advancedPanel) {
+      this.advancedToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isHidden = this.advancedPanel.style.display === 'none';
+        this.advancedPanel.style.display = isHidden ? 'block' : 'none';
+        this.advancedToggle.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
       });
     }
 
     if (this.saveKeyBtn) {
       this.saveKeyBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const key = this.apiKeyInput.value.trim();
+        const key = this.apiKeyInput ? this.apiKeyInput.value.trim() : '';
         if (key) {
           localStorage.setItem(this.apiKeyStorageKey, key);
-          if (window.showStumpToast) window.showStumpToast('✅ Google Gemini API key saved!');
+          if (this.keyStatus) {
+            this.keyStatus.textContent = '✅ Key saved! Gemini LLM active.';
+            this.keyStatus.style.color = 'var(--pitch-green, #00e676)';
+          }
+          if (window.showStumpToast) window.showStumpToast('✅ Custom Google Gemini key saved!');
         } else {
           localStorage.removeItem(this.apiKeyStorageKey);
+          if (this.keyStatus) {
+            this.keyStatus.textContent = 'ℹ️ Standard instant offline engine active.';
+            this.keyStatus.style.color = 'var(--text-muted, #94a3b8)';
+          }
           if (window.showStumpToast) window.showStumpToast('ℹ️ Using instant built-in AI engine.');
         }
-        if (this.settingsPanel) this.settingsPanel.classList.remove('is-active');
       });
     }
 
@@ -561,7 +678,11 @@ class StumpAIAssistant {
   openWindow() {
     this.isOpen = true;
     if (this.windowEl) this.windowEl.classList.add('is-open');
-    if (this.fabBtn) this.fabBtn.style.display = 'none';
+    if (this.fabContainer) {
+      this.fabContainer.classList.add('is-hidden');
+    } else if (this.fabBtn) {
+      this.fabBtn.style.display = 'none';
+    }
 
     // Lock page background scrolling while chat is active
     document.body.classList.add('stump-ai-body-locked');
@@ -594,7 +715,11 @@ class StumpAIAssistant {
       this.windowEl.style.height = '';
       this.windowEl.style.top = '';
     }
-    if (this.fabBtn) this.fabBtn.style.display = 'inline-flex';
+    if (this.fabContainer) {
+      this.fabContainer.classList.remove('is-hidden');
+    } else if (this.fabBtn) {
+      this.fabBtn.style.display = 'inline-flex';
+    }
 
     // Restore background page scroll
     document.body.classList.remove('stump-ai-body-locked');

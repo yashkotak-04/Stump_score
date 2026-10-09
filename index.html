@@ -1197,31 +1197,42 @@
   <!-- ==========================================================================
        StumpAI Assistant Widget (Floating FAB & Interactive AI Window)
        ========================================================================== -->
-  <!-- 1. Floating Action Trigger Button (Holographic Neural AI Symbol) -->
-  <button id="stump-ai-fab" class="stump-ai-fab" aria-label="Open StumpAI Assistant" title="Ask StumpAI (Cricket & App Guide)">
-    <span class="stump-ai-fab-icon">
-      <svg class="stump-ai-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2L14.4 8.6L21 11L14.4 13.4L12 20L9.6 13.4L3 11L9.6 8.6L12 2Z" fill="url(#fabAiGrad1)" stroke="url(#fabAiStroke1)" stroke-width="0.8"/>
-        <circle cx="19" cy="5" r="2" fill="url(#fabAiGrad2)"/>
-        <circle cx="5" cy="19" r="1.6" fill="url(#fabAiGrad2)"/>
-        <defs>
-          <linearGradient id="fabAiGrad1" x1="3" y1="2" x2="21" y2="20" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#00E676"/>
-            <stop offset="0.5" stop-color="#00B0FF"/>
-            <stop offset="1" stop-color="#A855F7"/>
-          </linearGradient>
-          <linearGradient id="fabAiStroke1" x1="3" y1="2" x2="21" y2="20" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#FFFFFF"/>
-            <stop offset="1" stop-color="#00E676"/>
-          </linearGradient>
-          <linearGradient id="fabAiGrad2" x1="0" y1="0" x2="1" y2="1">
-            <stop stop-color="#00B0FF"/>
-            <stop offset="1" stop-color="#00E676"/>
-          </linearGradient>
-        </defs>
-      </svg>
-    </span>
-  </button>
+  <!-- 1. Floating Action Trigger Container (Levitating 3D AI Orb & Floor Contact Shadow) -->
+  <div id="stump-ai-fab-container" class="stump-ai-fab-container">
+    <button type="button" id="stump-ai-fab-pill" class="stump-ai-fab-pill" aria-label="Open StumpAI Assistant">
+      <span class="stump-ai-fab-pill-sparkle">✨</span>
+      <span class="stump-ai-fab-pill-text">AI Guru</span>
+      <span class="stump-ai-fab-pill-dot" aria-hidden="true"></span>
+    </button>
+    <div class="stump-ai-fab-btn-wrap">
+      <div class="stump-ai-fab-shadow" aria-hidden="true"></div>
+      <button id="stump-ai-fab" class="stump-ai-fab" aria-label="Open StumpAI Assistant" title="Ask StumpAI (Cricket & App Guide)">
+        <span class="stump-ai-fab-halo" aria-hidden="true"></span>
+        <span class="stump-ai-fab-icon">
+          <svg class="stump-ai-svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L14.4 8.6L21 11L14.4 13.4L12 20L9.6 13.4L3 11L9.6 8.6L12 2Z" fill="url(#fabAiGrad1)" stroke="url(#fabAiStroke1)" stroke-width="0.8"/>
+            <circle cx="19" cy="5" r="2" fill="url(#fabAiGrad2)"/>
+            <circle cx="5" cy="19" r="1.6" fill="url(#fabAiGrad2)"/>
+            <defs>
+              <linearGradient id="fabAiGrad1" x1="3" y1="2" x2="21" y2="20" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#00E676"/>
+                <stop offset="0.5" stop-color="#00B0FF"/>
+                <stop offset="1" stop-color="#A855F7"/>
+              </linearGradient>
+              <linearGradient id="fabAiStroke1" x1="3" y1="2" x2="21" y2="20" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFFFFF"/>
+                <stop offset="1" stop-color="#00E676"/>
+              </linearGradient>
+              <linearGradient id="fabAiGrad2" x1="0" y1="0" x2="1" y2="1">
+                <stop stop-color="#00B0FF"/>
+                <stop offset="1" stop-color="#00E676"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
 
   <!-- 2. Interactive AI Chat Window -->
   <div id="stump-ai-window" class="stump-ai-window" role="dialog" aria-labelledby="stump-ai-title" aria-modal="true">
@@ -1266,7 +1277,7 @@
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
           </svg>
         </button>
-        <button type="button" id="stump-ai-settings-btn" class="stump-ai-btn-icon" title="AI Settings (Gemini API Key)" aria-label="AI Settings">
+        <button type="button" id="stump-ai-settings-btn" class="stump-ai-btn-icon" title="StumpAI Preferences & Themes" aria-label="AI Settings">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -1289,17 +1300,75 @@
       </div>
     </div>
 
-    <!-- Collapsible Settings Panel (Optional Gemini API Key) -->
-    <div id="stump-ai-settings-panel" class="stump-ai-settings-panel">
-      <div style="font-weight: 700; color: var(--pitch-green); margin-bottom: 4px;">⚙️ AI Engine Configuration</div>
-      <p style="margin: 0 0 6px 0; color: var(--text-muted); font-size: 0.76rem;">
-        Default: Instant Offline Knowledge Base (0ms lag). To enable live Google Gemini LLM reasoning, paste your free Gemini API key below:
-      </p>
-      <input type="password" id="stump-ai-api-key" class="stump-ai-settings-input" placeholder="Paste Google Gemini API Key (Optional)...">
-      <div style="display: flex; gap: 8px;">
-        <button type="button" id="stump-ai-save-key-btn" class="btn btn-primary-android btn-sm" style="flex: 1; padding: 5px 10px; font-size: 0.78rem;">
-          Save API Key
+    <!-- Redesigned User-Friendly Settings & Preferences Drawer -->
+    <div id="stump-ai-settings-panel" class="stump-ai-settings-panel" aria-label="StumpAI Settings">
+      <div class="stump-ai-settings-header">
+        <div class="stump-ai-settings-title">
+          <span>⚙️ StumpAI Preferences</span>
+        </div>
+        <button type="button" id="stump-ai-settings-close-btn" class="stump-ai-settings-close" title="Close preferences" aria-label="Close preferences">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
+      </div>
+
+      <!-- Engine Status Reassurance Card -->
+      <div class="stump-ai-status-card">
+        <div class="stump-ai-status-badge">
+          <span class="stump-ai-pulse-dot"></span>
+          <strong>Instant Cricket Guru: Active (0ms lag)</strong>
+        </div>
+        <p class="stump-ai-status-sub">
+          ✨ Preloaded with 50+ official cricket rules, DLS formulas &amp; match scoring tutorials. 100% free and ready to use! No API key needed.
+        </p>
+      </div>
+
+      <!-- 1. Dedicated StumpAI Theme Selector -->
+      <div class="stump-ai-pref-group">
+        <div class="stump-ai-pref-label">
+          <span>🎨 StumpAI Chat Appearance</span>
+          <span class="stump-ai-pref-hint">AI-only Theme</span>
+        </div>
+        <div class="stump-ai-theme-segmented" role="radiogroup" aria-label="StumpAI Theme">
+          <button type="button" class="stump-ai-theme-pill" data-theme-choice="dark" id="stump-theme-dark-btn" aria-label="Select Dark Theme for AI">
+            <span class="stump-theme-icon">🌙</span> Dark
+          </button>
+          <button type="button" class="stump-ai-theme-pill" data-theme-choice="light" id="stump-theme-light-btn" aria-label="Select Light Theme for AI">
+            <span class="stump-theme-icon">☀️</span> Light
+          </button>
+          <button type="button" class="stump-ai-theme-pill is-active" data-theme-choice="auto" id="stump-theme-auto-btn" aria-label="Match Website Theme">
+            <span class="stump-theme-icon">📱</span> Auto (Match App)
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. Audio Effects & Voice Toggle -->
+      <div class="stump-ai-pref-group stump-ai-pref-row">
+        <div>
+          <div class="stump-ai-pref-label-title">🔊 Sound Effects &amp; Voice</div>
+          <div class="stump-ai-pref-label-desc">Play message chimes and audio speech</div>
+        </div>
+        <label class="stump-switch" aria-label="Toggle Sound Effects">
+          <input type="checkbox" id="stump-ai-sound-toggle" checked>
+          <span class="stump-slider"></span>
+        </label>
+      </div>
+
+      <!-- 3. Advanced Developer Option (Collapsible, so casual users aren't confused) -->
+      <div class="stump-ai-advanced-section">
+        <button type="button" id="stump-ai-advanced-toggle" class="stump-ai-advanced-toggle" aria-expanded="false">
+          <span>🔧 Advanced: Custom Gemini Cloud Key (Optional)</span>
+          <svg class="stump-ai-caret" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div id="stump-ai-advanced-panel" class="stump-ai-advanced-panel" style="display: none;">
+          <p class="stump-ai-advanced-desc">
+            You do <em>not</em> need this for regular use. Developers who want custom Google Gemini Cloud LLM responses can store their personal API key here:
+          </p>
+          <div class="stump-ai-key-input-row">
+            <input type="password" id="stump-ai-api-key" class="stump-ai-settings-input" placeholder="Paste Gemini API Key (Optional)..." autocomplete="off">
+            <button type="button" id="stump-ai-save-key-btn" class="btn btn-primary-android btn-sm">Save</button>
+          </div>
+          <div id="stump-ai-key-status" class="stump-ai-key-status"></div>
+        </div>
       </div>
     </div>
 
