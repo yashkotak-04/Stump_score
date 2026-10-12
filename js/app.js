@@ -457,10 +457,33 @@ function initPosterStudio() {
       const res = (resultInput ? resultInput.value.trim() : '') || 'India won by 16 runs';
       const mvp = (mvpInput ? mvpInput.value.trim() : '') || 'V. Kohli (82 runs & 1/14)';
 
-      const text = `🏏 *STUMPSCORE MATCH RESULT*\n━━━━━━━━━━━━━━━━━━━━\n🏆 *${res}*\n\n📊 *${t1}:* ${s1}\n📊 *${t2}:* ${s2}\n🌟 *Player of the Match:* ${mvp}\n━━━━━━━━━━━━━━━━━━━━\n📲 *Scored with StumpScore:* https://cricket-scoring-webapp.vercel.app`;
+      const text = `🏏 *STUMPSCORE MATCH RESULT*\n━━━━━━━━━━━━━━━━━━━━\n🏆 *${res}*\n\n📊 *${t1}:* ${s1}\n📊 *${t2}:* ${s2}\n🌟 *Player of the Match:* ${mvp}\n━━━━━━━━━━━━━━━━━━━━\n📲 *Scored live with StumpScore!*\n🌐 *Live Scorecard:* https://stumpscore.vercel.app/#demo`;
       const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
     });
+  }
+
+  // Draw fitted text on canvas with dynamic font reduction and truncation to prevent score overlaps
+  function drawFittedText(ctx, text, x, y, maxWidth, initialFontSize, minFontSize, fontWeight, fontFamily) {
+    let fontSize = initialFontSize;
+    ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+    let textWidth = ctx.measureText(text).width;
+
+    while (textWidth > maxWidth && fontSize > minFontSize) {
+      fontSize -= 2;
+      ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+      textWidth = ctx.measureText(text).width;
+    }
+
+    if (textWidth > maxWidth) {
+      let truncated = text;
+      while (truncated.length > 2 && ctx.measureText(truncated + '…').width > maxWidth) {
+        truncated = truncated.slice(0, -1);
+      }
+      ctx.fillText(truncated + '…', x, y);
+    } else {
+      ctx.fillText(text, x, y);
+    }
   }
 
   function generateAndDownloadPoster() {
@@ -541,30 +564,32 @@ function initPosterStudio() {
       roundRect(ctx, 80, 200, 920, 460, 28, true, true);
 
       // Team 1 Row
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 60px "Outfit", "Segoe UI", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(t1, 120, 310);
-
       ctx.fillStyle = '#00e676';
       ctx.font = '900 64px "JetBrains Mono", "Courier New", monospace';
       ctx.textAlign = 'right';
       ctx.fillText(s1, 960, 310);
+      const score1Width = ctx.measureText(s1).width;
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      const maxTeam1Width = Math.max(200, (960 - score1Width - 36) - 120);
+      drawFittedText(ctx, t1, 120, 310, maxTeam1Width, 60, 32, 900, '"Outfit", "Segoe UI", sans-serif');
 
       // Subtle Mid Divider
       ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
       ctx.fillRect(120, 370, 840, 2);
 
       // Team 2 Row
-      ctx.fillStyle = '#e2e8f0';
-      ctx.font = '800 54px "Outfit", "Segoe UI", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(t2, 120, 480);
-
       ctx.fillStyle = '#cbd5e1';
       ctx.font = '800 54px "JetBrains Mono", "Courier New", monospace';
       ctx.textAlign = 'right';
       ctx.fillText(s2, 960, 480);
+      const score2Width = ctx.measureText(s2).width;
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.textAlign = 'left';
+      const maxTeam2Width = Math.max(200, (960 - score2Width - 36) - 120);
+      drawFittedText(ctx, t2, 120, 480, maxTeam2Width, 54, 30, 800, '"Outfit", "Segoe UI", sans-serif');
 
       // Match Winner Gold Banner
       const winnerGrad = ctx.createLinearGradient(80, 560, 1000, 640);
@@ -751,30 +776,32 @@ function initPosterStudio() {
       roundRect(ctx, 80, cardY, 920, cardH, 24, true, true);
 
       // Team 1
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 62px "Outfit", "Segoe UI", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(t1, 130, cardY + 110);
-
       ctx.fillStyle = '#00e676';
       ctx.font = '900 64px "JetBrains Mono", monospace';
       ctx.textAlign = 'right';
       ctx.fillText(s1, 950, cardY + 110);
+      const score1Width = ctx.measureText(s1).width;
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      const maxTeam1Width = Math.max(200, (950 - score1Width - 36) - 130);
+      drawFittedText(ctx, t1, 130, cardY + 110, maxTeam1Width, 62, 32, 900, '"Outfit", "Segoe UI", sans-serif');
 
       // Divider between teams
       ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
       ctx.fillRect(130, cardY + 170, 820, 2);
 
       // Team 2
-      ctx.fillStyle = '#e2e8f0';
-      ctx.font = '800 56px "Outfit", "Segoe UI", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(t2, 130, cardY + 270);
-
       ctx.fillStyle = '#cbd5e1';
       ctx.font = '800 56px "JetBrains Mono", monospace';
       ctx.textAlign = 'right';
       ctx.fillText(s2, 950, cardY + 270);
+      const score2Width = ctx.measureText(s2).width;
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.textAlign = 'left';
+      const maxTeam2Width = Math.max(200, (950 - score2Width - 36) - 130);
+      drawFittedText(ctx, t2, 130, cardY + 270, maxTeam2Width, 56, 30, 800, '"Outfit", "Segoe UI", sans-serif');
 
       // Result Gold Banner
       const winGrad = ctx.createLinearGradient(80, cardY + 340, 1000, cardY + 430);
@@ -1120,3 +1147,27 @@ function initTickerObserver() {
   tickerObserver.observe(tickerEl);
 }
 
+/* ==========================================================================
+   Instagram Featured Post / Community Config & Auto Navigation
+   ========================================================================== */
+const INSTAGRAM_POST_URL = 'https://www.instagram.com/stump_score/';
+
+// Smooth-scroll into live match simulator if user arrives via shared WhatsApp links
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = window.location.hash;
+  const path = window.location.pathname.toLowerCase();
+  if (hash === '#demo' || path.endsWith('/demo') || path.endsWith('/live') || path.endsWith('/scorecard')) {
+    setTimeout(() => {
+      const demoSection = document.getElementById('demo');
+      if (demoSection) {
+        demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Flash pulse highlight around scoreboard
+        const simScreen = demoSection.querySelector('.sim-scoreboard-screen');
+        if (simScreen) {
+          simScreen.style.boxShadow = '0 0 35px rgba(0, 230, 118, 0.6)';
+          setTimeout(() => { simScreen.style.boxShadow = ''; }, 2400);
+        }
+      }
+    }, 350);
+  }
+});

@@ -273,44 +273,44 @@
 
       <div class="form-group">
         <label class="form-label" for="inp-tournament">Tournament / Match Title</label>
-        <input type="text" id="inp-tournament" class="form-input" value="CHAMPIONSHIP TROPHY 2026 • GRAND FINAL">
+        <input type="text" id="inp-tournament" class="form-input" value="CHAMPIONSHIP TROPHY 2026 • GRAND FINAL" maxlength="60">
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label class="form-label" for="inp-team1">Team 1 Name</label>
-          <input type="text" id="inp-team1" class="form-input" value="India">
+          <input type="text" id="inp-team1" class="form-input" value="India" maxlength="40">
         </div>
         <div class="form-group">
           <label class="form-label" for="inp-score1">Team 1 Score</label>
-          <input type="text" id="inp-score1" class="form-input" value="184/4 (20.0 ov)">
+          <input type="text" id="inp-score1" class="form-input" value="184/4 (20.0 ov)" maxlength="30">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label class="form-label" for="inp-team2">Team 2 Name</label>
-          <input type="text" id="inp-team2" class="form-input" value="Australia">
+          <input type="text" id="inp-team2" class="form-input" value="Australia" maxlength="40">
         </div>
         <div class="form-group">
           <label class="form-label" for="inp-score2">Team 2 Score</label>
-          <input type="text" id="inp-score2" class="form-input" value="168/8 (20.0 ov)">
+          <input type="text" id="inp-score2" class="form-input" value="168/8 (20.0 ov)" maxlength="30">
         </div>
       </div>
 
       <div class="form-group">
         <label class="form-label" for="inp-result">Match Result</label>
-        <input type="text" id="inp-result" class="form-input" value="India won by 16 runs">
+        <input type="text" id="inp-result" class="form-input" value="India won by 16 runs" maxlength="50">
       </div>
 
       <div class="form-group">
         <label class="form-label" for="inp-mvp">Player of the Match (MVP)</label>
-        <input type="text" id="inp-mvp" class="form-input" value="Virat Kohli (82* runs & 1/14)">
+        <input type="text" id="inp-mvp" class="form-input" value="Virat Kohli (82* runs & 1/14)" maxlength="50">
       </div>
 
       <div class="form-group">
         <label class="form-label" for="inp-venue">Venue / League</label>
-        <input type="text" id="inp-venue" class="form-input" value="Melbourne Cricket Ground • Night Final">
+        <input type="text" id="inp-venue" class="form-input" value="Melbourne Cricket Ground • Night Final" maxlength="60">
       </div>
 
       <div style="margin-top: 24px;">
@@ -368,6 +368,28 @@
       ctx.closePath();
       if (fill) ctx.fill();
       if (stroke) ctx.stroke();
+    }
+
+    function drawFittedText(ctx, text, x, y, maxWidth, initialFontSize, minFontSize, fontWeight, fontFamily) {
+      let fontSize = initialFontSize;
+      ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+      let textWidth = ctx.measureText(text).width;
+
+      while (textWidth > maxWidth && fontSize > minFontSize) {
+        fontSize -= 2;
+        ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+        textWidth = ctx.measureText(text).width;
+      }
+
+      if (textWidth > maxWidth) {
+        let truncated = text;
+        while (truncated.length > 2 && ctx.measureText(truncated + '…').width > maxWidth) {
+          truncated = truncated.slice(0, -1);
+        }
+        ctx.fillText(truncated + '…', x, y);
+      } else {
+        ctx.fillText(text, x, y);
+      }
     }
 
     function renderPoster(w = 1080, h = 1350) {
@@ -450,30 +472,32 @@
       roundRect(ctx, 80, cardY, w - 160, cardH, 24, true, true);
 
       // Team 1
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 62px "Outfit", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(t1, 130, cardY + 110);
-
       ctx.fillStyle = '#00e676';
       ctx.font = '900 64px "JetBrains Mono", monospace';
       ctx.textAlign = 'right';
       ctx.fillText(s1, w - 130, cardY + 110);
+      const score1Width = ctx.measureText(s1).width;
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      const maxTeam1Width = Math.max(200, (w - 130 - score1Width - 36) - 130);
+      drawFittedText(ctx, t1, 130, cardY + 110, maxTeam1Width, 62, 32, 900, '"Outfit", sans-serif');
 
       // Divider between teams
       ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
       ctx.fillRect(130, cardY + 170, w - 260, 2);
 
       // Team 2
-      ctx.fillStyle = '#e2e8f0';
-      ctx.font = '800 56px "Outfit", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(t2, 130, cardY + 270);
-
       ctx.fillStyle = '#cbd5e1';
       ctx.font = '800 56px "JetBrains Mono", monospace';
       ctx.textAlign = 'right';
       ctx.fillText(s2, w - 130, cardY + 270);
+      const score2Width = ctx.measureText(s2).width;
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.textAlign = 'left';
+      const maxTeam2Width = Math.max(200, (w - 130 - score2Width - 36) - 130);
+      drawFittedText(ctx, t2, 130, cardY + 270, maxTeam2Width, 56, 30, 800, '"Outfit", sans-serif');
 
       // Result Gold Banner
       const winGrad = ctx.createLinearGradient(80, cardY + 340, w - 80, cardY + 430);
