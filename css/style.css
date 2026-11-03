@@ -98,6 +98,81 @@
   --shadow-glow-gold: 0 8px 30px rgba(180, 83, 9, 0.15);
 }
 
+/* ==========================================================================
+   Smooth Theme Transitions & Native View Transitions API
+   ========================================================================== */
+
+/* Native View Transitions (Supported in modern Chrome, Edge, Safari 18+) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.42s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: stumpThemeFadeOut;
+}
+
+::view-transition-new(root) {
+  animation-name: stumpThemeFadeIn;
+}
+
+@keyframes stumpThemeFadeOut {
+  0% { opacity: 1; filter: brightness(1); }
+  100% { opacity: 0; filter: brightness(0.96); }
+}
+
+@keyframes stumpThemeFadeIn {
+  0% { opacity: 0; filter: brightness(1.04); }
+  100% { opacity: 1; filter: brightness(1); }
+}
+
+/* Active transition class applied during theme flip for seamless interpolation */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: 
+    background-color 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important,
+    background 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important,
+    color 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important,
+    border-color 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important,
+    box-shadow 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important,
+    fill 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important,
+    stroke 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition-delay: 0s !important;
+}
+
+/* Permanent base transitions for core containers and interactive surfaces */
+body,
+.stump-navbar,
+.nav-link,
+.site-footer,
+.glass-card,
+.feature-card,
+.feature-detail-card,
+.stats-counter-card,
+.philosophy-card,
+.review-card,
+.install-step-item,
+.qr-showcase-card,
+.modal-content,
+.download-banner-card,
+.phone-mockup-frame,
+.phone-screen,
+.sim-stage,
+.sim-display,
+.sim-control-panel,
+.live-status-ticker,
+.ticker-item,
+.theme-toggle-btn {
+  transition: 
+    background-color 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* Reset & Global Safety */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -612,6 +687,17 @@ code {
 
 .theme-toggle-btn:active {
   transform: scale(0.92);
+}
+
+.theme-toggle-btn.is-animating {
+  animation: themeBtnPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes themeBtnPop {
+  0% { transform: scale(1); }
+  35% { transform: scale(0.84) rotate(-16deg); }
+  70% { transform: scale(1.12) rotate(8deg); }
+  100% { transform: scale(1) rotate(0deg); }
 }
 
 [data-theme="light"] .theme-toggle-btn {

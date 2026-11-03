@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-   Theme Management — 60fps GPU Accelerated Toggle
+   Theme Management — Smooth Transition & View Transitions API
    ========================================================================== */
 function initTheme() {
   const themeToggleBtn = document.getElementById('theme-toggle');
@@ -32,16 +32,56 @@ function initTheme() {
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', (e) => {
       e.preventDefault();
+
+      // Micro-interaction bounce & spin on toggle button
+      themeToggleBtn.classList.remove('is-animating');
+      void themeToggleBtn.offsetWidth; // Force reflow to retrigger animation
+      themeToggleBtn.classList.add('is-animating');
+      setTimeout(() => themeToggleBtn.classList.remove('is-animating'), 500);
+
       const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-      // Instantly toggle data-theme; pure CSS hardware transforms smoothly animate the icons & cards
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('stumpscore_theme', newTheme);
-      updateThemeIcon(newTheme);
+      switchStumpTheme(newTheme);
     });
   }
 }
+
+function switchStumpTheme(newTheme) {
+  // Add global theme-transitioning class to smoothly animate all surfaces, cards, and borders
+  document.documentElement.classList.add('theme-transitioning');
+
+  const applyThemeChanges = () => {
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('stumpscore_theme', newTheme);
+    updateThemeIcon(newTheme);
+  };
+
+  // Modern browser Native View Transitions (Chrome, Edge, Safari 18+)
+  if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    try {
+      const transition = document.startViewTransition(() => {
+        applyThemeChanges();
+      });
+      transition.finished.finally(() => {
+        setTimeout(() => {
+          document.documentElement.classList.remove('theme-transitioning');
+        }, 50);
+      });
+      return;
+    } catch (err) {
+      // Graceful fallback to CSS transition
+    }
+  }
+
+  // Fallback for browsers without View Transitions
+  applyThemeChanges();
+  setTimeout(() => {
+    document.documentElement.classList.remove('theme-transitioning');
+  }, 460);
+}
+
+// Expose globally so external widgets or assistant can trigger smooth transitions
+window.switchStumpTheme = switchStumpTheme;
 
 function updateThemeIcon(theme) {
   const themeToggleBtn = document.getElementById('theme-toggle');

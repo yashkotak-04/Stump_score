@@ -309,6 +309,34 @@ body.stump-ai-body-locked {
   box-shadow: 0 25px 50px rgba(15, 23, 42, 0.18);
 }
 
+/* Smooth Theme Transitions for StumpAI Window & Components */
+.stump-ai-window,
+.stump-ai-header,
+.stump-ai-body,
+.stump-ai-footer,
+.stump-ai-settings-panel,
+.stump-ai-input-bar,
+.stump-ai-input,
+.stump-msg-bubble,
+.stump-ai-theme-pill,
+.stump-prompt-chip {
+  transition: 
+    background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stump-ai-window.theme-transitioning,
+.stump-ai-window.theme-transitioning * {
+  transition: 
+    background-color 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important,
+    color 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important,
+    border-color 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important,
+    box-shadow 0.42s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition-delay: 0s !important;
+}
+
 /* --- MOBILE SPECIFIC: Below 640px -> Full-Screen Bottom Sheet --- */
 @media (max-width: 639.98px) {
   .stump-ai-window {

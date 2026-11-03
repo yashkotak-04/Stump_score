@@ -438,27 +438,40 @@ class StumpAIAssistant {
   applyAiTheme(themeChoice, notifyUser = false) {
     if (!this.windowEl) return;
 
-    if (themeChoice === 'dark') {
-      this.windowEl.classList.remove('stump-ai-theme-light');
-      this.windowEl.classList.add('stump-ai-theme-dark');
-    } else if (themeChoice === 'light') {
-      this.windowEl.classList.remove('stump-ai-theme-dark');
-      this.windowEl.classList.add('stump-ai-theme-light');
-    } else {
-      // Auto: Match website theme
-      this.windowEl.classList.remove('stump-ai-theme-dark', 'stump-ai-theme-light');
-    }
+    // Add smooth transition class for silky theme swap
+    this.windowEl.classList.add('theme-transitioning');
 
-    // Update segmented theme pills active state
-    if (this.themeButtons) {
-      this.themeButtons.forEach(btn => {
-        const choice = btn.getAttribute('data-theme-choice');
-        btn.classList.toggle('is-active', choice === themeChoice);
-      });
-    }
+    const updateThemeClasses = () => {
+      if (themeChoice === 'dark') {
+        this.windowEl.classList.remove('stump-ai-theme-light');
+        this.windowEl.classList.add('stump-ai-theme-dark');
+      } else if (themeChoice === 'light') {
+        this.windowEl.classList.remove('stump-ai-theme-dark');
+        this.windowEl.classList.add('stump-ai-theme-light');
+      } else {
+        // Auto: Match website theme
+        this.windowEl.classList.remove('stump-ai-theme-dark', 'stump-ai-theme-light');
+      }
+
+      // Update segmented theme pills active state
+      if (this.themeButtons) {
+        this.themeButtons.forEach(btn => {
+          const choice = btn.getAttribute('data-theme-choice');
+          btn.classList.toggle('is-active', choice === themeChoice);
+        });
+      }
+    };
+
+    updateThemeClasses();
+
+    setTimeout(() => {
+      if (this.windowEl) {
+        this.windowEl.classList.remove('theme-transitioning');
+      }
+    }, 460);
 
     if (notifyUser && window.showStumpToast) {
-      const label = themeChoice === 'dark' ? 'Dark Mode 🌙' : themeChoice === 'light' ? 'Light Mode ☀️' : 'Auto (App Matching) 📱';
+      const label = themeChoice === 'dark' ? 'Dark Mode 🌙' : themeChoice === 'light' ? 'Light Mode ☀️' : 'Auto 📱';
       window.showStumpToast(`🎨 StumpAI appearance updated to ${label}`);
     }
   }
