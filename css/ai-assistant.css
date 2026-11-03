@@ -1491,7 +1491,8 @@ body.stump-ai-body-locked {
 .stump-bubble-content a {
   color: var(--pitch-green, #00e676);
   text-decoration: underline;
-  word-break: break-all;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 [data-theme="light"] .stump-bubble-content a {
@@ -1601,6 +1602,9 @@ body.stump-ai-body-locked {
   text-decoration: underline;
   font-weight: 600;
   transition: opacity 0.2s ease;
+  white-space: nowrap;
+  word-break: keep-all;
+  display: inline-block;
 }
 
 .stump-chat-link:hover {

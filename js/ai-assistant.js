@@ -363,7 +363,7 @@ class StumpAIAssistant {
       {
         id: 'q50_social_media',
         keywords: ['social media', 'instagram', 'insta', 'follow on instagram', '@stump_score', 'do you have social media', 'instagram link', 'insta link', 'ig link', 'ig', 'handle', 'page', 'instagram account', 'follow', 'socials', 'connect on instagram', 'insta id', 'instagram id', 'insta account'],
-        response: `We would be delighted to have you join our cricket community! 🏏✨\n\nYou can connect with us directly on Instagram at [@stump_score](https://instagram.com/stump_score) for:\n• 🚀 Instant announcements & new feature updates\n• 📊 Interactive cricket scoring tips & umpire rule guides\n• 🏆 Grassroots tournaments and match highlights\n• 💬 Direct feedback, feature requests & community discussions\n\n[instagram-card:https://instagram.com/stump_score]\n\nFeel free to send us a direct message anytime. How else may I assist you today?`,
+        response: `We would be delighted to have you join our cricket community! 🏏✨\n\nYou can connect with us directly on Instagram at [@stump_score](https://instagram.com/stump_score):\n• 🚀 Instant announcements & new features\n• 📊 Cricket scoring tips & umpire guides\n• 🏆 Grassroots tournament highlights\n• 💬 Direct feedback & community discussions\n\n[instagram-card:https://instagram.com/stump_score]\n\nFeel free to send us a direct message anytime. How else may I assist you today?`,
         chips: ['How can I contact creator?', 'Try Live Demo', 'What is StumpScore?']
       }
     ];
