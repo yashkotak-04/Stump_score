@@ -359,8 +359,20 @@
   }
 
   .stump-social-btn {
-    padding: 8px 12px !important;
-    font-size: 0.78rem !important;
+    padding: 9px 12px !important;
+    font-size: 0.82rem !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    text-align: center !important;
+    line-height: 1.3 !important;
+  }
+
+  .stump-social-btn span {
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    display: inline-block !important;
   }
 
   /* Quick chips wrap */
