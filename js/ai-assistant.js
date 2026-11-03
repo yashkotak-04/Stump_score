@@ -131,25 +131,25 @@ class StumpAIAssistant {
       {
         id: 'q13_is_free',
         keywords: ['is stumpscore free', 'cost', 'pricing', 'price', 'paid', 'subscription', 'free to use'],
-        response: 'Yes, StumpScore is free for all clubs and tournaments.',
+        response: 'Yes, absolutely! StumpScore is 100% free for all grassroots teams, club umpires, and tournament organizers. There are no hidden fees or paywalls. Would you like to try our live match scoring demo?',
         chips: ['Where can I download it?', 'Which platforms does it support?', 'Tournament Mode']
       },
       {
         id: 'q14_platforms_supported',
         keywords: ['platforms', 'devices', 'android or ios', 'iphone', 'windows', 'operating system', 'support'],
-        response: 'StumpScore supports Android (APK), Apple iOS (as a web app and TestFlight beta), and the web.',
+        response: 'StumpScore is available across all major devices:\n• **Android:** Downloadable APK (v1.0.1) with offline scoring support.\n• **Apple iOS:** Full PWA experience via Safari "Add to Home Screen" & TestFlight Beta.\n• **Web & Desktop:** Responsive web browser access on any tablet or computer.\n\nWhich device are you planning to use?',
         chips: ['How do I install on Android?', 'How do I install on iPhone?', 'Latest version']
       },
       {
         id: 'q15_latest_version',
         keywords: ['latest version', 'current version', 'build number', 'update', 'version'],
-        response: 'The latest stable build is v1.0.1.',
+        response: 'The latest stable release is **v1.0.1** with high-contrast stadium visuals, ICC Net Run Rate engine, live batting partnerships, and 1080p poster exports.\n\nWould you like the direct download link for Android?',
         chips: ['Where can I download it?', 'How do I install on Android?', 'Is StumpScore free?']
       },
       {
         id: 'q16_where_to_download',
-        keywords: ['where can i download', 'download link', 'download website', 'get app', 'get stumpscore', 'download apk link'],
-        response: 'You can download it from the official website, https://stumpscore.vercel.app/, using the "Download APK" button for Android.',
+        keywords: ['where can i download', 'download link', 'download website', 'get app', 'get stumpscore', 'download apk link', 'download it', 'download'],
+        response: 'You can easily download StumpScore right here on our official portal at [stumpscore.vercel.app](https://stumpscore.vercel.app/).\n\nSimply tap the **"Download APK"** button to get the latest Android release, or use our instant QR code to launch the web app on your phone. May I assist you with the installation steps?',
         chips: ['How do I install on Android?', 'How do I install on iPhone?', 'QR Code']
       },
 
@@ -157,7 +157,7 @@ class StumpAIAssistant {
       {
         id: 'q17_install_android',
         keywords: ['how do i install it on android', 'install android', 'install apk', 'setup android', 'android installation', 'download apk'],
-        response: 'Tap "Download APK" on the website, open the downloaded file, allow installation from your browser if prompted, then tap Install.',
+        response: 'Installing on Android is quick and straightforward:\n1. Tap the green **"Download APK"** button on this page.\n2. Open the downloaded file from your notifications or Downloads folder.\n3. If your browser asks for permission, tap "Allow from this source".\n4. Tap **Install** and you are ready to score matches!\n\nPlease let me know if you would like guidance with anything else.',
         chips: ['Why allow unknown apps?', 'How large is the APK?', 'Supported Android versions']
       },
       {
@@ -199,7 +199,7 @@ class StumpAIAssistant {
       {
         id: 'q24_qr_code',
         keywords: ['qr code', 'scan qr', 'barcode', 'camera scan', 'open via qr'],
-        response: 'Yes. The website has a QR code. Scan it with your phone camera to open the app instantly.',
+        response: 'Certainly! You can open the interactive QR code modal anytime right from the top navigation bar or the Install section.\n\nSimply scan it with your phone\'s camera to open and use StumpScore instantly on your device without manual typing. Would you like me to guide you through installing it on Android or iOS?',
         chips: ['Where can I download it?', 'How do I install on Android?', 'Does it work offline?']
       },
       {

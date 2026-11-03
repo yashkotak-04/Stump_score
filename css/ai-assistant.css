@@ -1424,18 +1424,37 @@ body.stump-ai-body-locked {
 }
 
 /* User Bubble: Right-aligned, Brand Gradient */
+.stump-msg-row.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  margin-left: auto;
+  max-width: 82%;
+  width: auto;
+}
+
 .stump-msg-row.user .stump-msg-bubble {
   background: linear-gradient(135deg, #00c853 0%, #009624 100%) !important;
   color: #ffffff !important;
   font-weight: 600;
   border-bottom-right-radius: 4px;
   box-shadow: 0 4px 14px rgba(0, 200, 83, 0.3);
+  display: inline-block;
+  min-width: 68px;
+  width: auto;
+  max-width: 100%;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: manual;
 }
 
 .stump-msg-row.user .stump-msg-bubble p,
 .stump-msg-row.user .stump-msg-bubble span,
 .stump-msg-row.user .stump-msg-bubble strong {
   color: #ffffff !important;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .stump-msg-row.user .stump-msg-time {
@@ -1444,6 +1463,7 @@ body.stump-ai-body-locked {
   display: block;
   text-align: right;
   margin-top: 4px;
+  white-space: nowrap;
 }
 
 /* Assistant Bubble: Left-aligned, Neutral Clean Slate */
