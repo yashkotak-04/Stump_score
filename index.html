@@ -35,10 +35,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
   <!-- Custom Stadium Design System & Components -->
-  <link rel="stylesheet" href="css/style.css?v=3.8.0">
-  <link rel="stylesheet" href="css/components.css?v=3.8.0">
-  <link rel="stylesheet" href="css/ai-assistant.css?v=2.5.0">
-  <link rel="stylesheet" href="css/mobile-fixes.css?v=2.4.0">
+  <link rel="stylesheet" href="css/style.css?v=3.9.0">
+  <link rel="stylesheet" href="css/components.css?v=3.9.0">
+  <link rel="stylesheet" href="css/ai-assistant.css?v=2.6.0">
+  <link rel="stylesheet" href="css/mobile-fixes.css?v=2.5.0">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/icon/app_icon.png">
@@ -1307,17 +1307,6 @@
         </button>
       </div>
 
-      <!-- Engine Status Reassurance Card -->
-      <div class="stump-ai-status-card">
-        <div class="stump-ai-status-badge">
-          <span class="stump-ai-pulse-dot"></span>
-          <strong>Instant Cricket Guru: Active (0ms lag)</strong>
-        </div>
-        <p class="stump-ai-status-sub">
-          ✨ Preloaded with 50+ official cricket rules, DLS formulas &amp; match scoring tutorials. 100% free and ready to use! No API key needed.
-        </p>
-      </div>
-
       <!-- 1. Dedicated StumpAI Theme Selector -->
       <div class="stump-ai-pref-group">
         <div class="stump-ai-pref-label">
@@ -1332,13 +1321,13 @@
             <span class="stump-theme-icon">☀️</span> Light
           </button>
           <button type="button" class="stump-ai-theme-pill is-active" data-theme-choice="auto" id="stump-theme-auto-btn" aria-label="Match Website Theme">
-            <span class="stump-theme-icon">📱</span> Auto (Match App)
+            <span class="stump-theme-icon">📱</span> Auto
           </button>
         </div>
       </div>
 
       <!-- 2. Audio Effects & Voice Toggle -->
-      <div class="stump-ai-pref-group stump-ai-pref-row">
+      <div class="stump-ai-pref-group stump-ai-pref-row" style="margin-bottom: 0;">
         <div>
           <div class="stump-ai-pref-label-title">🔊 Sound Effects &amp; Voice</div>
           <div class="stump-ai-pref-label-desc">Play message chimes and audio speech</div>
@@ -1347,24 +1336,6 @@
           <input type="checkbox" id="stump-ai-sound-toggle" checked>
           <span class="stump-slider"></span>
         </label>
-      </div>
-
-      <!-- 3. Advanced Developer Option (Collapsible, so casual users aren't confused) -->
-      <div class="stump-ai-advanced-section">
-        <button type="button" id="stump-ai-advanced-toggle" class="stump-ai-advanced-toggle" aria-expanded="false">
-          <span>🔧 Advanced: Custom Gemini Cloud Key (Optional)</span>
-          <svg class="stump-ai-caret" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
-        <div id="stump-ai-advanced-panel" class="stump-ai-advanced-panel" style="display: none;">
-          <p class="stump-ai-advanced-desc">
-            You do <em>not</em> need this for regular use. Developers who want custom Google Gemini Cloud LLM responses can store their personal API key here:
-          </p>
-          <div class="stump-ai-key-input-row">
-            <input type="password" id="stump-ai-api-key" class="stump-ai-settings-input" placeholder="Paste Gemini API Key (Optional)..." autocomplete="off">
-            <button type="button" id="stump-ai-save-key-btn" class="btn btn-primary-android btn-sm">Save</button>
-          </div>
-          <div id="stump-ai-key-status" class="stump-ai-key-status"></div>
-        </div>
       </div>
     </div>
 
